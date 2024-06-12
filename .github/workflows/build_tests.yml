@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        gcc-version: [9.3.0] # [7.3.0, 8.3.0, 9.3.0, 10.3.0]
+        gcc-version: [7.3.0] # [7.3.0, 8.3.0, 9.3.0, 10.3.0]
 
     runs-on: ubuntu-latest
 
@@ -23,11 +23,22 @@ jobs:
         - name: checkout github repo
           uses: actions/checkout@v4 # clones repo to workspace
 
-        - name: set up gcc and llvm
-          uses: ./.github/actions/setup
-          with:
-            llvm-version: ${{ env.LLVM_VERSION }}
-            gcc-version: ${{ matrix.gcc-version }}
+        # - name: setup gcc ${{ matrix.gcc-version }}
+        #   uses: ./.github/actions/setup
+        #   with:
+        #     llvm-version: ${{ env.LLVM_VERSION }}
+        #     gcc-version: ${{ matrix.gcc-version }}
+        
+        - name: Install GCC 7.3.0
+          run: |
+            wget https://ftp.gnu.org/gnu/gcc/gcc-7.3.0/gcc-7.3.0.tar.gz > /dev/null 2>&1
+            tar -xvf gcc-7.3.0.tar.gz > /dev/null 2>&1
+            cd gcc-7.3.0
+            ./contrib/download_prerequisites > /dev/null
+            ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=/usr/local/gcc7.3.0
+            make -j15
+            make install
+
 
 #================================#
 
