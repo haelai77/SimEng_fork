@@ -5,14 +5,18 @@ description: uses setup_gcc and setup_llvm composite actions
 # may need to change inputs so that you can switch compiler to something that isn't GCC on the fly via inputs i.e. using conditionals
 inputs:
   llvm-version:
+    description: 'Version of LLVM to setup'
     required: true
   
   gcc-version:
-      required: true
+    description: 'Version of GCC to setup'
+    required: true
 
 runs: 
   using: 'composite'
   steps:
+    # - name: Add action path to runner system path
+    #   run: echo "${{ github.action_path }}" >> $GITHUB_PATH
 
     - name: setup GCC ${{ inputs.gcc-version }}
       uses: ./.github/actions/setup_gcc
