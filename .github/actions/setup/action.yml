@@ -17,7 +17,7 @@ runs:
       uses: actions/checkout@v4
 
     - name: setup GCC ${{ inputs.gcc-version }}
-      uses: ./github/actions/setup_gcc
+      uses: ./.github/actions/setup_gcc
       with:
         version: ${{ inputs.gcc-version }}
     

@@ -23,7 +23,7 @@ jobs:
           uses: actions/checkout@v4 # clones repo to workspace
 
         - name: set up gcc and llvm
-          uses: ./github/actions/setup
+          uses: ./.github/actions/setup
           with:
             llvm-version: ${{ env.LLVM_VERSION }}
             gcc-version: ${{ matrix.gcc-version }}
