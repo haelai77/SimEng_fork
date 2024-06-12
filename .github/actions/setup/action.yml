@@ -1,0 +1,23 @@
+name: setup gcc and llvm
+description: uses setup_gcc and setup_llvm composite actions
+
+
+# may need to change inputs so that you can switch compiler to something that isn't GCC on the fly via inputs i.e. using conditionals
+inputs:
+  llvm-version:
+    required: true
+  
+  gcc-version:
+      required: true
+
+runs: 
+  using: 'composite'
+  steps:
+
+    uses: ./github/actions/setup_gcc
+    with:
+      version: ${{ inputs.gcc-version }}
+    
+    uses: ./github/actions/setup_llvm
+    with:
+      version: ${{ inputs.llvm-version }}

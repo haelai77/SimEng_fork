@@ -1,0 +1,18 @@
+# note might not even be useful as the Cmake file looks like it installs llvm ~14 anyways
+
+name: installs llvm
+description: installs llvm
+
+inputs:
+  version:
+    description: version of llvm
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install LLVM
+      steps:
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh ${{ inputs.version }} > /dev/null 2>&1

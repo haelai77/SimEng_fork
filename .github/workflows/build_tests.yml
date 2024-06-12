@@ -1,0 +1,55 @@
+name: Build_tests
+run-name: running build tests
+
+env:
+    BUILD_TYPE: Debug
+    LLVM_VERSION: 14.0.5
+
+on: [workflow_dispatch]
+
+jobs:
+  Build_GCC:
+
+    strategy:
+      matrix:
+        gcc-version: [7.3.0] # [7.3.0, 8.3.0, 9.3.0, 10.3.0]
+
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: checkout github repo
+          uses: actions/checkout@v4 # clones repo to workspace
+
+        - name: set up gcc and llvm
+          uses: ./github/actions/setup
+          with:
+            llvm-version: ${{ env.LLVM_VERSION }}
+            gcc-version: ${{ matrix.gcc-version }}
+
+#================================#
+
+        - name: Build SimEng
+          working-directory: ${{github.workspace}}
+
+          # Remember to reintroduce compiler flags: "-DCMAKE_C_COMPILER=~/usr/local/gcc7.3.0/bin/gcc -DCMAKE_CXX_COMPILER=~/usr/local/gcc7.3.0/bin/c++"
+          # Flags for external llvm versions: -DSIMENG_USE_EXTENAL_LLVM=ON -DLLVM_DIR=~/usr/lib/llvm-${{ env.LLVM_VERSION }}
+          run: |
+            cmake -B build -S . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=~/usr/local/gcc${{ matrix.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=~/usr/local/gcc${{ matrix.gcc-version }}/bin/c++
+            cmake --build build -j
+            sudo cmake --build build --target install
+     
+        - name: Run tests
+          working-directory: ${{github.workspace}}/build/test
+          run: |
+            echo "______ UNIT TESTS ______"
+            ./unit/unittests --gtest_output=xml:unittests.xml
+            echo "______ AARCH64 REGRESSION TESTS ______"
+            ./regression/aarch64/regression-aarch64 --gtest_output=xml:regressiontests.xml
+            echo "______ RISCV REGRESSION TESTS ______"
+            ./regression/riscv/regression-riscv --gtest_output=xml:regressiontests.xml
+  
+        - name: Run SimEng default program
+          working-directory: ${{github.workspace}}
+          run: simeng
+
+
