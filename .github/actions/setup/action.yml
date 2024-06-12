@@ -1,4 +1,4 @@
-name: setup gcc and llvm
+name: setup gcc
 description: uses setup_gcc and setup_llvm composite actions
 
 
