@@ -8,6 +8,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
+  
     - name: install gcc ${{ inputs.version }} and makes
       runs: |
         wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.version }}/gcc-${{ inputs.version }}.tar.gz > /dev/null 2>&1

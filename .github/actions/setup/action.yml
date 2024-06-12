@@ -13,8 +13,6 @@ inputs:
 runs: 
   using: 'composite'
   steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
 
     - name: setup GCC ${{ inputs.gcc-version }}
       uses: ./.github/actions/setup_gcc
