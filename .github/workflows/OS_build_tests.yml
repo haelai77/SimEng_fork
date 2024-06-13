@@ -7,12 +7,22 @@ on:
 
 
 jobs:
+
   Build_and_Run:
 
     strategy:
       matrix: 
         OS: ["ubuntu:20.04"] # ["ubuntu:20.04", "debian:12.4", "centos:7", "redhat/ubi8", "rockylinux:9.3", "linuxmintd/mint21.2-amd64"]
-        Compilers: [gcc-9.3.0, gcc-10.3.0] # [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0]git s 
+        Compilers: [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0] # [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0]
+        
+        # We remove the combination (ubuntu:20.04, gcc-7.3.0) because ubuntu versions above 18.04 are missing some depreciated files required for gcc 7.3.0 to run
+        # We replace (ubuntu:20.04, gcc-7.3.0) with (ubuntu:18.04, gcc-7.3.0)
+        exclude:
+          - OS: "ubuntu:20.04"
+            Compilers: gcc-7.3.0
+        include:
+          - OS: "ubuntu:18.04"
+            Compilers: gcc- 7.3.0
     
     runs-on: ubuntu-latest
 
@@ -27,5 +37,12 @@ jobs:
         run: |
           echo "working"
           cat /etc/os-release
+          ls
+
+      # - name: build compiler from source
+      #   uses: setup
+      #   with:
+          
+
       
       
