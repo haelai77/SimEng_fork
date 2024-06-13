@@ -33,9 +33,7 @@ runs:
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.version }}
 
-      # gcc --version
-      # (default gcc on ubuntu-latest is 11.4)
-
+        pwd
         echo "##########################################################"
 
         # make -j$(nproc)
