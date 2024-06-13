@@ -32,10 +32,11 @@ runs:
         echo "###################### prereqs done ######################"
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.version }}
-        pwd
-        gcc --version
-        echo "#####"
-        echo | gcc -E -Wp,-v -
+
+      # gcc --version
+      # (default gcc on ubuntu-latest is 11.4)
+
+        echo "##########################################################"
 
         # make -j$(nproc)
         # make install
