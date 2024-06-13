@@ -33,6 +33,7 @@ runs:
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.version }}
         pwd
-      
-        make -j15
+        gcc --version
+
+        # make -j$(nproc)
         # make install

@@ -48,7 +48,7 @@ jobs:
           # Remember to reintroduce compiler flags: "-DCMAKE_C_COMPILER=~/usr/local/gcc7.3.0/bin/gcc -DCMAKE_CXX_COMPILER=~/usr/local/gcc7.3.0/bin/c++"
           # Flags for external llvm versions: -DSIMENG_USE_EXTENAL_LLVM=ON -DLLVM_DIR=~/usr/lib/llvm-${{ env.LLVM_VERSION }}
           run: |
-            cmake -B build -S . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=~/usr/local/gcc${{ matrix.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=~/usr/local/gcc${{ matrix.gcc-version }}/bin/c++
+            cmake -B build -S . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=$HOME/usr/local/gcc${{ matrix.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=$HOME/usr/local/gcc${{ matrix.gcc-version }}/bin/c++
             cmake --build build -j
             sudo cmake --build build --target install
      
