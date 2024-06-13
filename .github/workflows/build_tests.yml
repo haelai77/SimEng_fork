@@ -8,6 +8,9 @@ env:
 on: 
   workflow_dispatch:
   pull_request:
+  # add "on workflow call as reuseable workflow to go through each compiler and attempt to build"
+
+# todo add input compiler and version handling to pass in
 
 jobs:
   Build_GCC:

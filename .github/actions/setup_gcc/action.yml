@@ -13,7 +13,7 @@ runs:
       id: cache-gcc
       uses: actions/cache@v3
       with:
-        path: /usr/local/gcc-${{ inputs.version }}
+        path: $HOME/usr/local/gcc-${{ inputs.version }}
         key: gcc-${{ inputs.version }}-${{ runner.os }}-${{ hashFiles('**/setup_gcc.sh') }}
         restore-keys: |
           gcc-${{ inputs.version }}-${{ runner.os }}-
@@ -32,9 +32,6 @@ runs:
         echo "###################### prereqs done ######################"
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.version }}
-
-        pwd
-        echo "##########################################################"
 
         make -j$(nproc)
         make install
