@@ -25,8 +25,7 @@ runs:
         
         tar -xvf gcc-${{ inputs.version }}.tar.gz > /dev/null 2>&1
 
-        pwd
-        ls ~/
+        pwd | ls
       # cd gcc-${{ inputs.version }}
 
       # ./contrib/download_prerequisites > /dev/null
