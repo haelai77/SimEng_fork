@@ -36,5 +36,5 @@ runs:
         pwd
         echo "##########################################################"
 
-        # make -j$(nproc)
-        # make install
+        make -j$(nproc)
+        make install
