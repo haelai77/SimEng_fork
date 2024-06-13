@@ -32,12 +32,14 @@ jobs:
         - ${{ github.workspace }}:/simeng
     
     name: ${{ matrix.OS }} + ${{ matrix.Compilers }}
+
     steps:
       - name: test
         run: |
           echo "working"
           cat /etc/os-release
           ls
+          pwd
 
       # - name: build compiler from source
       #   uses: setup
