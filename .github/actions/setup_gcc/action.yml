@@ -22,10 +22,12 @@ runs:
       shell: bash
       
     - name: download source
+      shell: bash
       run: |
         wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.version }}/gcc-${{ inputs.version }}.tar.gz > /dev/null 2>&1
 
     - name: download prereqs
+      shell: bash
       run: |
         tar -xvf gcc-${{ inputs.version }}.tar.gz > /dev/null 2>&1
         pwd
