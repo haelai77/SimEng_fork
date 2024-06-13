@@ -23,21 +23,21 @@ jobs:
         - name: checkout github repo
           uses: actions/checkout@v4 # clones repo to workspace
 
-        # - name: setup gcc ${{ matrix.gcc-version }}
-        #   uses: ./.github/actions/setup
-        #   with:
-        #     llvm-version: ${{ env.LLVM_VERSION }}
-        #     gcc-version: ${{ matrix.gcc-version }}
+        - name: setup gcc ${{ matrix.gcc-version }}
+          uses: ./.github/actions/setup
+          with:
+            llvm-version: ${{ env.LLVM_VERSION }}
+            gcc-version: ${{ matrix.gcc-version }}
         
-        - name: Install GCC 7.3.0
-          run: |
-            wget https://ftp.gnu.org/gnu/gcc/gcc-7.3.0/gcc-7.3.0.tar.gz > /dev/null 2>&1
-            tar -xvf gcc-7.3.0.tar.gz > /dev/null 2>&1
-            cd gcc-7.3.0
-            ./contrib/download_prerequisites > /dev/null
-            ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=/usr/local/gcc7.3.0
-            make -j15
-            make install
+        # - name: Install GCC 7.3.0
+        #   run: |
+        #     wget https://ftp.gnu.org/gnu/gcc/gcc-7.3.0/gcc-7.3.0.tar.gz > /dev/null 2>&1
+        #     tar -xvf gcc-7.3.0.tar.gz > /dev/null 2>&1
+        #     cd gcc-7.3.0
+        #     ./contrib/download_prerequisites > /dev/null
+        #     ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=/usr/local/gcc7.3.0
+        #     make -j15
+        #     make install
 
 
 #================================#
