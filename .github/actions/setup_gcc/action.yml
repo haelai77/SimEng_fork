@@ -30,7 +30,7 @@ runs:
         cd gcc-${{ inputs.version }}
 
         ./contrib/download_prerequisites > /dev/null
-      # ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=~/usr/local/gcc-${{ inputs.version }}
-
+        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=~/usr/local/gcc-${{ inputs.version }}
+        
       # make -j15
       # make install
