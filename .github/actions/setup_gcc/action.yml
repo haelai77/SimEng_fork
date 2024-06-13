@@ -26,9 +26,10 @@ runs:
         tar -xvf gcc-${{ inputs.version }}.tar.gz > /dev/null 2>&1
 
         pwd | ls
-      # cd gcc-${{ inputs.version }}
 
-      # ./contrib/download_prerequisites > /dev/null
+        cd gcc-${{ inputs.version }}
+
+        ./contrib/download_prerequisites > /dev/null
       # ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=~/usr/local/gcc-${{ inputs.version }}
 
       # make -j15
