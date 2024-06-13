@@ -10,7 +10,7 @@ runs:
   steps:
 
     - name: Cache GCC ${{ inputs.version }}
-      id: cache-gccgi
+      id: cache-gcc
       uses: actions/cache@v3
       with:
         path: /usr/local/gcc-${{ inputs.version }}
@@ -18,13 +18,12 @@ runs:
         restore-keys: |
           gcc-${{ inputs.version }}-${{ runner.os }}-
 
-    - name: install gcc ${{ inputs.version }} and makes
+    - name: install gcc ${{ inputs.version }}
+      shell: bash
       run: |
         wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.version }}/gcc-${{ inputs.version }}.tar.gz > /dev/null 2>&1
         
         tar -xvf gcc-${{ inputs.version }}.tar.gz > /dev/null 2>&1
-
-        pwd
       # cd gcc-${{ inputs.version }}
 
       # ./contrib/download_prerequisites > /dev/null
