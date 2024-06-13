@@ -25,12 +25,13 @@ runs:
         
         tar -xvf gcc-${{ inputs.version }}.tar.gz > /dev/null 2>&1
 
-        pwd | ls
+      # pwd | ls
+        printenv
 
         cd gcc-${{ inputs.version }}
 
         ./contrib/download_prerequisites > /dev/null
-        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=~/usr/local/gcc-${{ inputs.version }}
-        
+        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.version }}
+
       # make -j15
       # make install
