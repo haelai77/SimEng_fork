@@ -1,0 +1,31 @@
+name: OS + Compiler checks
+
+# workflow triggers
+on:
+  workflow_dispatch:
+  pull_request:
+
+
+jobs:
+  Build_and_Run:
+
+    strategy:
+      matrix: 
+        OS: ["ubuntu:20.04"] # ["ubuntu:20.04", "debian:12.4", "centos:7", "redhat/ubi8", "rockylinux:9.3", "linuxmintd/mint21.2-amd64"]
+        Compilers: [gcc-9.3.0, gcc-10.3.0] # [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0]git s 
+    
+    runs-on: ubuntu-latest
+
+    container: 
+      image: ${{ matrix.OS }}
+      volumes:
+        - ${{ github.workspace }}:/simeng
+    
+    name: ${{ matrix.OS }} + ${{ matrix.Compilers }}
+    steps:
+      - name: test
+        run: |
+          echo "working"
+          cat /etc/os-release
+      
+      
