@@ -4,8 +4,8 @@ description: uses setup_gcc and setup_llvm composite actions
 
 # may need to change inputs so that you can switch compiler to something that isn't GCC on the fly via inputs i.e. using conditionals
 inputs:
-  llvm-version:
-    description: 'Version of LLVM to setup'
+  OS:
+    description: 'OS'
     required: true
   
   gcc-version:

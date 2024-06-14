@@ -22,16 +22,16 @@ jobs:
             Compilers: gcc-7.3.0
         include:
           - OS: "ubuntu:18.04"
-            Compilers: gcc- 7.3.0
+            Compiler: gcc- 7.3.0 
     
     runs-on: ubuntu-latest
 
     container: 
       image: ${{ matrix.OS }}
     
-    name: ${{ matrix.OS }} + ${{ matrix.Compilers }}
+    name: ${{ matrix.OS }} + ${{ matrix.Compiler }}
     steps:
-      # - name: "Building ${{ matrix.Compilers }}"
+      # - name: "Building ${{ matrix.Compiler }}"
       #   uses: actions/setup_gcc
       #   with:
       #     gcc-version: 
@@ -39,15 +39,11 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v3
 
-      - name: "test"
+      - name: "OS"
         run: |
-          echo "########## OS ##########"
           cat /etc/os-release
-          
-          pwd | ls
-          
-
-          
-
+          pwd
+          ls ~/
       
-      
+      # - name: Install ${{ matrix.Compiler}}
+      #   uses: ./.github/actions/setup
