@@ -46,6 +46,8 @@ jobs:
           pwd
           ls $HOME
           echo $HOME
+          ls .
+          ls ..
           
 
       
