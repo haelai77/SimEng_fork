@@ -34,16 +34,18 @@ jobs:
     name: ${{ matrix.OS }} + ${{ matrix.Compilers }}
 
     steps:
-      - name: test
+      # - name: "Building ${{ matrix.Compilers }}"
+      #   uses: actions/setup_gcc
+      #   with:
+      #     gcc-version: 
+
+      - name: "test"
         run: |
           echo "working"
           cat /etc/os-release
-          ls
           pwd
-
-      # - name: build compiler from source
-      #   uses: setup
-      #   with:
+          ls $HOME
+          echo $HOME
           
 
       

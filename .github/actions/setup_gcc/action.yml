@@ -2,6 +2,7 @@ name: setup gcc
 description: installs gcc of specified version
 
 inputs:
+  os: # for caching
   version:
     required: true
 
@@ -13,10 +14,10 @@ runs:
       id: cache-gcc
       uses: actions/cache@v3
       with:
-        path: $HOME/usr/local/gcc-${{ inputs.version }}
-        key: gcc-${{ inputs.version }}-${{ runner.os }}-${{ hashFiles('**/setup_gcc.sh') }}
+        path: /home/runner/usr/local/gcc-${{ inputs.version }}
+        key: gcc-${{ inputs.version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
         restore-keys: |
-          gcc-${{ inputs.version }}-${{ runner.os }}-
+          gcc-${{ inputs.version }}-${{ inputs.os }}-
 
     - name: install gcc ${{ inputs.version }}
       shell: bash
@@ -28,8 +29,6 @@ runs:
         cd gcc-${{ inputs.version }}
 
         ./contrib/download_prerequisites > /dev/null
-
-        echo "###################### prereqs done ######################"
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.version }}
 
