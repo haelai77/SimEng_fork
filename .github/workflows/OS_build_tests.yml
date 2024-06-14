@@ -41,11 +41,11 @@ jobs:
 
       - name: "test"
         run: |
-          echo "working"
+          echo "########## OS ##########"
           cat /etc/os-release
-          pwd
-          ls $HOME
-          echo $HOME
+          
+          pwd | ls
+          
 
           
 
