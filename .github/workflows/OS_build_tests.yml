@@ -28,16 +28,16 @@ jobs:
 
     container: 
       image: ${{ matrix.OS }}
-      volumes:
-        - ${{ github.workspace }}:/simeng
     
     name: ${{ matrix.OS }} + ${{ matrix.Compilers }}
-
     steps:
       # - name: "Building ${{ matrix.Compilers }}"
       #   uses: actions/setup_gcc
       #   with:
       #     gcc-version: 
+
+      - name: checkout repo
+        uses: actions/checkout@v4
 
       - name: "test"
         run: |
@@ -46,11 +46,7 @@ jobs:
           pwd
           ls $HOME
           echo $HOME
-          ls .
-          ls ..
-          cd ..
-          cd ..
-          ls .
+
           
 
       
