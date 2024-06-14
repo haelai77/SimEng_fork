@@ -48,6 +48,9 @@ jobs:
           echo $HOME
           ls .
           ls ..
+          cd ..
+          cd ..
+          ls .
           
 
       
