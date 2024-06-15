@@ -43,7 +43,7 @@ jobs:
       
       - if: contains(${{ matrix.compiler }}, 'gcc')
         name: Install ${{ matrix.Compiler}}
-        uses: ./.github/actions/setup
+        uses: ./.github/actions/setup_gcc
         with:
           OS: ${{ matrix.OS}}
           gcc-version: ${{ matrix.Compiler}}
