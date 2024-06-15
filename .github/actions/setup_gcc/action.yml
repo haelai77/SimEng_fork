@@ -4,35 +4,35 @@ description: installs gcc of specified version
 inputs:
   OS: 
     required: true
-  VERSION:
+  gcc-version:
     required: true
 
 runs:
   using: 'composite'
   steps:
 
-    # - name: Cache GCC ${{ inputs.VERSION }}
+    # - name: Cache GCC ${{ inputs.gcc-version }}
     #   id: cache-gcc
     #   uses: actions/cache@v4
     #   with:
-    #     path: ~/usr/local/gcc-${{ inputs.VERSION }}
-    #     key: gcc-${{ inputs.VERSION }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
+    #     path: ~/usr/local/gcc-${{ inputs.gcc-version }}
+    #     key: gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
     #     restore-keys: |
-    #       gcc-${{ inputs.VERSION }}-${{ inputs.os }}-
+    #       gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
 
-    - name: install gcc ${{ inputs.VERSION }}
+    - name: install gcc ${{ inputs.gcc-version }}
       shell: bash
       run: |
-        wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.VERSION }}/gcc-${{ inputs.VERSION }}.tar.gz > /dev/null 2>&1
+        wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
-        tar -xvf gcc-${{ inputs.VERSION }}.tar.gz > /dev/null 2>&1
+        tar -xvf gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
 
-        cd gcc-${{ inputs.VERSION }}
+        cd gcc-${{ inputs.gcc-version }}
         pwd
 
         ./contrib/download_prerequisites > /dev/null
 
-        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.VERSION }}
+        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.gcc-version }}
 
         # make -j$(nproc)
         # make install
