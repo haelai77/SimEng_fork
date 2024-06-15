@@ -7,6 +7,8 @@ inputs:
   OS:
     description: 'OS'
     required: true
+    
+  compiler:
   
   gcc-version:
     description: 'Version of GCC to setup'
@@ -20,7 +22,4 @@ runs:
       uses: ./.github/actions/setup_gcc
       with:
         version: ${{ inputs.gcc-version }}
-    
-    # uses: ./github/actions/setup_llvm
-    # with:
-    #   version: ${{ inputs.llvm-version }}
+

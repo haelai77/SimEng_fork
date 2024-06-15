@@ -13,16 +13,18 @@ jobs:
     strategy:
       matrix: 
         OS: ["ubuntu:20.04"] # ["ubuntu:20.04", "debian:12.4", "centos:7", "redhat/ubi8", "rockylinux:9.3", "linuxmintd/mint21.2-amd64"]
-        Compilers: [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0] # [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0]
+        Compiler: [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0] # [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0]
         
+        # arm clang: https://stackoverflow.com/a/77926332/23476625
+
         # We remove the combination (ubuntu:20.04, gcc-7.3.0) because ubuntu versions above 18.04 are missing some depreciated files required for gcc 7.3.0 to run
         # We replace (ubuntu:20.04, gcc-7.3.0) with (ubuntu:18.04, gcc-7.3.0)
         exclude:
           - OS: "ubuntu:20.04"
-            Compilers: gcc-7.3.0
+            Compiler: gcc-7.3.0
         include:
           - OS: "ubuntu:18.04"
-            Compiler: gcc- 7.3.0 
+            Compiler: gcc-7.3.0 
     
     runs-on: ubuntu-latest
 
@@ -31,11 +33,6 @@ jobs:
     
     name: ${{ matrix.OS }} + ${{ matrix.Compiler }}
     steps:
-      # - name: "Building ${{ matrix.Compiler }}"
-      #   uses: actions/setup_gcc
-      #   with:
-      #     gcc-version: 
-      
       - name: checkout repo
         uses: actions/checkout@v3
 
@@ -43,7 +40,10 @@ jobs:
         run: |
           cat /etc/os-release
           pwd
-          ls ~/
       
-      # - name: Install ${{ matrix.Compiler}}
-      #   uses: ./.github/actions/setup
+      - if: contains(${{ matrix.compiler }}, 'gcc')
+        name: Install ${{ matrix.Compiler}}
+        uses: ./.github/actions/setup_gcc
+        with:
+          OS: ${{ matrix.OS}}
+          gcc-version: ${{ matrix.Compiler}}

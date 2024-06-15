@@ -12,7 +12,7 @@ runs:
   steps:
 
     - name: Cache GCC ${{ inputs.VERSION }}
-      id: cache-gcc
+      id: cache-gcc-${{ inputs.VERSION }}
       uses: actions/cache@v4
       with:
         path: ~/usr/local/gcc-${{ inputs.VERSION }}
@@ -28,10 +28,11 @@ runs:
         tar -xvf gcc-${{ inputs.VERSION }}.tar.gz > /dev/null 2>&1
 
         cd gcc-${{ inputs.VERSION }}
+        pwd
 
         ./contrib/download_prerequisites > /dev/null
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.VERSION }}
 
-        make -j$(nproc)
-        make install
+        # make -j$(nproc)
+        # make install
