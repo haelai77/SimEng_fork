@@ -24,7 +24,7 @@ runs:
       shell: bash
       run: |
         pwd
-        echo https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz
+        cat /etc/os-release
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
         # tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
