@@ -39,7 +39,6 @@ jobs:
       - name: "OS"
         run: |
           cat /etc/os-release
-          wget --version
           pwd
       
       - if: contains(${{ matrix.compiler }}, 'gcc')
