@@ -25,10 +25,10 @@ runs:
       run: |
         wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
-        tar -xvf gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+        # tar -xvf gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
 
-        cd gcc-${{ inputs.gcc-version }}
-        pwd
+        # cd gcc-${{ inputs.gcc-version }}
+        # pwd
 
         # ./contrib/download_prerequisites > /dev/null
 
