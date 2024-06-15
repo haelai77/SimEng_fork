@@ -39,7 +39,6 @@ jobs:
       - name: "OS"
         run: |
           cat /etc/os-release
-          pwd
       
       - if: contains(${{ matrix.compiler }}, 'gcc')
         name: Install ${{ matrix.Compiler}}

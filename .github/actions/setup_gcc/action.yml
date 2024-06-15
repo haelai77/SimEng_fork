@@ -23,8 +23,10 @@ runs:
     - name: install gcc ${{ inputs.gcc-version }}
       shell: bash
       run: |
+        ls .
         pwd
-        # wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+        
+        wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
         # tar -xvf gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
 
