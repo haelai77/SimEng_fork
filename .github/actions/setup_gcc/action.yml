@@ -30,9 +30,9 @@ runs:
         cd gcc-${{ inputs.gcc-version }}
         pwd
 
-        ./contrib/download_prerequisites > /dev/null
+        # ./contrib/download_prerequisites > /dev/null
 
-        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.gcc-version }}
+        # ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.gcc-version }}
 
         # make -j$(nproc)
         # make install
