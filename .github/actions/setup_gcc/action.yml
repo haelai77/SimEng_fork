@@ -26,16 +26,16 @@ runs:
         ls .
         pwd
         
-        wget https://ftp.gnu.org/gnu/gcc/gcc-${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+        wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
-        # tar -xvf gcc-${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+        # tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
 
-        # cd gcc-${{ inputs.gcc-version }}
+        # cd ${{ inputs.gcc-version }}
         # pwd
 
         # ./contrib/download_prerequisites > /dev/null
 
-        # ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/gcc-${{ inputs.gcc-version }}
+        # ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/${{ inputs.gcc-version }}
 
         # make -j$(nproc)
         # make install
