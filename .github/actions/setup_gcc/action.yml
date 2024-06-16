@@ -28,10 +28,10 @@ runs:
 
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
-        # tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+        tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+        pwd | ls
 
         # cd ${{ inputs.gcc-version }}
-        # pwd
 
         # ./contrib/download_prerequisites > /dev/null
 
