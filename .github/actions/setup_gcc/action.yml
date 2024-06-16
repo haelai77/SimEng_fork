@@ -27,7 +27,7 @@ runs:
       run: |
         apt-get update
         apt-get install -y wget
-        apt-get install libz-dev
+        apt-get install -y libz-dev
         apt install -y build-essential
 
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
