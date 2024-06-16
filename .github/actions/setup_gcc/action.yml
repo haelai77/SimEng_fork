@@ -27,6 +27,7 @@ runs:
       run: |
         apt-get update
         apt-get install -y wget
+        apt install build-essential
 
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
