@@ -27,6 +27,7 @@ runs:
       run: |
         apt-get update
         apt-get install -y wget
+        apt-get install libz-dev
         apt install -y build-essential
 
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
@@ -39,6 +40,6 @@ runs:
         ./contrib/download_prerequisites > /dev/null
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/${{ inputs.gcc-version }}
-
+        gcc --version
         make -j$(nproc)
         make install
