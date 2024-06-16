@@ -33,6 +33,7 @@ runs:
         tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
 
         cd ${{ inputs.gcc-version }}
+        pwd
 
         ./contrib/download_prerequisites > /dev/null
 
