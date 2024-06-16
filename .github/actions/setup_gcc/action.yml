@@ -11,14 +11,14 @@ runs:
   using: 'composite'
   steps:
 
-    # - name: Cache GCC ${{ inputs.gcc-version }}
-    #   id: cache-gcc
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: ~/usr/local/gcc-${{ inputs.gcc-version }}
-    #     key: gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
-    #     restore-keys: |
-    #       gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
+    - name: Cache GCC ${{ inputs.gcc-version }}
+      id: cache-gcc
+      uses: actions/cache@v4
+      with:
+        path: ~/usr/local/gcc-${{ inputs.gcc-version }}
+        key: gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
+        restore-keys: |
+          gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
 
     - name: install gcc ${{ inputs.gcc-version }}
       shell: bash
@@ -29,13 +29,12 @@ runs:
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
         tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
-        pwd | ls
 
-        # cd ${{ inputs.gcc-version }}
+        cd ${{ inputs.gcc-version }}
 
-        # ./contrib/download_prerequisites > /dev/null
+        ./contrib/download_prerequisites > /dev/null
 
-        # ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/${{ inputs.gcc-version }}
+        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/${{ inputs.gcc-version }}
 
         # make -j$(nproc)
         # make install
