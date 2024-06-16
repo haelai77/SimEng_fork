@@ -11,6 +11,7 @@ jobs:
   Build_and_Run:
 
     strategy:
+      fail-fast: false
       matrix: 
         OS: ["ubuntu:20.04"] # ["ubuntu:20.04", "debian:12.4", "centos:7", "redhat/ubi8", "rockylinux:9.3", "linuxmintd/mint21.2-amd64"]
         Compiler: [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0] # [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0]
