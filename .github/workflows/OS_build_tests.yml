@@ -42,7 +42,7 @@ jobs:
           cat /etc/os-release
       
       - if: contains(${{ matrix.compiler }}, 'gcc')
-        name: Install ${{ matrix.Compiler}}
+        name: Install ${{ matrix.Compiler}} and build simeng
         uses: ./.github/actions/setup_gcc
         with:
           OS: ${{ matrix.OS}}

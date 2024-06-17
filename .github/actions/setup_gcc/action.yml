@@ -41,10 +41,12 @@ runs:
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/${{ inputs.gcc-version }}
 
-        # make -j$(nproc)
-        # make install
+        make -j$(nproc)
+        make install
     
     - name: build simeng
       shell: bash
       run: |
-        pwd
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/c++
+        cmake --build build -j
+        sudo cmake --build build --target install
