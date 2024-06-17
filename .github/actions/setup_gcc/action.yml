@@ -32,6 +32,7 @@ runs:
         apt-get install -y python3
         apt install -y build-essential
         apt install -y git
+        apt-get install libssl-dev
 
         wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
         tar zxvf cmake-3.29.5.tar.gz
