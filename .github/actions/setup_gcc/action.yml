@@ -31,6 +31,7 @@ runs:
         apt-get install -y libz-dev
         apt install -y build-essential
         apt install -y cmake
+        apt install -y git
 
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
