@@ -25,6 +25,7 @@ runs:
     - name: install gcc ${{ inputs.gcc-version }}
       shell: bash
       run: |
+        export DEBIAN_FRONTEND=noninteractive
         apt-get update
         apt-get install -y wget
         apt-get install -y libz-dev
