@@ -40,6 +40,11 @@ runs:
         ./contrib/download_prerequisites > /dev/null
 
         ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/${{ inputs.gcc-version }}
-        gcc --version
-        make -j$(nproc)
-        make install
+
+        # make -j$(nproc)
+        # make install
+    
+    - name: build simeng
+      shell: bash
+      run: |
+        pwd
