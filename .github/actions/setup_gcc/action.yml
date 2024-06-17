@@ -29,6 +29,7 @@ runs:
         apt-get update
         apt-get install -y wget
         apt-get install -y libz-dev
+        apt-get install -y python3.6
         apt install -y build-essential
         apt install -y cmake
         apt install -y git
