@@ -29,10 +29,19 @@ runs:
         apt-get update
         apt-get install -y wget
         apt-get install -y libz-dev
-        apt-get install -y python3.6
+        apt-get install -y python3
         apt install -y build-essential
-        apt install -y cmake
         apt install -y git
+
+        apt install -y cmake
+        tar zxvf cmake-3.13.4.tar.gz
+        cd cmake-3.13.4
+        ./bootstrap
+        make
+        make install
+
+        cd ..
+
 
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
