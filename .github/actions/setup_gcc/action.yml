@@ -22,18 +22,24 @@ runs:
     #       gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
 
 
-    - name: install gcc ${{ inputs.gcc-version }}
+    - name: install gcc ${{ inputs.gcc-version }} for ubuntu
       shell: bash
       run: |
         export DEBIAN_FRONTEND=noninteractive
+
+        # dependencies required to install cmake and build simeng
+
         apt-get update
         apt-get install -y wget
         apt-get install -y libz-dev
         apt-get install -y python3
         apt install -y build-essential
         apt install -y git
-        apt install -y sudo 
+        apt install -y sudo
         apt-get install libssl-dev
+
+
+        ### latest stable release of cmake
 
         wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
         tar zxvf cmake-3.29.5.tar.gz
@@ -44,6 +50,7 @@ runs:
 
         cd ..
 
+        #### install gcc
 
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
@@ -66,3 +73,15 @@ runs:
         cmake --build build -j
         sudo cmake --build build --target install
         echo "BUILT SIMENG"
+
+    - name: run tests
+      shell: bash 
+      run: |
+        cd build/tests
+
+        echo "______ UNIT TESTS ______"
+        ./unit/unittests --gtest_output=xml:unittests.xml
+        echo "______ AARCH64 REGRESSION TESTS ______"
+        ./regression/aarch64/regression-aarch64 --gtest_output=xml:regressiontests.xml
+        echo "______ RISCV REGRESSION TESTS ______"
+        ./regression/riscv/regression-riscv --gtest_output=xml:regressiontests.xml
