@@ -7,20 +7,32 @@ inputs:
   gcc-version:
     required: true
 
+env:
+  cache_action_version: 4
+
 runs:
   using: 'composite'
   steps:
 
-    - 
+    # set cache action to v3 as v4 relies on node16 which isn't present in ubuntu 18 which is the image used for testing ubuntu with gcc
+    - if: ${{ inputs.gcc-version == "gcc-7.3.0"}}
+      name: set cache version
+      shell: bash
+      run: |
+        echo "cache_action_version=3 >> $GITHUB_ENV"
+
+    # The jenseng/dynamic-uses action allows for dynamic selection of github action versions
+    - if: ${{ inputs.gcc-version != "gcc-7.3.0"}}
       name: Cache GCC ${{ inputs.gcc-version }}
       id: cache-gcc
-      uses: actions/cache@v4
+      uses: jenseng/dynamic-uses@v1
       with:
-        path: $HOME/usr/local/${{ inputs.gcc-version }}
-        key: gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
-        restore-keys: |
-          gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
-
+        uses: actions/cache@v4
+        with:
+          path: $HOME/usr/local/${{ inputs.gcc-version }}
+          key: gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
+          restore-keys: |
+            gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
 
     - name: install prerequisites
       shell: bash
