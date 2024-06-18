@@ -33,7 +33,7 @@ jobs:
         id: cmake
         uses: actions/cache@v4
         with:
-          path: /__w/SimEng_fork/SimEng_fork/cmake-3.29.5
+          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-3.29.5
           key: cmake-${{ matrix.OS }}
          
       - name: check directories
