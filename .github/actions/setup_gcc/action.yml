@@ -11,15 +11,15 @@ runs:
   using: 'composite'
   steps:
 
-    # - 
-    #   name: Cache GCC ${{ inputs.gcc-version }}
-    #   id: cache-gcc
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: ~/usr/local/gcc-${{ inputs.gcc-version }}
-    #     key: gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
-    #     restore-keys: |
-    #       gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
+    - 
+      name: Cache GCC ${{ inputs.gcc-version }}
+      id: cache-gcc
+      uses: actions/cache@v4
+      with:
+        path: $HOME/usr/local/${{ inputs.gcc-version }}
+        key: gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
+        restore-keys: |
+          gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
 
 
     - name: install prerequisites
@@ -85,11 +85,8 @@ runs:
     - name: run tests
       shell: bash 
       run: |
+        pwd | ls
         cd build
-        mkdir test
-        cd test
-        ls ..
-
         echo "______ UNIT TESTS ______"
         ./unit/unittests --gtest_output=xml:unittests.xml
         echo "______ AARCH64 REGRESSION TESTS ______"
