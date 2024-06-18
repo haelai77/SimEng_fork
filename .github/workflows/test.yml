@@ -33,4 +33,5 @@ jobs:
         shell: bash
         run: |
             pwd
+            ls ${{github.workspace}}
             ls .
