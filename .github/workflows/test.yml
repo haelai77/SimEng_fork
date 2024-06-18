@@ -33,13 +33,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /__/SimEng_fork/SimEng_fork/cmake-3.29.5
-          key: cmake-${{ inputs.os }}
+          key: cmake-${{ matrix.OS }}
          
       - name: check directories
         shell: bash
         run: |
           pwd
           ls -al
+
+
           apt-get update
           apt-get install -y wget
           apt-get install -y libz-dev
@@ -47,20 +49,28 @@ jobs:
           apt install -y build-essential
           apt install -y git
           apt install -y sudo
-          apt-get install libssl-dev
+          apt-get install -y libssl-dev
+          apt-get install -y tree
 
+      - if: ${{ steps.cmake.outputs.cache-hit != 'true' }}
+        name: install cmake
+        shell: bash
+        run: |
+            ### latest stable release of cmake
 
-          ### latest stable release of cmake
+            wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
+            tar zxvf cmake-3.29.5.tar.gz
+            cd cmake-3.29.5
+            ./bootstrap
+            make
+            make install
 
-          wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
-          tar zxvf cmake-3.29.5.tar.gz
-          cd cmake-3.29.5
-          ./bootstrap
-          make
-          make install
+            
+        
 
-          apt-get install tree
-
-          tree -a /__w/
-          tree -a $HOME
+      - name: tree
+        shell: bash
+        run: |
+            tree -a /__w/
+            tree -a $HOME
 
