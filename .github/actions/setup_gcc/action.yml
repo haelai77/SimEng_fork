@@ -43,24 +43,21 @@ runs:
     # cache with github action/cache
     # The jenseng/dynamic-uses action allows for dynamic selection of github action versions
     - name: Cache cmake
-      uses: jenseng/dynamic-uses@v1
+
+      id: cmake-cache
+      uses: actions/cache@v${{ env.cache_action_version }}
       with:
-        id: cmake-cache
-        uses: actions/cache@v${{ env.cache_action_version }}
-        with:
-          path: /cmake-3.29.5
-          key: cmake-${{ matrix.OS }}
+        path: /cmake-3.29.5
+        key: cmake-${{ matrix.OS }}
 
     # Cache gcc 
     - name: Cache gcc
-      
-      uses: jenseng/dynamic-uses@v1
+
+      id: gcc-cache
+      uses: actions/cache@v${{ env.cache_action_version }}  
       with:
-        id: gcc-cache
-        uses: actions/cache@v${{ env.cache_action_version }}  
-        with:
-          path: /${{ inputs.gcc-version }}
-          key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
+        path: /${{ inputs.gcc-version }}
+        key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
 
     - if: ${{ steps.cmake-cache.outputs.cache-hit != 'true' }}
       name: install cmake
