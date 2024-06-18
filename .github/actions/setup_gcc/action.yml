@@ -85,9 +85,10 @@ runs:
     - name: run tests
       shell: bash 
       run: |
-        pwd | ls
-        cd $HOME
-        cd build/tests
+        cd build
+        mkdir test
+        cd test
+        ls ..
 
         echo "______ UNIT TESTS ______"
         ./unit/unittests --gtest_output=xml:unittests.xml
