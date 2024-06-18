@@ -35,5 +35,6 @@ jobs:
             pwd
             ls -al
             apt-get update
+            apt-get install -y libz-dev
             cd /__w/
             ls -a
