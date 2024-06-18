@@ -73,7 +73,7 @@ runs:
         sudo cmake --build build --target install
         echo "BUILT SIMENG"
 
-    - if: ${{ inputs.gcc-version == 'gcc-8.3.0' && contains(inputs.OS, ubuntu) }}
+    - if: ${{ inputs.gcc-version == 'gcc-8.3.0' && contains(inputs.OS, 'ubuntu') }}
       name: apply gcc 9.2 sanitizer patch to gcc 8.3
       shell: bash
       run: |
