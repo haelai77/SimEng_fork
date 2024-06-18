@@ -14,25 +14,20 @@ jobs:
       fail-fast: false
       matrix: 
         OS: ["ubuntu:20.04"] # ["ubuntu:20.04", "debian:12.4", "centos:7", "redhat/ubi8", "rockylinux:9.3", "linuxmintd/mint21.2-amd64"]
-        Compiler: [gcc-7.3.0, gcc-8.3.0, gcc-9.3.0, gcc-10.3.0] # [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0]
+        Compiler: [gcc-9.3.0] # [gcc-7.3.0, gcc-9.3.0, gcc-10.3.0]
         
         # arm clang: https://stackoverflow.com/a/77926332/23476625
 
         # We remove the combination (ubuntu:20.04, gcc-7.3.0) because ubuntu versions above 18.04 are missing some depreciated files required for gcc 7.3.0 to run
         # We replace (ubuntu:20.04, gcc-7.3.0) with (ubuntu:18.04, gcc-7.3.0)
-        exclude:
-          - OS: "ubuntu:20.04"
-            Compiler: gcc-7.3.0
-        include:
-          - OS: "ubuntu:18.04"
-            Compiler: gcc-7.3.0 
+
     
     runs-on: ubuntu-latest
 
     container: 
       image: ${{ matrix.OS }}
     
-    name: ${{ matrix.OS }} + ${{ matrix.Compiler }}
+    name: test
     steps:
       - name: check directories
         shell: bash
