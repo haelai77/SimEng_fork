@@ -48,17 +48,17 @@ runs:
       with:
         uses: actions/cache@v${{ env.cache_action_version }}
         with:
-          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-3.29.5
+          path: /cmake-3.29.5
           key: cmake-${{ matrix.OS }}
 
-    # Cache gcc
+    # Cache gcc 
     - name: Cache gcc
       id: gcc-cache
       uses: jenseng/dynamic-uses@v1
       with:
         uses: actions/cache@v${{ env.cache_action_version }}
         with:
-          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ inputs.gcc-version }}
+          path: /${{ inputs.gcc-version }}
           key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
 
     - if: ${{ steps.cmake-cache.outputs.cache-hit != 'true' }}
