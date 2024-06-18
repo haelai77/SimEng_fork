@@ -28,11 +28,12 @@ jobs:
     
     name: test
     steps:
+
       - name: Cache cmake
         id: cmake
         uses: actions/cache@v4
         with:
-          path: /__/SimEng_fork/SimEng_fork/cmake-3.29.5
+          path: /__w/SimEng_fork/SimEng_fork/cmake-3.29.5
           key: cmake-${{ matrix.OS }}
          
       - name: check directories
@@ -40,8 +41,6 @@ jobs:
         run: |
           pwd
           ls -al
-
-
           apt-get update
           apt-get install -y wget
           apt-get install -y libz-dev
@@ -64,9 +63,6 @@ jobs:
             ./bootstrap
             make
             make install
-
-            
-        
 
       - name: tree
         shell: bash
