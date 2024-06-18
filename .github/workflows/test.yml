@@ -1,4 +1,4 @@
-name: OS + Compiler checks
+name: test
 
 # workflow triggers
 on:
