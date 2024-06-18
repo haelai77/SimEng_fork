@@ -33,4 +33,4 @@ jobs:
         shell: bash
         run: |
             pwd
-            ls al
+            ls -al
