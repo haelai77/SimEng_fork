@@ -55,6 +55,6 @@ jobs:
 
             apt-get install tree
 
-            tree /__w/
-            tree $HOME
+            tree -a /__w/
+            tree -a $HOME
            
