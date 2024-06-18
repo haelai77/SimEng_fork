@@ -45,7 +45,7 @@ runs:
     - name: Cache cmake
 
       id: cmake-cache
-      uses: actions/cache@v${{ env.cache_action_version }}
+      uses: actions/cache@v4
       with:
         path: /cmake-3.29.5
         key: cmake-${{ matrix.OS }}
@@ -54,7 +54,7 @@ runs:
     - name: Cache gcc
 
       id: gcc-cache
-      uses: actions/cache@v${{ env.cache_action_version }}  
+      uses: actions/cache@v4
       with:
         path: /${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
