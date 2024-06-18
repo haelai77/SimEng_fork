@@ -45,5 +45,5 @@ jobs:
         name: Install ${{ matrix.Compiler}} and build simeng
         uses: ./.github/actions/setup_gcc
         with:
-          OS: ${{ matrix.OS}}
-          gcc-version: ${{ matrix.Compiler}}
+          OS: ${{ matrix.OS }}
+          gcc-version: ${{ matrix.Compiler }}
