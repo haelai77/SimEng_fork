@@ -9,30 +9,20 @@ inputs:
 
 env:
   cache_action_version: 4
+  # OS: ${{ inputs.OS }}
+  # gcc-version: ${{ inputs.gcc-version }}
 
 runs:
   using: 'composite'
   steps:
 
     # set cache action to v3 as v4 relies on node16 which isn't present in ubuntu 18 which is the image used for testing ubuntu with gcc
-    - if: ${{ inputs.gcc-version == "gcc-7.3.0"}}
+    - if: ${{ inputs.gcc-version == 'gcc-7.3.0' }}
       name: set cache version
       shell: bash
       run: |
         echo "cache_action_version=3 >> $GITHUB_ENV"
 
-    # The jenseng/dynamic-uses action allows for dynamic selection of github action versions
-    - if: ${{ inputs.gcc-version != "gcc-7.3.0"}}
-      name: Cache GCC ${{ inputs.gcc-version }}
-      id: cache-gcc
-      uses: jenseng/dynamic-uses@v1
-      with:
-        uses: actions/cache@v4
-        with:
-          path: $HOME/usr/local/${{ inputs.gcc-version }}
-          key: gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-${{ hashFiles('**/setup_gcc.sh') }}
-          restore-keys: |
-            gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
 
     - name: install prerequisites
       shell: bash
@@ -49,10 +39,32 @@ runs:
         apt install -y git
         apt install -y sudo
         apt-get install libssl-dev
+    
+    # cache with github action/cache
+    # The jenseng/dynamic-uses action allows for dynamic selection of github action versions
+    - name: Cache cmake
+      id: cmake-cache
+      uses: jenseng/dynamic-uses@v1
+      with:
+        uses: actions/cache@v${{ env.cache_action_version }}
+        with:
+          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-3.29.5
+          key: cmake-${{ matrix.OS }}
 
+    # Cache gcc
+    - name: Cache gcc
+      id: gcc-cache
+      uses: jenseng/dynamic-uses@v1
+      with:
+        uses: actions/cache@v${{ env.cache_action_version }}
+        with:
+          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ inputs.gcc-version }}
+          key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
 
-        ### latest stable release of cmake
-
+    - if: ${{ steps.cmake-cache.outputs.cache-hit != 'true' }}
+      name: install cmake
+      shell: bash
+      run: |
         wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
         tar zxvf cmake-3.29.5.tar.gz
         cd cmake-3.29.5
@@ -60,7 +72,8 @@ runs:
         make
         make install
 
-    - name: install ${{ inputs.gcc-version }}
+    - if: ${{ steps.gcc-cache.outputs.cache-hit != 'true' }}
+      name: install ${{ inputs.gcc-version }}
       shell: bash
       run: |
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
@@ -68,7 +81,14 @@ runs:
         tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
 
         cd ${{ inputs.gcc-version }}
-        pwd
+        
+        
+        if [[ "$gcc_version" == "gcc-8.3.0" && "$OS" == *"ubuntu"* ]]; then
+          echo "Applying GCC 9.2 sanitizer patch to GCC 8.3"
+          apt-get install -y patch
+          wget https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/g/GCCcore/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
+          patch -p1 < GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
+        fi
 
         ./contrib/download_prerequisites > /dev/null
 
@@ -85,20 +105,21 @@ runs:
         sudo cmake --build build --target install
         echo "BUILT SIMENG"
 
-    - if: ${{ inputs.gcc-version == 'gcc-8.3.0' && contains(inputs.OS, 'ubuntu') }}
-      name: apply gcc 9.2 sanitizer patch to gcc 8.3
-      shell: bash
-      run: |
-        apt-get install patch
-        wget https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/g/GCCcore/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
-        cd ${{ inputs.gcc-version }}
-        patch -p1 < /path/to/downloaded/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
+    # - if: ${{ inputs.gcc-version == 'gcc-8.3.0' && contains(inputs.OS, 'ubuntu') }}
+    #   name: apply gcc 9.2 sanitizer patch to gcc 8.3
+    #   shell: bash
+    #   run: |
+    #     apt-get install patch
+    #     wget https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/g/GCCcore/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
+    #     # cd ${{ inputs.gcc-version }}
+    #     patch -p1 < /path/to/downloaded/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
 
     - name: run tests
       shell: bash 
       run: |
         pwd | ls
-        cd build
+        cd build && mkdir test && cd "$_"
+
         echo "______ UNIT TESTS ______"
         ./unit/unittests --gtest_output=xml:unittests.xml
         echo "______ AARCH64 REGRESSION TESTS ______"
