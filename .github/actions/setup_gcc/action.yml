@@ -22,7 +22,7 @@ runs:
     #       gcc-${{ inputs.gcc-version }}-${{ inputs.os }}-
 
 
-    - name: install gcc ${{ inputs.gcc-version }} for ubuntu
+    - name: install prerequisites
       shell: bash
       run: |
         export DEBIAN_FRONTEND=noninteractive
@@ -48,10 +48,9 @@ runs:
         make
         make install
 
-        cd ..
-
-        #### install gcc
-
+    - name: install ${{ inputs.gcc-version }}
+      shell: bash
+      run: |
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
         
         tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
@@ -74,9 +73,20 @@ runs:
         sudo cmake --build build --target install
         echo "BUILT SIMENG"
 
+    - if: ${{ inputs.gcc-version == 'gcc-8.3.0' && contains(inputs.OS, ubuntu) }}
+      name: apply gcc 9.2 sanitizer patch to gcc 8.3
+      shell: bash
+      run: |
+        apt-get install patch
+        wget https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/g/GCCcore/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
+        cd ${{ inputs.gcc-version }}
+        patch -p1 < /path/to/downloaded/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
+
     - name: run tests
       shell: bash 
       run: |
+        pwd | ls
+        cd $HOME
         cd build/tests
 
         echo "______ UNIT TESTS ______"
