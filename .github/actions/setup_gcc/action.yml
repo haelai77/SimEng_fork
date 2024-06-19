@@ -39,6 +39,7 @@ runs:
         apt install -y git
         apt install -y sudo
         apt-get install libssl-dev
+        apt-get install -y tree
     
     # cache with github action/cache
     # The jenseng/dynamic-uses action allows for dynamic selection of github action versions
@@ -47,6 +48,7 @@ runs:
       id: cmake-cache
       uses: actions/cache@v4
       with:
+        save-always: true
         path: /cmake-3.29.5
         key: cmake-${{ matrix.OS }}
 
@@ -56,6 +58,7 @@ runs:
       id: gcc-cache
       uses: actions/cache@v4
       with:
+        save-always: true
         path: /${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
 
@@ -117,7 +120,7 @@ runs:
       run: |
         pwd | ls
         cd build
-        pwd
+        tree /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test
 
         echo "______ UNIT TESTS ______"
         /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/unit/unittests --gtest_output=xml:unittests.xml
