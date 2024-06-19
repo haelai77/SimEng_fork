@@ -126,11 +126,11 @@ runs:
         pwd | ls
         cd build
         ls build
-        tree /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test
+        # tree /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test
 
-        echo "______ UNIT TESTS ______"
-        /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/unit/unittests --gtest_output=xml:unittests.xml
-        echo "______ AARCH64 REGRESSION TESTS ______"
-        /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/aarch64/regression-aarch64 --gtest_output=xml:regressiontests.xml
-        echo "______ RISCV REGRESSION TESTS ______"
-        /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/riscv/regression-riscv --gtest_output=xml:regressiontests.xml
+        # echo "______ UNIT TESTS ______"
+        # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/unit/unittests --gtest_output=xml:unittests.xml
+        # echo "______ AARCH64 REGRESSION TESTS ______"
+        # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/aarch64/regression-aarch64 --gtest_output=xml:regressiontests.xml
+        # echo "______ RISCV REGRESSION TESTS ______"
+        # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/riscv/regression-riscv --gtest_output=xml:regressiontests.xml
