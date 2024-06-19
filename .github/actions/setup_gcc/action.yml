@@ -117,10 +117,11 @@ runs:
       run: |
         pwd | ls
         cd build
+        pwd
 
         echo "______ UNIT TESTS ______"
-        ./unit/unittests --gtest_output=xml:unittests.xml
+        /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/unit/unittests --gtest_output=xml:unittests.xml
         echo "______ AARCH64 REGRESSION TESTS ______"
-        ./regression/aarch64/regression-aarch64 --gtest_output=xml:regressiontests.xml
+        /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/aarch64/regression-aarch64 --gtest_output=xml:regressiontests.xml
         echo "______ RISCV REGRESSION TESTS ______"
-        ./regression/riscv/regression-riscv --gtest_output=xml:regressiontests.xml
+        /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/riscv/regression-riscv --gtest_output=xml:regressiontests.xml
