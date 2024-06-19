@@ -116,7 +116,7 @@ runs:
       shell: bash 
       run: |
         pwd | ls
-        cd build && mkdir test && cd "$_"
+        cd build
 
         echo "______ UNIT TESTS ______"
         ./unit/unittests --gtest_output=xml:unittests.xml
