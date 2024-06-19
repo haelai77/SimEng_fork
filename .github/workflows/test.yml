@@ -69,4 +69,6 @@ jobs:
         run: |
             tree -a /__w/
             tree -a $HOME
+            cmake --version
+            gcc --version
 
