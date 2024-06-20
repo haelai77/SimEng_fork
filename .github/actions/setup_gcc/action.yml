@@ -124,8 +124,8 @@ runs:
       shell: bash 
       run: |
         pwd | ls
-        cd build
         ls build
+        cd build
         # tree /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test
 
         # echo "______ UNIT TESTS ______"
