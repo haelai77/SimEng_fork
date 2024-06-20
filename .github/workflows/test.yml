@@ -35,7 +35,11 @@ jobs:
       #   with:
       #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-3.29.5
       #     key: cmake-${{ matrix.OS }}
-         
+      - name: "OS"
+        run: |
+          cat /etc/os-release
+          ls /usr
+      
       - name: check directories
         shell: bash
         run: |
@@ -68,9 +72,10 @@ jobs:
         shell: bash
         run: |
             pwd | ls
+            cd 
             
-            tree -a /__w/
             # tree -a $HOME
+            tree -a /__w/
             cmake --version
             gcc --version
 
