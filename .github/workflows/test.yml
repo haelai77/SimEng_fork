@@ -80,11 +80,13 @@ jobs:
         shell: bash
         run: |
             pwd | ls
-            cd 
             
             # tree -a $HOME
             tree -a /__w/
             ls /usr/bin
+
+            echo "########"
             cmake --version
-            gcc --version
+            echo "########"
+            echo $PATH
 
