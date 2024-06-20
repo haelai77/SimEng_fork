@@ -84,6 +84,7 @@ jobs:
             
             # tree -a $HOME
             tree -a /__w/
+            ls /usr/bin
             cmake --version
             gcc --version
 
