@@ -67,8 +67,8 @@ jobs:
       - name: tree
         shell: bash
         run: |
-            tree -a /__w/
-            tree -a $HOME
+            # tree -a /__w/
+            # tree -a $HOME
             cmake --version
             gcc --version
 
