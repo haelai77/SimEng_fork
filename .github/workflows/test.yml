@@ -29,12 +29,13 @@ jobs:
     name: test
     steps:
 
-      # - name: Cache cmake
-      #   id: cmake
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-3.29.5
-      #     key: cmake-${{ matrix.OS }}
+      - name: Cache cmake
+        id: cmake
+        uses: actions/cache@v4
+        with:
+          path: /usr/bin/cmake
+          key: cmake-${{ matrix.OS }}
+
       - name: "OS"
         run: |
           cat /etc/os-release
@@ -72,6 +73,8 @@ jobs:
             ./bootstrap
             make
             make install
+            # make DESTDIR=/__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-built install
+
 
       - name: tree
         shell: bash
