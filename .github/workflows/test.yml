@@ -39,7 +39,11 @@ jobs:
         run: |
           cat /etc/os-release
           ls /usr
+          echo "~~~~~~~~~~~~~~~"
           ls /usr/bin
+          echo "~~~~~~~~~~~~~~~"
+          cd /usr
+          cd ..
       
       - name: check directories
         shell: bash
