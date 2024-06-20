@@ -42,11 +42,7 @@ jobs:
           echo "~~~~~~~~~~~~~~~"
           ls /usr/bin
           echo "~~~~~~~~~~~~~~~"
-          cd /usr
-          pwd
-          cd ..
-          pwd
-      
+
       - name: check directories
         shell: bash
         run: |
@@ -61,6 +57,8 @@ jobs:
           apt install -y sudo
           apt-get install -y libssl-dev
           apt-get install -y tree
+
+          ls /usr/bin
 
       # - if: ${{ steps.cmake.outputs.cache-hit != 'true' }}
       - name: install cmake
