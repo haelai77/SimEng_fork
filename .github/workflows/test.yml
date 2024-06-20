@@ -29,12 +29,12 @@ jobs:
     name: test
     steps:
 
-      - name: Cache cmake
-        id: cmake
-        uses: actions/cache@v4
-        with:
-          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-3.29.5
-          key: cmake-${{ matrix.OS }}
+      # - name: Cache cmake
+      #   id: cmake
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-3.29.5
+      #     key: cmake-${{ matrix.OS }}
          
       - name: check directories
         shell: bash
@@ -51,8 +51,8 @@ jobs:
           apt-get install -y libssl-dev
           apt-get install -y tree
 
-      - if: ${{ steps.cmake.outputs.cache-hit != 'true' }}
-        name: install cmake
+      # - if: ${{ steps.cmake.outputs.cache-hit != 'true' }}
+      - name: install cmake
         shell: bash
         run: |
             ### latest stable release of cmake
