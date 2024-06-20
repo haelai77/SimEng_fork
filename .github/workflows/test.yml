@@ -58,6 +58,7 @@ jobs:
           apt install -y sudo
           apt-get install -y libssl-dev
           apt-get install -y tree
+          apt-get install -y type
 
           ls /usr/bin
 
@@ -89,4 +90,7 @@ jobs:
             cmake --version
             echo "########"
             echo $PATH
-
+            type -a cmake
+            which cmake
+            echo "########"
+            
