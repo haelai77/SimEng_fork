@@ -68,7 +68,8 @@ jobs:
         shell: bash
         run: |
             pwd | ls
-            # tree -a /__w/
+            
+            tree -a /__w/
             # tree -a $HOME
             cmake --version
             gcc --version
