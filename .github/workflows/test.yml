@@ -106,18 +106,19 @@ jobs:
         id: cmake-save
         uses: ./.github/actions/dynamic_cache/save
         with:
+          OS: ${{ matrix.OS }}
           path: |
             /usr/local/bin/cmake
             /usr/local/share/cmake-3.29
           key: cmake-${{ matrix.OS }}
 
-      - name: gcc restore
-        id: gcc-restore
-        uses: ./.github/actions/dynamic_cache/restore
-        with:
-          OS: ${{ matrix.OS }}
-          path: ./
-          key: gcc-9.3.0
+      # - name: gcc restore
+      #   id: gcc-restore
+      #   uses: ./.github/actions/dynamic_cache/restore
+      #   with:
+      #     OS: ${{ matrix.OS }}
+      #     path: ./
+      #     key: gcc-9.3.0
 
       - name: tree
         shell: bash
