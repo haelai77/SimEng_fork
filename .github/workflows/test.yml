@@ -89,6 +89,7 @@ jobs:
             echo "########"
             cmake --version
             echo "########"
+            
             echo $PATH
             type -a cmake
             which cmake
