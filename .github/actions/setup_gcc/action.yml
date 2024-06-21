@@ -42,24 +42,14 @@ runs:
         apt-get install -y tree
     
     # cache with github action/cache
-    - name: Cache cmake
-      id: cmake-cache
-      uses: actions/cache@v4
+    - name: cmake restore
+      id: cmake-restore
+      uses: actions/cache/restore@v4
       with:
         path: |
           /usr/local/bin/cmake
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
-
-    # Cache gcc 
-    # - name: Cache gcc
-
-    #   id: gcc-cache
-    #   uses: actions/cache@v4
-    #   with:
-    #     save-always: true
-    #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ inputs.gcc-version }}
-    #     key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
 
     - if: ${{ steps.cmake-cache.outputs.cache-hit != 'true' }}
       name: install cmake
@@ -71,6 +61,22 @@ runs:
         ./bootstrap
         make
         make install
+
+    - name: cmake save
+      id: cmake-save
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          /usr/local/bin/cmake
+          /usr/local/share/cmake-3.29
+        key: cmake-${{ matrix.OS }}
+
+    - name: gcc restore
+      uses: actions/cache/restore@v4
+      id: gcc-restore
+      with: 
+        path: /__w/SimEng_fork/SimEng_fork/${{ inputs.gcc-version }}
+        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     - if: ${{ steps.gcc-cache.outputs.cache-hit != 'true' }}
       name: install ${{ inputs.gcc-version }}12
@@ -96,6 +102,13 @@ runs:
 
         make -j$(nproc)
         make install
+
+    - name: gcc save
+      uses: actions/cache/save@v4
+      id: gcc-save
+      with: 
+        path: /__w/SimEng_fork/SimEng_fork/${{ inputs.gcc-version }}
+        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
     
     - name: tree
       shell: bash
