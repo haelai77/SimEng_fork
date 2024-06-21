@@ -52,14 +52,14 @@ runs:
         key: cmake-${{ matrix.OS }}
 
     # Cache gcc 
-    - name: Cache gcc
+    # - name: Cache gcc
 
-      id: gcc-cache
-      uses: actions/cache@v4
-      with:
-        save-always: true
-        path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ inputs.gcc-version }}
-        key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
+    #   id: gcc-cache
+    #   uses: actions/cache@v4
+    #   with:
+    #     save-always: true
+    #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ inputs.gcc-version }}
+    #     key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
 
     - if: ${{ steps.cmake-cache.outputs.cache-hit != 'true' }}
       name: install cmake
