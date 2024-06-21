@@ -79,7 +79,7 @@ runs:
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     - if: ${{ steps.gcc-cache.outputs.cache-hit != 'true' }}
-      name: install ${{ inputs.gcc-version }}12
+      name: install ${{ inputs.gcc-version }}
       shell: bash
       run: |
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1

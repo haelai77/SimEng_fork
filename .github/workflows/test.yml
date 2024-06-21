@@ -63,9 +63,18 @@ jobs:
 
           ls /usr/bin
       
+      # - name: cmake restore
+      #   id: cmake-restore
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       /usr/local/bin/cmake
+      #       /usr/local/share/cmake-3.29
+      #     key: cmake-${{ matrix.OS }}
+
       - name: cmake restore
         id: cmake-restore
-        uses: actions/cache/restore@v4
+        uses: ./.github/actions/cache/restore
         with:
           path: |
             /usr/local/bin/cmake
@@ -88,7 +97,7 @@ jobs:
 
       - name: cmake save
         id: cmake-save
-        uses: actions/cache/restore@v4
+        uses: ./.github/actions/cache/save
         with:
           path: |
             /usr/local/bin/cmake
@@ -97,7 +106,7 @@ jobs:
 
       - name: gcc restore
         id: gcc-restore
-        uses: actions/cache/restore@v4
+        uses: ./.github/actions/cache/restore
         with:
           path: ./
           key: gcc-9.3.0
