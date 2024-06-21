@@ -1,0 +1,29 @@
+name: dynamic-restore
+description: uses restore action with older version of node depending on OS used
+
+inputs:
+  OS: 
+    required: true
+  path:
+    required: true
+  key:
+    required: true
+  
+runs:
+  using: 'composite'
+  
+
+  - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
+    name: restore v3
+    uses: actions/cache/restore@v3
+    with:
+      path: ${{ inputs.path }}
+      key: ${{ inputs.key}}
+  
+  # else use checkout v4
+  - if: ${{ !contains(fromJson('["ubuntu:18.04"]'), matrix.OS)  }}
+    name: restore v4
+    uses: actions/cache/restore@v4
+    with:
+      path: ${{ inputs.path }}
+      key: ${{ inputs.key}}
