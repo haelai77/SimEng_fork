@@ -42,14 +42,11 @@ runs:
         apt-get install -y tree
     
     # cache with github action/cache
-    # The jenseng/dynamic-uses action allows for dynamic selection of github action versions
     - name: Cache cmake
-
-      id: cmake-cache
+      id: cmake
       uses: actions/cache@v4
       with:
-        save-always: true
-        path: /cmake-3.29.5
+        path: /usr/local/bin/cmake
         key: cmake-${{ matrix.OS }}
 
     # Cache gcc 
