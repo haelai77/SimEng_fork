@@ -74,7 +74,7 @@ jobs:
             ./bootstrap
             make
             make install
-            # make DESTDIR=/__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-built install
+          # make DESTDIR=/__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-built install
 
 
       - name: tree
@@ -89,7 +89,7 @@ jobs:
             echo "########"
             cmake --version
             echo "########"
-            
+
             echo $PATH
             type -a cmake
             which cmake
