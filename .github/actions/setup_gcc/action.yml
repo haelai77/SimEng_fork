@@ -16,14 +16,6 @@ runs:
   using: 'composite'
   steps:
 
-    # set cache action to v3 as v4 relies on node16 which isn't present in ubuntu 18 which is the image used for testing ubuntu with gcc
-    - if: ${{ inputs.gcc-version == 'gcc-7.3.0' }}
-      name: set cache version
-      shell: bash
-      run: |
-        echo "cache_action_version=3 >> $GITHUB_ENV"
-
-
     - name: install prerequisites
       shell: bash
       run: |

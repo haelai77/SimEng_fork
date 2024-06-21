@@ -28,6 +28,8 @@ jobs:
     
     name: test
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
 
       # - name: Cache gcc
       #   id: gcc-cache
