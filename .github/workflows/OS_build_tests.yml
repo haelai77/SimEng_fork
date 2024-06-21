@@ -37,10 +37,15 @@ jobs:
     steps:
 
       #clones the GitHub repo to $GITHUB_WORKSPACE
-      - name: checkout simeng repository
-        uses: ./.github/dynamic-checkout
-        with:
-          OS: ${{ matrix.OS }}
+      # if input is in list of OS that use older node versions, use checkout v3
+      - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
+        name: checkout v3
+        uses: actions/checkout@v3
+      
+      # else use checkout v4
+      - if: ${{ !contains(fromJson('["ubuntu:18.04"]'), matrix.OS)  }}
+        name: checkout v4
+        uses: actions/checkout@v4
       
       - if: contains(${{ matrix.compiler }}, 'gcc')
         name: Install ${{ matrix.Compiler}} and build simeng
