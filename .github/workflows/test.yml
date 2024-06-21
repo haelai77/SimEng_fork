@@ -42,11 +42,12 @@ jobs:
       - name: "OS"
         run: |
           cat /etc/os-release
-          ls /usr
+          # ls /usr
+          # echo "~~~~~~~~~~~~~~~"
+          # ls /usr/bin
           echo "~~~~~~~~~~~~~~~"
-          ls /usr/bin
-          echo "~~~~~~~~~~~~~~~"
-          systeminfo
+          free -g
+
 
       - name: check directories
         shell: bash
