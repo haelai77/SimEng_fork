@@ -46,6 +46,7 @@ jobs:
           echo "~~~~~~~~~~~~~~~"
           ls /usr/bin
           echo "~~~~~~~~~~~~~~~"
+          systeminfo
 
       - name: check directories
         shell: bash
