@@ -33,13 +33,14 @@ jobs:
       image: ${{ matrix.OS }}
     
     name: ${{ matrix.OS }} + ${{ matrix.Compiler }}
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v3
 
-      - name: "OS"
-        run: |
-          cat /etc/os-release
+    steps:
+
+      #clones the GitHub repo to $GITHUB_WORKSPACE
+      - name: checkout simeng repository
+        uses: ./.github/dynamic-checkout
+        with:
+          OS: ${{ matrix.OS }}
       
       - if: contains(${{ matrix.compiler }}, 'gcc')
         name: Install ${{ matrix.Compiler}} and build simeng

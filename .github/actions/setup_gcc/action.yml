@@ -110,10 +110,10 @@ runs:
         path: /__w/SimEng_fork/SimEng_fork/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
     
-    - name: tree
-      shell: bash
-      run: |
-        pwd | ls
+    # - name: tree
+    #   shell: bash
+    #   run: |
+    #     pwd | ls
     
     - name: build simeng
       shell: bash
@@ -122,6 +122,12 @@ runs:
         cmake --build build -j
         sudo cmake --build build --target install
         echo "BUILT SIMENG"
+
+    - name: echo end
+      shell: bash
+      run: |
+        echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        ls build
 
     # - if: ${{ inputs.gcc-version == 'gcc-8.3.0' && contains(inputs.OS, 'ubuntu') }}
     #   name: apply gcc 9.2 sanitizer patch to gcc 8.3
