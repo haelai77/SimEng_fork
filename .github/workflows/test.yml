@@ -98,6 +98,11 @@ jobs:
             /usr/local/share/cmake-3.29
           key: cmake-${{ matrix.OS }}
 
+      - name: try cmake
+        shell: bash
+        run: |
+          cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug -DSIMENG_ENABLE_TESTS=ON
+
       - name: tree
         shell: bash
         run: |
