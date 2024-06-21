@@ -80,7 +80,7 @@ jobs:
 
       - name: cmake restore
         id: cmake-restore
-        uses: ./.github/actions/dynamic-cache/restore
+        uses: ./.github/actions/dynamic_cache/restore
         with:
           OS: ${{ matrix.OS }}
           path: |
@@ -104,7 +104,7 @@ jobs:
 
       - name: cmake save
         id: cmake-save
-        uses: ./.github/actions/dynamic-cache/save
+        uses: ./.github/actions/dynamic_cache/save
         with:
           path: |
             /usr/local/bin/cmake
@@ -113,7 +113,7 @@ jobs:
 
       - name: gcc restore
         id: gcc-restore
-        uses: ./.github/actions/dynamic-cache/restore
+        uses: ./.github/actions/dynamic_cache/restore
         with:
           OS: ${{ matrix.OS }}
           path: ./
