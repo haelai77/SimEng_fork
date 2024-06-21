@@ -29,14 +29,13 @@ jobs:
     name: test
     steps:
 
-      - name: Cache cmake
-        id: cmake
-        uses: actions/cache@v4
-        with:
-          path: |
-            /usr/local/bin/cmake
-            /usr/local/share/cmake-3.29
-          key: cmake-${{ matrix.OS }}
+      # - name: Cache gcc
+      #   id: gcc-cache
+      #   uses: actions/cache@v4
+      #   with:
+      #     save-always: true
+      #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ inputs.gcc-version }}
+      #     key: gcc-9.3.0-${{ matrix.OS }}
 
       - name: "OS"
         run: |
@@ -63,8 +62,17 @@ jobs:
           # apt-get install -y type
 
           ls /usr/bin
+      
+      - name: cmake restore
+        id: cmake-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            /usr/local/bin/cmake
+            /usr/local/share/cmake-3.29
+          key: cmake-${{ matrix.OS }}
 
-      - if: ${{ steps.cmake.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
         name: install cmake
         shell: bash
         run: |
@@ -77,6 +85,15 @@ jobs:
             make
             make install
             # make DESTDIR=/__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-built install
+
+      - name: cmake save
+        id: cmake-save
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            /usr/local/bin/cmake
+            /usr/local/share/cmake-3.29
+          key: cmake-${{ matrix.OS }}
 
 
       - name: tree

@@ -58,7 +58,7 @@ runs:
       uses: actions/cache@v4
       with:
         save-always: true
-        path: /${{ inputs.gcc-version }}
+        path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ matrix.OS }}
 
     - if: ${{ steps.cmake-cache.outputs.cache-hit != 'true' }}
@@ -73,7 +73,7 @@ runs:
         make install
 
     - if: ${{ steps.gcc-cache.outputs.cache-hit != 'true' }}
-      name: install ${{ inputs.gcc-version }}
+      name: install ${{ inputs.gcc-version }}12
       shell: bash
       run: |
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
@@ -119,17 +119,17 @@ runs:
     #     # cd ${{ inputs.gcc-version }}
     #     patch -p1 < /path/to/downloaded/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
 
-    - name: run tests
-      shell: bash 
-      run: |
-        pwd | ls
-        ls build
-        cd build
-        # tree /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test
+    # - name: run tests
+    #   shell: bash 
+    #   run: |
+    #     pwd | ls
+    #     ls build
+    #     cd build
+    #     # tree /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test
 
-        # echo "______ UNIT TESTS ______"
-        # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/unit/unittests --gtest_output=xml:unittests.xml
-        # echo "______ AARCH64 REGRESSION TESTS ______"
-        # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/aarch64/regression-aarch64 --gtest_output=xml:regressiontests.xml
-        # echo "______ RISCV REGRESSION TESTS ______"
-        # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/riscv/regression-riscv --gtest_output=xml:regressiontests.xml
+    #     # echo "______ UNIT TESTS ______"
+    #     # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/unit/unittests --gtest_output=xml:unittests.xml
+    #     # echo "______ AARCH64 REGRESSION TESTS ______"
+    #     # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/aarch64/regression-aarch64 --gtest_output=xml:regressiontests.xml
+    #     # echo "______ RISCV REGRESSION TESTS ______"
+    #     # /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test/regression/riscv/regression-riscv --gtest_output=xml:regressiontests.xml

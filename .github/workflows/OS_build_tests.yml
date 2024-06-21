@@ -47,3 +47,6 @@ jobs:
         with:
           OS: ${{ matrix.OS }}
           gcc-version: ${{ matrix.Compiler }}
+
+      - name: run tests
+        uses: cmake --build ./build --target test
