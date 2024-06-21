@@ -33,7 +33,7 @@ jobs:
         id: cmake
         uses: actions/cache@v4
         with:
-          path: /usr/bin/cmake
+          path: /usr/local/bin/cmake
           key: cmake-${{ matrix.OS }}
 
       - name: "OS"
@@ -62,8 +62,8 @@ jobs:
 
           ls /usr/bin
 
-      # - if: ${{ steps.cmake.outputs.cache-hit != 'true' }}
-      - name: install cmake
+      - if: ${{ steps.cmake.outputs.cache-hit != 'true' }}
+        name: install cmake
         shell: bash
         run: |
             ### latest stable release of cmake
