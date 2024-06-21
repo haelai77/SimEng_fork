@@ -102,6 +102,8 @@ jobs:
         shell: bash
         run: |
           cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug -DSIMENG_ENABLE_TESTS=ON
+          cmake --build build -j
+          sudo cmake --build build --target install
 
       - name: tree
         shell: bash
