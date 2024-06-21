@@ -43,10 +43,12 @@ runs:
     
     # cache with github action/cache
     - name: Cache cmake
-      id: cmake
+      id: cmake-cache
       uses: actions/cache@v4
       with:
-        path: /usr/local/bin/cmake
+        path: |
+          /usr/local/bin/cmake
+          /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
 
     # Cache gcc 
