@@ -33,7 +33,9 @@ jobs:
         id: cmake
         uses: actions/cache@v4
         with:
-          path: /usr/local/bin/cmake
+          path: |
+            /usr/local/bin/cmake
+            /usr/local/share/cmake-3.29
           key: cmake-${{ matrix.OS }}
 
       - name: "OS"
