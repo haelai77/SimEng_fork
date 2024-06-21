@@ -76,6 +76,7 @@ jobs:
         id: cmake-restore
         uses: ./.github/actions/cache/restore
         with:
+          OS: ${{ matrix.OS }}
           path: |
             /usr/local/bin/cmake
             /usr/local/share/cmake-3.29
@@ -108,6 +109,7 @@ jobs:
         id: gcc-restore
         uses: ./.github/actions/cache/restore
         with:
+          OS: ${{ matrix.OS }}
           path: ./
           key: gcc-9.3.0
 
