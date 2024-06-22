@@ -43,7 +43,7 @@ runs:
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
 
-    - if: ${{ steps.cmake-cache.outputs.cache-hit != 'true' }}
+    - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
       name: install cmake
       shell: bash
       run: |
@@ -70,7 +70,7 @@ runs:
         path: /__w/SimEng_fork/SimEng_fork/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
-    - if: ${{ steps.gcc-cache.outputs.cache-hit != 'true' }}
+    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' }}
       name: install ${{ inputs.gcc-version }}
       shell: bash
       run: |

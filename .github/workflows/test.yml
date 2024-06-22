@@ -67,14 +67,14 @@ jobs:
 
           ls /usr/bin
       
-      # - name: cmake restore
-      #   id: cmake-restore
-      #   uses: actions/cache/restore@v4
-      #   with:
-      #     path: |
-      #       /usr/local/bin/cmake
-      #       /usr/local/share/cmake-3.29
-      #     key: cmake-${{ matrix.OS }}
+      - name: cmake restore
+        id: cmake-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            /usr/local/bin/cmake
+            /usr/local/share/cmake-3.29
+          key: cmake-${{ matrix.OS }}
 
 
       # - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
@@ -91,14 +91,14 @@ jobs:
             make install
             # make DESTDIR=/__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-built install
 
-      # - name: cmake save
-      #   id: cmake-save
-      #   uses: actions/cache/save@v4
-      #   with:
-      #     path: |
-      #       /usr/local/bin/cmake
-      #       /usr/local/share/cmake-3.29
-      #     key: cmake-${{ matrix.OS }}
+      - name: cmake save
+        id: cmake-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            /usr/local/bin/cmake
+            /usr/local/share/cmake-3.29
+          key: cmake-${{ matrix.OS }}
 
       - name: try cmake
         shell: bash
