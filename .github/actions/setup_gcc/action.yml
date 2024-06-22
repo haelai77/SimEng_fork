@@ -67,7 +67,7 @@ runs:
       uses: actions/cache/restore@v4
       id: gcc-restore
       with: 
-        path: /__w/SimEng_fork/SimEng_fork/${{ inputs.gcc-version }}
+        path: $HOME/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' }}
@@ -99,7 +99,7 @@ runs:
       uses: actions/cache/save@v4
       id: gcc-save
       with: 
-        path: /__w/SimEng_fork/SimEng_fork/${{ inputs.gcc-version }}
+        path: $HOME/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
     
     # - name: tree
