@@ -31,14 +31,6 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      # - name: Cache gcc
-      #   id: gcc-cache
-      #   uses: actions/cache@v4
-      #   with:
-      #     save-always: true
-      #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ inputs.gcc-version }}
-      #     key: gcc-9.3.0-${{ matrix.OS }}
-
       - name: "OS"
         run: |
           cat /etc/os-release
@@ -77,8 +69,8 @@ jobs:
           key: cmake-${{ matrix.OS }}
 
 
-      # - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
-      - name: install cmake
+      - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
+        name: install cmake
         shell: bash
         run: |
             ### latest stable release of cmake
