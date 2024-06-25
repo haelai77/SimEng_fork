@@ -65,14 +65,14 @@ runs:
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
 
-    # - name: gcc restore
-    #   uses: actions/cache/restore@v4
-    #   id: gcc-restore
-    #   with: 
-    #     path: |
-    #       $HOME/usr/local/${{ inputs.gcc-version }}
-    #       ./${{ inputs.gcc-version }}
-    #     key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+    - name: gcc restore
+      uses: actions/cache/restore@v4
+      id: gcc-restore
+      with: 
+        path: |
+          $HOME/usr/local/${{ inputs.gcc-version }}
+          ./${{ inputs.gcc-version }}
+        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' }}
       name: install ${{ inputs.gcc-version }}
