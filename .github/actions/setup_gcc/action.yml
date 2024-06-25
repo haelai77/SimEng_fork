@@ -40,6 +40,7 @@ runs:
       with:
         path: |
           /usr/local/bin/cmake
+          /usr/local/bin/ctest
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
 
@@ -60,6 +61,7 @@ runs:
       with:
         path: |
           /usr/local/bin/cmake
+          /usr/local/bin/ctest
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
 

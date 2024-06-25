@@ -59,45 +59,50 @@ jobs:
 
           ls /usr/bin
       
-      - name: cmake restore
-        id: cmake-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            /usr/local/bin/cmake
-            /usr/local/share/cmake-3.29
-          key: cmake-${{ matrix.OS }}
+      # - name: cmake restore
+      #   id: cmake-restore
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       /usr/local/bin/cmake
+      #       /usr/local/share/cmake-3.29
+      #     key: cmake-${{ matrix.OS }}
 
 
-      - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
-        name: install cmake
+      # - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
+      #   name: install cmake
+      #   shell: bash
+      #   run: |
+      #       ### latest stable release of cmake
+
+      #       wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
+      #       tar zxvf cmake-3.29.5.tar.gz
+      #       cd cmake-3.29.5
+      #       ./bootstrap
+      #       make
+      #       make install
+      #       # make DESTDIR=/__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-built install
+
+      # - name: cmake save
+      #   id: cmake-save
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     path: |
+      #       /usr/local/bin/cmake
+      #       /usr/local/share/cmake-3.29
+      #     key: cmake-${{ matrix.OS }}
+
+      - name: install cmake 
         shell: bash
         run: |
-            ### latest stable release of cmake
-
-            wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
-            tar zxvf cmake-3.29.5.tar.gz
-            cd cmake-3.29.5
-            ./bootstrap
-            make
-            make install
-            # make DESTDIR=/__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/cmake-built install
-
-      - name: cmake save
-        id: cmake-save
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            /usr/local/bin/cmake
-            /usr/local/share/cmake-3.29
-          key: cmake-${{ matrix.OS }}
+          sudo apt-get install cmake
 
       - name: try cmake
         shell: bash
         run: |
           cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug -DSIMENG_ENABLE_TESTS=ON
-          cmake --build build -j
-          sudo cmake --build build --target install
+          # cmake --build build -j
+          sudo cmake --build build -t install
 
       - name: tree
         shell: bash
