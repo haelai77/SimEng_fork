@@ -70,8 +70,10 @@ runs:
       id: gcc-restore
       with: 
         path: |
-          $HOME/usr/local/${{ inputs.gcc-version }}
-          ./${{ inputs.gcc-version }}
+          path: /github/home/usr/local/gcc-9.3.0
+
+        # $HOME/usr/local/${{ inputs.gcc-version }}
+        # ./${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' }}
@@ -103,8 +105,10 @@ runs:
       uses: actions/cache/save@v4
       id: gcc-save
       with: 
-        path: $HOME/usr/local/${{ inputs.gcc-version }}
+        # path: $HOME/usr/local/${{ inputs.gcc-version }}
+        path: /github/home/usr/local/gcc-9.3.0
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+#/github/home/usr/local/gcc-9.3.0
     
     # - name: tree
     #   shell: bash
