@@ -122,7 +122,7 @@ runs:
         cmake --build build -j
         sudo cmake --build build --target install
         echo "~~~~~ BUILT SIMENG ~~~~~"
-        sudo cmake --build build --target test
+        sudo cmake --build build --target test ARGS="-V"
         echo "~~~~~ BUILT TESTS  ~~~~~"
 
     - name: echo /build
