@@ -36,7 +36,7 @@ runs:
 
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
       name: cmake restore
-      id: cmake-restore
+      id: cmake-restore-v3
       uses: actions/cache/restore@v3
       with:
         path: |
@@ -47,7 +47,7 @@ runs:
 
     - if: ${{ inputs.OS != 'ubuntu:18.04' }}
       name: cmake restore
-      id: cmake-restore
+      id: cmake-restore-v4
       uses: actions/cache/restore@v4
       with:
         path: |
@@ -59,7 +59,8 @@ runs:
 #######################################################################
 # install cmake in event of cache miss
 
-    - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
+    # if !(v3-cache-hit || v4-cache-hit)
+    - if: ${{ steps.cmake-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true' }}
       name: install cmake
       shell: bash
       run: |
@@ -74,7 +75,7 @@ runs:
 # cache/save with diffent version of save action depending on node version available + if cache miss occured
 
     # cache miss, save cache (for older ubuntu 18.04 node ver.)
-    - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true'  && inputs.OS == 'ubuntu:18.04' }}
+    - if: ${{ steps.cmake-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true'  && inputs.OS == 'ubuntu:18.04' }}
       name: cmake save
       id: cmake-save
       uses: actions/cache/save@v3
@@ -86,7 +87,7 @@ runs:
         key: cmake-${{ matrix.OS }}
 
     # cache miss, save cache (for OS with node )
-    - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true'  && inputs.OS != 'ubuntu:18.04' }}
+    - if: ${{ steps.cmake-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true'  && inputs.OS != 'ubuntu:18.04' }}
       name: cmake save
       id: cmake-save
       uses: actions/cache/save@v4
@@ -103,7 +104,7 @@ runs:
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
       name: gcc restore
       uses: actions/cache/restore@v3
-      id: gcc-restore
+      id: gcc-restore-v3
       with: 
         path: /github/home/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
@@ -111,7 +112,7 @@ runs:
     - if: ${{ inputs.OS != 'ubuntu:18.04' }}
       name: gcc restore
       uses: actions/cache/restore@v4
-      id: gcc-restore
+      id: gcc-restore-v4
       with: 
         path: /github/home/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
@@ -119,7 +120,7 @@ runs:
 #######################################################################
 # install gcc in event of gcc cache miss
 
-    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' }}
+    - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
       name: install ${{ inputs.gcc-version }}
       shell: bash
       run: |
@@ -147,7 +148,7 @@ runs:
 #######################################################################
 # cache/save with diffent version of save action depending on node version available
 
-    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
+    - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && steps.gcc-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
       name: gcc save
       uses: actions/cache/save@v3
       id: gcc-save
@@ -155,7 +156,7 @@ runs:
         path: $HOME/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
-    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' && inputs.OS != 'ubuntu:18.04' }}
+    - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && steps.gcc-restore-v4.outputs.cache-hit != 'true' && inputs.OS != 'ubuntu:18.04' }}
       name: gcc save
       uses: actions/cache/save@v4
       id: gcc-save
