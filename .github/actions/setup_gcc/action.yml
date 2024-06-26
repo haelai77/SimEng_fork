@@ -155,7 +155,7 @@ runs:
         path: $HOME/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
-    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' && inputs.OS != 'ubuntu:18.04 }}
+    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' && inputs.OS != 'ubuntu:18.04' }}
       name: gcc save
       uses: actions/cache/save@v4
       id: gcc-save
