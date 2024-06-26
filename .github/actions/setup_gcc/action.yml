@@ -7,15 +7,13 @@ inputs:
   gcc-version:
     required: true
 
-env:
-  cache_action_version: 4
-  # OS: ${{ inputs.OS }}
-  # gcc-version: ${{ inputs.gcc-version }}
 
 runs:
   using: 'composite'
   steps:
 
+#######################################################################
+# Not cache these to save on cache space, (doesn't take long to install)
     - name: install prerequisites
       shell: bash
       run: |
@@ -33,8 +31,22 @@ runs:
         apt-get install libssl-dev
         apt-get install -y tree
     
-    # cache with github action/cache
-    - name: cmake restore
+#######################################################################
+# cache/restore with diffent version of restore action depending on node version available + if cache miss occured
+
+    - if: ${{ inputs.OS == 'ubuntu:18.04' }}
+      name: cmake restore
+      id: cmake-restore
+      uses: actions/cache/restore@v3
+      with:
+        path: |
+          /usr/local/bin/cmake
+          /usr/local/bin/ctest
+          /usr/local/share/cmake-3.29
+        key: cmake-${{ matrix.OS }}
+
+    - if: ${{ inputs.OS != 'ubuntu:18.04' }}
+      name: cmake restore
       id: cmake-restore
       uses: actions/cache/restore@v4
       with:
@@ -43,6 +55,9 @@ runs:
           /usr/local/bin/ctest
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
+
+#######################################################################
+# install cmake in event of cache miss
 
     - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
       name: install cmake
@@ -55,7 +70,23 @@ runs:
         make
         make install
 
-    - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
+#######################################################################
+# cache/save with diffent version of save action depending on node version available + if cache miss occured
+
+    # cache miss, save cache (for older ubuntu 18.04 node ver.)
+    - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true'  && inputs.OS == 'ubuntu:18.04' }}
+      name: cmake save
+      id: cmake-save
+      uses: actions/cache/save@v3
+      with:
+        path: |
+          /usr/local/bin/cmake
+          /usr/local/bin/ctest
+          /usr/local/share/cmake-3.29
+        key: cmake-${{ matrix.OS }}
+
+    # cache miss, save cache (for OS with node )
+    - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true'  && inputs.OS != 'ubuntu:18.04' }}
       name: cmake save
       id: cmake-save
       uses: actions/cache/save@v4
@@ -66,16 +97,27 @@ runs:
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
 
-    - name: gcc restore
+#######################################################################
+# cache/restore with diffent version of restore action depending on node version available
+
+    - if: ${{ inputs.OS == 'ubuntu:18.04' }}
+      name: gcc restore
+      uses: actions/cache/restore@v3
+      id: gcc-restore
+      with: 
+        path: /github/home/usr/local/${{ inputs.gcc-version }}
+        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+
+    - if: ${{ inputs.OS != 'ubuntu:18.04' }}
+      name: gcc restore
       uses: actions/cache/restore@v4
       id: gcc-restore
       with: 
-        path: |
-          path: /github/home/usr/local/${{ inputs.gcc-version }}
-
-        # $HOME/usr/local/${{ inputs.gcc-version }}
-        # ./${{ inputs.gcc-version }}
+        path: /github/home/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+
+#######################################################################
+# install gcc in event of gcc cache miss
 
     - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' }}
       name: install ${{ inputs.gcc-version }}
@@ -102,25 +144,32 @@ runs:
         make -j$(nproc)
         make install
 
-    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' }}
+#######################################################################
+# cache/save with diffent version of save action depending on node version available
+
+    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
+      name: gcc save
+      uses: actions/cache/save@v3
+      id: gcc-save
+      with: 
+        path: $HOME/usr/local/${{ inputs.gcc-version }}
+        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+
+    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' && inputs.OS != 'ubuntu:18.04 }}
       name: gcc save
       uses: actions/cache/save@v4
       id: gcc-save
       with: 
-        # path: $HOME/usr/local/${{ inputs.gcc-version }}
         path: $HOME/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
-#/github/home/usr/local/gcc-9.3.0
-    
-    # - name: tree
-    #   shell: bash
-    #   run: |
-    #     pwd | ls
-    
+
+#######################################################################
+
+
     - name: build simeng
       shell: bash
       run: |
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/c++
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/c++
         cmake --build build -j
         
         echo "~~~~~ lookup gcc path ~~~~~"
