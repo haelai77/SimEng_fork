@@ -3,7 +3,7 @@ name: test
 # workflow triggers
 on:
   workflow_dispatch:
-  pull_request:
+  # pull_request:
 
 
 jobs:

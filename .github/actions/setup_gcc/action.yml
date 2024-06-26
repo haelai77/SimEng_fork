@@ -55,7 +55,8 @@ runs:
         make
         make install
 
-    - name: cmake save
+    - if: ${{ steps.cmake-restore.outputs.cache-hit != 'true' }}
+      name: cmake save
       id: cmake-save
       uses: actions/cache/save@v4
       with:
@@ -70,7 +71,7 @@ runs:
       id: gcc-restore
       with: 
         path: |
-          path: /github/home/usr/local/gcc-9.3.0
+          path: /github/home/usr/local/${{ inputs.gcc-version }}
 
         # $HOME/usr/local/${{ inputs.gcc-version }}
         # ./${{ inputs.gcc-version }}
@@ -101,12 +102,13 @@ runs:
         make -j$(nproc)
         make install
 
-    - name: gcc save
+    - if: ${{ steps.gcc-restore.outputs.cache-hit != 'true' }}
+      name: gcc save
       uses: actions/cache/save@v4
       id: gcc-save
       with: 
         # path: $HOME/usr/local/${{ inputs.gcc-version }}
-        path: /github/home/usr/local/gcc-9.3.0
+        path: $HOME/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 #/github/home/usr/local/gcc-9.3.0
     
@@ -120,6 +122,8 @@ runs:
       run: |
         cmake -B build -S . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/c++
         cmake --build build -j
+        
+        echo "~~~~~ lookup gcc path ~~~~~"
         sudo cmake --build build --target install
         echo "~~~~~ BUILT SIMENG ~~~~~"
         sudo cmake --build build --target test ARGS="-V"
