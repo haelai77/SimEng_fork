@@ -130,13 +130,13 @@ runs:
 
         cd ${{ inputs.gcc-version }}
         
-        if [[ "$gcc_version" == "gcc-8.3.0" && "$OS" == *"ubuntu"* ]]; then
-          echo "Applying GCC 9.2 sanitizer patch to GCC 8.3"
-          apt-get install -y patch
-          wget https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/g/GCCcore/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
-          patch -p1 < ../GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
-          echo "patched"
-        fi
+        # if [[ "$gcc_version" == "gcc-8.3.0" && "$OS" == *"ubuntu"* ]]; then
+        #   echo "Applying GCC 9.2 sanitizer patch to GCC 8.3"
+        #   apt-get install -y patch
+        #   wget https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/g/GCCcore/GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
+        #   patch -p1 < ../GCCcore-9.2.0-fix-glibc-2.31-libsanitizer.patch
+        #   echo "patched"
+        # fi
 
         ./contrib/download_prerequisites > /dev/null
 
