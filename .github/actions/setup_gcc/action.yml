@@ -77,7 +77,7 @@ runs:
     # cache miss, save cache (for older ubuntu 18.04 node ver.)
     - if: ${{ steps.cmake-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true'  && inputs.OS == 'ubuntu:18.04' }}
       name: cmake save
-      id: cmake-save
+      id: cmake-save-v3
       uses: actions/cache/save@v3
       with:
         path: |
@@ -89,7 +89,7 @@ runs:
     # cache miss, save cache (for OS with node )
     - if: ${{ steps.cmake-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true'  && inputs.OS != 'ubuntu:18.04' }}
       name: cmake save
-      id: cmake-save
+      id: cmake-save-v4
       uses: actions/cache/save@v4
       with:
         path: |
