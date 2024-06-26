@@ -106,7 +106,7 @@ runs:
       uses: actions/cache/restore@v3
       id: gcc-restore-v3
       with: 
-        path: /github/home/usr/local/${{ inputs.gcc-version }}
+        path: /usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     - if: ${{ inputs.OS != 'ubuntu:18.04' }}
@@ -114,7 +114,7 @@ runs:
       uses: actions/cache/restore@v4
       id: gcc-restore-v4
       with: 
-        path: /github/home/usr/local/${{ inputs.gcc-version }}
+        path: /usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
 #######################################################################
