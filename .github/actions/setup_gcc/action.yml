@@ -13,13 +13,13 @@ runs:
   steps:
 
 #######################################################################
-# Not cache these to save on cache space, (doesn't take long to install)
+# Not cache these to save on cache space, (doesn't take long to install)#
+# dependencies required to install cmake and build simeng
+
     - name: install prerequisites
       shell: bash
       run: |
         export DEBIAN_FRONTEND=noninteractive
-
-        # dependencies required to install cmake and build simeng
 
         apt-get update
         apt-get install -y wget
@@ -140,7 +140,7 @@ runs:
 
         ./contrib/download_prerequisites > /dev/null
 
-        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=$HOME/usr/local/${{ inputs.gcc-version }}
+        ./configure --enable-languages=c,c++ --disable-multilib --with-system-zlib --prefix=/usr/local/${{ inputs.gcc-version }}
 
         make -j$(nproc)
         make install
@@ -153,7 +153,7 @@ runs:
       uses: actions/cache/save@v3
       id: gcc-save-v3
       with: 
-        path: $HOME/usr/local/${{ inputs.gcc-version }}
+        path: /usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && steps.gcc-restore-v4.outputs.cache-hit != 'true' && inputs.OS != 'ubuntu:18.04' }}
@@ -161,7 +161,7 @@ runs:
       uses: actions/cache/save@v4
       id: gcc-save-v4
       with: 
-        path: $HOME/usr/local/${{ inputs.gcc-version }}
+        path: /usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
 #######################################################################
@@ -170,7 +170,7 @@ runs:
     - name: build simeng
       shell: bash
       run: |
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=$HOME/usr/local/${{ inputs.gcc-version }}/bin/c++
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
         cmake --build build -j
         
         echo "~~~~~ lookup gcc path ~~~~~"
