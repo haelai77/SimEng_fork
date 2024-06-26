@@ -151,7 +151,7 @@ runs:
     - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && steps.gcc-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
       name: gcc save
       uses: actions/cache/save@v3
-      id: gcc-save
+      id: gcc-save-v3
       with: 
         path: $HOME/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
@@ -159,7 +159,7 @@ runs:
     - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && steps.gcc-restore-v4.outputs.cache-hit != 'true' && inputs.OS != 'ubuntu:18.04' }}
       name: gcc save
       uses: actions/cache/save@v4
-      id: gcc-save
+      id: gcc-save-v4
       with: 
         path: $HOME/usr/local/${{ inputs.gcc-version }}
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
