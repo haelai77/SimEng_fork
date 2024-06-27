@@ -171,12 +171,12 @@ runs:
       shell: bash
       run: |
         cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
-        cmake --build build -j
+        cmake --build build -j $(nproc)
         
         echo "~~~~~ lookup gcc path ~~~~~"
         sudo cmake --build build --target install
         echo "~~~~~ BUILT SIMENG ~~~~~"
-        sudo cmake --build build --target test ARGS="-V"
+        sudo cmake --build build --target test ARGS="--output-on-failure"
         echo "~~~~~ BUILT TESTS  ~~~~~"
 
     - name: echo /build
