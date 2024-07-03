@@ -36,7 +36,7 @@ runs:
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
 
-    - if: ${{ inputs.OS == 'ubuntu:20.04' }}
+    - if: ${{ inputs.OS != 'ubuntu:18.04' }}
       name: cmake restore
       id: cmake-restore-v4
       uses: actions/cache/restore@v4
@@ -48,7 +48,7 @@ runs:
         key: cmake-${{ matrix.OS }}
     #######################################
     # install cmake if cache miss
-    - if: ${{ steps.cmake-restore-v3.ouputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true'}}
+    - if: ${{ steps.cmake-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true' }}
       name: install cmake
       shell: bash
       run: |
@@ -60,7 +60,7 @@ runs:
         make install
     #######################################
     # save to cmake to cache if cache miss
-    - if: ${{ steps.cmake-restore-v3.ouputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04'}}
+    - if: ${{ steps.cmake-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04'}}
       name: cmake save
       id: cmake-save-v3
       uses: actions/cache/save@v3
@@ -110,7 +110,7 @@ runs:
         cd ${{ inputs.gcc-version }}
 
         ./contrib/download_prerequisites > /dev/null
-        ./config --enable-languages=c,c++ -disbale-multilib --with-system-zlib --prefix=/usr/local/${{ inputs.gcc-version }}
+        ./configure --enable-languages=c,c++ -disbale-multilib --with-system-zlib --prefix=/usr/local/${{ inputs.gcc-version }}
 
         make -j$(nproc)
         make install
