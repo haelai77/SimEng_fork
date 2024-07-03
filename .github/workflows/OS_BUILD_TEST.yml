@@ -1,0 +1,53 @@
+name: test on various OS & Compilers
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  Build_and_Run:
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        OS: ['ubuntu:20.04']
+        Compiler: ['gcc-7.3.0', 'gcc-8.3.0', 'gcc-9.3.0', 'gcc-10.3.0']
+
+        # ensures that older gcc runs on older ubunutu due to dependencies
+        exclude:
+          - OS: 'ubuntu:20.04'
+            Compiler: 'gcc-7.3.0'
+          - OS: 'ubuntu:20.04'
+            Compiler: 'gcc-8.3.0'
+
+        include:      
+          - OS: 'ubuntu:18.04'
+            Compiler: 'gcc-7.3.0'
+          - OS: 'ubuntu:18.04'
+            Compiler: 'gcc-8.3.0'
+      
+    runs-on: ubuntu-latest
+
+    container:
+      image: ${{ matrix.OS }}
+
+    name: ${{ matrix.OS }} + ${{ matrix.compiler }}
+
+    steps:
+      ##########################################
+      # copies repo to container (different action version due to node version dependencies)
+      - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
+        name: checkout v3
+        uses: actions/checkout@v3
+
+      - if: ${{ contains(fromJson('["ubuntu:20.04"]'), matrix.OS) }}
+        name: checkout v4
+        uses: actions/checkout@v4
+      ##########################################
+
+      - if: contains(${{ matrix.Compiler }}, 'gcc')
+        name:  Install ${{ matrix.Compiler }} + Build SimEng + Run tests
+        uses: ./.github/actions/setup_gcc
+        with:
+            OS: ${{ matrix.OS }}
+            gcc-version: ${{ matrix.Compiler }}
