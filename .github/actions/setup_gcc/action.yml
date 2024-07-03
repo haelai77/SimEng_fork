@@ -71,7 +71,7 @@ runs:
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
 
-    - if: ${{ steps.cmake-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04'}}
+    - if: ${{ steps.cmake-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04'}}
       name: cmake save
       id: cmake-save-v4
       uses: actions/cache/save@v4
