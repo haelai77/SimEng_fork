@@ -138,7 +138,7 @@ runs:
         cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
         cmake --build build -j $(nproc)
 
-        sudo cmake --build --target install
+        sudo cmake --build build --target install
         echo "~~~~ BUILT SIMENG ~~~~"
 
         sudo cmake --build build --target test ARGS="--output-on-failure"
