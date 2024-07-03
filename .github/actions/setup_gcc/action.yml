@@ -21,7 +21,7 @@ runs:
         apt install -y build-essential
         apt install -y git
         apt install -y sudo
-        apt-get isntall libssl-dev
+        apt-get install libssl-dev
     
     #######################################
     # check cache for cmake
