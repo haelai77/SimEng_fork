@@ -23,6 +23,7 @@ runs:
         apt install -y sudo
         apt-get install libssl-dev
         apt-get install ninja-build
+        apt-get install tree
     
     #######################################
     # check cache for cmake
