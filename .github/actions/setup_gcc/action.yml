@@ -24,7 +24,7 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
-    
+
     #######################################
     # check cache for cmake
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}

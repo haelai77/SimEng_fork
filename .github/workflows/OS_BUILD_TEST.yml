@@ -20,14 +20,14 @@ jobs:
         exclude:
           - OS: 'ubuntu:20.04'
             Compiler: 'gcc-7.3.0'
-          # - OS: 'ubuntu:20.04'
-          #   Compiler: 'gcc-8.3.0'
+          - OS: 'ubuntu:20.04'
+            Compiler: 'gcc-8.3.0'
 
         include:      
           - OS: 'ubuntu:18.04'
             Compiler: 'gcc-7.3.0'
-          # - OS: 'ubuntu:18.04'
-          #   Compiler: 'gcc-8.3.0'
+          - OS: 'ubuntu:18.04'
+            Compiler: 'gcc-8.3.0'
       
     runs-on: ubuntu-latest
 
