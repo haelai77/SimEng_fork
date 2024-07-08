@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:20.04', "ubuntu:18.04"]
+        OS: ['ubuntu:20.04']
         Compiler: ['gcc-7.3.0', 'gcc-8.3.0', 'gcc-9.3.0', 'gcc-10.3.0']
 
         # ensures that older gcc runs on older ubunutu due to dependencies
@@ -36,12 +36,12 @@ jobs:
     steps:
       ##########################################
       # # copies repo to container (different action version due to node version dependencies)
-      - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
-        name: checkout v3
-        uses: actions/checkout@v3
+      # - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
+        # name: checkout v3
+        # uses: actions/checkout@v3
 
-      - if: ${{ contains(fromJson('["ubuntu:20.04"]'), matrix.OS) }}
-        name: checkout v4
+      # - if: ${{ contains(fromJson('["ubuntu:20.04"]'), matrix.OS) }}
+      - name: checkout v4
         uses: actions/checkout@v4
       ##########################################
       # if gcc job
