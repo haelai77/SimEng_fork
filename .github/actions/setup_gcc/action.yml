@@ -22,6 +22,7 @@ runs:
         apt install -y git
         apt install -y sudo
         apt-get install libssl-dev
+        apt-get install ninja-build
     
     #######################################
     # check cache for cmake
@@ -141,5 +142,5 @@ runs:
         sudo cmake --build build --target install
         echo "~~~~ BUILT SIMENG ~~~~"
 
-        sudo cmake --build build --target test ARGS="--output-on-failure"
-        echo "~~~~ TESTS DONE ~~~~"
+        # sudo cmake --build build --target test ARGS="--output-on-failure"
+        # echo "~~~~ TESTS DONE ~~~~"
