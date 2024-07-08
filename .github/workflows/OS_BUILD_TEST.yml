@@ -64,7 +64,7 @@ jobs:
       - name: Unit Tests
         shell: bash
         run: |
-          ./build/test/unit/unittest
+          ./build/test/unit/unittests
       ##########################################
       # run regression aarch64
       - name: regression test (aarch64)
