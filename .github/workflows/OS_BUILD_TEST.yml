@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   pull_request:
 
+env:
+    ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true
+
 jobs:
   Build_and_Run:
     
@@ -35,7 +38,7 @@ jobs:
 
     steps:
       ##########################################
-      # # copies repo to container (different action version due to node version dependencies)
+      # # # copies repo to container (different action version due to node version dependencies)
       - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
         name: checkout v3
         uses: actions/checkout@v3
