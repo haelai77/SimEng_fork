@@ -48,7 +48,6 @@ jobs:
         uses: actions/checkout@v4
       ##########################################
       # if gcc job
-      
       - if: contains(${{ matrix.Compiler }}, 'gcc')
         name:  Install ${{ matrix.Compiler }} + Build SimEng + Run tests
         uses: ./.github/actions/setup_gcc
@@ -62,22 +61,22 @@ jobs:
       ##########################################
       # run unit test
       - name: Unit Tests
+        if: always()
         shell: bash
-        continue-on-error: true
         run: |
           ./build/test/unit/unittests
       ##########################################
       # run regression aarch64
       - name: regression test (aarch64)
+        if: always()
         shell: bash
-        continue-on-error: true
         run: |
           ./build/test/regression/aarch64/regression-aarch64
       ##########################################
       # run regression riscv
       - name: regression test (riscv)
+        if: always()
         shell: bash
-        continue-on-error: true
         run: |
           ./build/test/regression/riscv/regression-riscv
       
