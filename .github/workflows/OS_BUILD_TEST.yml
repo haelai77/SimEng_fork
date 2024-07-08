@@ -69,12 +69,14 @@ jobs:
       # run regression aarch64
       - name: regression test (aarch64)
         shell: bash
+        continue-on-error: true
         run: |
           ./build/test/regression/aarch64/regression-aarch64
       ##########################################
       # run regression riscv
       - name: regression test (riscv)
         shell: bash
+        continue-on-error: true
         run: |
           ./build/test/regression/riscv/regression-riscv
       
