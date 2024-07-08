@@ -58,7 +58,7 @@ jobs:
 
       ##########################################
       - name: see directory structure of unit test  
-        run: tree /home/llaeoi/Desktop/SimEng_fork/build/test/unit 
+        run: tree ./build/test/unit 
       ##########################################
       # run unit test
       - name: Unit Tests
