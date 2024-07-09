@@ -26,7 +26,8 @@ runs:
         apt install -y sudo
         apt-get install libssl-dev
         apt-get install ninja-build
-        apt-get install -y software-properties-common
+        # apt-get install -y software-properties-common
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         apt-get install tree
     #######################################
     # check cache for llvm
@@ -49,6 +50,7 @@ runs:
         key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
     #######################################
     # install llvm if cache miss
+
     - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true' }}
       name: install llvm
       shell: bash
@@ -56,6 +58,7 @@ runs:
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
         sudo ./llvm.sh ${{ inputs.LLVM-VERSION }}
+
     #######################################
         # check cache for llvm
     - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
