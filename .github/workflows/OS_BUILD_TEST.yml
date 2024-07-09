@@ -2,7 +2,7 @@ name: test on various OS & Compilers
 
 env:
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-  LLVM-VERSION: llvm-14
+  LLVM-VERSION: 14
 
 on:
   workflow_dispatch:

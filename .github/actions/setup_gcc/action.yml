@@ -36,8 +36,8 @@ runs:
       uses: actions/cache/restore@v3
       with:
         path: |
-          /usr/lib/${{ inputs.LLVM-VERSION }}
-        key: ${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     - if: ${{ inputs.OS == 'ubuntu:20.04' }}
       name: check for llvm cache
@@ -45,8 +45,8 @@ runs:
       uses: actions/cache/restore@v4
       with:
         path: |
-          /usr/lib/${{ inputs.LLVM-VERSION }}
-        key: ${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
     #######################################
     # install llvm if cache miss
     - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true' }}
@@ -64,8 +64,8 @@ runs:
       uses: actions/cache/save@v3
       with:
         path: |
-          /usr/lib/${{ inputs.LLVM-VERSION }}
-        key: ${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
       name: check for llvm cache
@@ -73,8 +73,8 @@ runs:
       uses: actions/cache/save@v4
       with:
         path: |
-          /usr/lib/${{ inputs.LLVM-VERSION }}
-        key: ${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     #######################################
     # check cache for cmake
