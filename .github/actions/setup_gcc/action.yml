@@ -21,8 +21,6 @@ runs:
         
         apt-get update
 
-        apt-get install -y software-properties-common
-        add-apt-repository ppa:ubuntu-toolchain-r/test -y
 
         apt-get install -y sudo
         apt-get install -y wget
@@ -33,6 +31,10 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
+
+        apt-get install -y software-properties-common
+        add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        apt-get install llvm-14
 
         apt-get update
         apt-get upgrade -y
@@ -115,15 +117,15 @@ runs:
     #       /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
     #     key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
     #######################################
-    # install llvm if cache miss
+    # install llvm if cache miss or ubuntu 18
 
-    # - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-    - name: install llvm
-      shell: bash
-      run: |
-        wget https://apt.llvm.org/llvm.sh
-        chmod +x llvm.sh
-        ./llvm.sh ${{ inputs.LLVM-VERSION }}
+    # - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+    #   name: install llvm
+    #   shell: bash
+    #   run: |
+    #     wget https://apt.llvm.org/llvm.sh
+    #     chmod +x llvm.sh
+    #     ./llvm.sh ${{ inputs.LLVM-VERSION }}
 
     #######################################
     # save cache for llvm
