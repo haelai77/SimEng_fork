@@ -32,55 +32,6 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
-    #######################################
-    # check cache for llvm
-    - if: ${{ inputs.OS == 'ubuntu:18.04' }}
-      name: check for llvm cache
-      id: llvm-restore-v3
-      uses: actions/cache/restore@v3
-      with:
-        path: |
-          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
-        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
-
-    - if: ${{ inputs.OS == 'ubuntu:20.04' }}
-      name: check for llvm cache
-      id: llvm-restore-v4
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
-        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
-    #######################################
-    # install llvm if cache miss
-
-    - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-      name: install llvm
-      shell: bash
-      run: |
-        wget https://apt.llvm.org/llvm.sh
-        chmod +x llvm.sh
-        ./llvm.sh ${{ inputs.LLVM-VERSION }}
-
-    #######################################
-        # check cache for llvm
-    - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
-      name: check for llvm cache
-      id: llvm-save-v3
-      uses: actions/cache/save@v3
-      with:
-        path: |
-          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
-        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
-
-    - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
-      name: check for llvm cache
-      id: llvm-save-v4
-      uses: actions/cache/save@v4
-      with:
-        path: |
-          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
-        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     #######################################
     # check cache for cmake
@@ -141,6 +92,56 @@ runs:
           /usr/local/share/cmake-3.29
         key: cmake-${{ matrix.OS }}
     #######################################
+    # check cache for llvm
+    - if: ${{ inputs.OS == 'ubuntu:18.04' }}
+      name: check for llvm cache
+      id: llvm-restore-v3
+      uses: actions/cache/restore@v3
+      with:
+        path: |
+          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+
+    - if: ${{ inputs.OS == 'ubuntu:20.04' }}
+      name: check for llvm cache
+      id: llvm-restore-v4
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+    #######################################
+    # install llvm if cache miss
+
+    - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+      name: install llvm
+      shell: bash
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        ./llvm.sh ${{ inputs.LLVM-VERSION }}
+
+    #######################################
+        # check cache for llvm
+    - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
+      name: check for llvm cache
+      id: llvm-save-v3
+      uses: actions/cache/save@v3
+      with:
+        path: |
+          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+
+    - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
+      name: check for llvm cache
+      id: llvm-save-v4
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+    #######################################
+    
     # check for gcc in cache
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
       name: gcc restore
