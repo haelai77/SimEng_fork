@@ -31,7 +31,7 @@ runs:
     # check cache for llvm
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
       name: check for llvm cache
-      id: ${{ inputs.LLVM-VERSION }}-restore-v3
+      id: llvm-restore-v3
       uses: actions/cache/restore@v3
       with:
         path: |
@@ -40,7 +40,7 @@ runs:
 
     - if: ${{ inputs.OS == 'ubuntu:20.04' }}
       name: check for llvm cache
-      id: ${{ inputs.LLVM-VERSION }}-restore-v4
+      id: llvm-restore-v4
       uses: actions/cache/restore@v4
       with:
         path: |
@@ -59,7 +59,7 @@ runs:
         # check cache for llvm
     - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
       name: check for llvm cache
-      id: ${{ inputs.LLVM-VERSION }}-save-v3
+      id: llvm-save-v3
       uses: actions/cache/save@v3
       with:
         path: |
@@ -68,7 +68,7 @@ runs:
 
     - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
       name: check for llvm cache
-      id: ${{ inputs.LLVM-VERSION }}-save-v4
+      id: llvm-save-v4
       uses: actions/cache/save@v4
       with:
         path: |
