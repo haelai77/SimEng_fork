@@ -21,9 +21,10 @@ runs:
         
         apt-get update
         apt-get install -y sudo
-        
-        apt-get install -y software-properties-common
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+
+        # apt-get install -y software-properties-common
+        # sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        sudo apt-get install llvm-14
 
         apt-get install -y wget
         apt-get install -y libz-dev
