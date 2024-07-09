@@ -1,10 +1,10 @@
 name: setup gcc
 description: installs dependencies and correct gcc version to build and test simeng
 
-env:
-  LLVM-VERSION: 14
 
 inputs:
+  LLVM-VERSION: 
+    required: true
   OS:
     required: true
   gcc-version:
@@ -31,21 +31,21 @@ runs:
     # check cache for llvm
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
       name: check for llvm cache
-      id: ${{ env.LLVM-VERSION }}-restore-v3
+      id: ${{ inputs.LLVM-VERSION }}-restore-v3
       uses: actions/cache/restore@v3
       with:
         path: |
-          /usr/lib/${{ env.LLVM-VERSION }}
-        key: ${{ env.LLVM-VERSION }}-${{ inputs.OS }}
+          /usr/lib/${{ inputs.LLVM-VERSION }}
+        key: ${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     - if: ${{ inputs.OS == 'ubuntu:20.04' }}
       name: check for llvm cache
-      id: ${{ env.LLVM-VERSION }}-restore-v4
+      id: ${{ inputs.LLVM-VERSION }}-restore-v4
       uses: actions/cache/restore@v4
       with:
         path: |
-          /usr/lib/${{ env.LLVM-VERSION }}
-        key: ${{ env.LLVM-VERSION }}-${{ inputs.OS }}
+          /usr/lib/${{ inputs.LLVM-VERSION }}
+        key: ${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
     #######################################
     # install llvm if cache miss
     - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true' }}
@@ -54,26 +54,26 @@ runs:
       run: |
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
-        sudo ./llvm.sh ${{ env.LLVM_VERSION }}
+        sudo ./llvm.sh ${{ inputs.LLVM-VERSION }}
     #######################################
         # check cache for llvm
     - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
       name: check for llvm cache
-      id: ${{ env.LLVM-VERSION }}-save-v3
+      id: ${{ inputs.LLVM-VERSION }}-save-v3
       uses: actions/cache/save@v3
       with:
         path: |
-          /usr/lib/${{ env.LLVM-VERSION }}
-        key: ${{ env.LLVM-VERSION }}-${{ inputs.OS }}
+          /usr/lib/${{ inputs.LLVM-VERSION }}
+        key: ${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
       name: check for llvm cache
-      id: ${{ env.LLVM-VERSION }}-save-v4
+      id: ${{ inputs.LLVM-VERSION }}-save-v4
       uses: actions/cache/save@v4
       with:
         path: |
-          /usr/lib/${{ env.LLVM-VERSION }}
-        key: ${{ env.LLVM-VERSION }}-${{ inputs.OS }}
+          /usr/lib/${{ inputs.LLVM-VERSION }}
+        key: ${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     #######################################
     # check cache for cmake
