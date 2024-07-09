@@ -20,7 +20,6 @@ runs:
         export DEBIAN_FRONTEND=noninteractive
         
         apt-get update
-        apt-get upgrade
 
         apt-get install -y software-properties-common
         add-apt-repository ppa:ubuntu-toolchain-r/test -y
@@ -34,6 +33,7 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
+        apt-get upgrade -y
 
     #######################################
     # check cache for cmake
