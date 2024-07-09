@@ -23,6 +23,7 @@ runs:
         apt-get install -y software-properties-common
         add-apt-repository ppa:ubuntu-toolchain-r/test -y
 
+        apt-get install -y sudo
         apt-get install -y wget
         apt-get install -y libz-dev
         apt-get install -y python3
@@ -53,7 +54,7 @@ runs:
     #######################################
     # install llvm if cache miss
 
-    - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true' }}
+    - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
       name: install llvm
       shell: bash
       run: |
