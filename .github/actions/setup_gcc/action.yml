@@ -24,7 +24,6 @@ runs:
 
         apt-get install -y software-properties-common
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-        sudo apt-get install llvm-14
 
         apt-get install -y wget
         apt-get install -y libz-dev
@@ -116,12 +115,12 @@ runs:
     # install llvm if cache miss
 
     # - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-    # - name: install llvm
-    #   shell: bash
-    #   run: |
-    #     wget https://apt.llvm.org/llvm.sh
-    #     chmod +x llvm.sh
-    #     ./llvm.sh ${{ inputs.LLVM-VERSION }}
+    - name: install llvm
+      shell: bash
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        ./llvm.sh ${{ inputs.LLVM-VERSION }}
 
     #######################################
     # save cache for llvm
