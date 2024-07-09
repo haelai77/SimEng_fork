@@ -49,19 +49,14 @@ jobs:
       ##########################################
       # if gcc job
       - if: contains(${{ matrix.Compiler }}, 'gcc')
-        name:  Install ${{ matrix.Compiler }} + Build SimEng + Run tests
+        name:  Install ${{ matrix.Compiler }} + Build SimEng
         uses: ./.github/actions/setup_gcc
         with:
           OS: ${{ matrix.OS }}
           gcc-version: ${{ matrix.Compiler }}
-
-      ##########################################
-      - name: see directory structure of unit test  
-        run: tree ./build/test/unit 
       ##########################################
       # run unit test
       - name: Unit Tests
-        if: always()
         shell: bash
         run: |
           ./build/test/unit/unittests
@@ -79,4 +74,8 @@ jobs:
         shell: bash
         run: |
           ./build/test/regression/riscv/regression-riscv
+      ##########################################
+      - if: always()
+        name: run benchmarks
+        uses: ./.github/actions/simeng_benchmarks
       

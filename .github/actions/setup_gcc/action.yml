@@ -1,6 +1,9 @@
 name: setup gcc
 description: installs dependencies and correct gcc version to build and test simeng
 
+env:
+  LLVM-VERSION: 14
+
 inputs:
   OS:
     required: true
@@ -24,6 +27,53 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
+    #######################################
+    # check cache for llvm
+    - if: ${{ inputs.OS == 'ubuntu:18.04' }}
+      name: check for llvm cache
+      id: ${{ env.LLVM-VERSION }}-restore-v3
+      uses: actions/cache/restore@v3
+      with:
+        path: |
+          /usr/lib/${{ env.LLVM-VERSION }}
+        key: ${{ env.LLVM-VERSION }}-${{ inputs.OS }}
+
+    - if: ${{ inputs.OS == 'ubuntu:20.04' }}
+      name: check for llvm cache
+      id: ${{ env.LLVM-VERSION }}-restore-v4
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          /usr/lib/${{ env.LLVM-VERSION }}
+        key: ${{ env.LLVM-VERSION }}-${{ inputs.OS }}
+    #######################################
+    # install llvm if cache miss
+    - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && steps.cmake-restore-v4.outputs.cache-hit != 'true' }}
+      name: install llvm
+      shell: bash
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh ${{ env.LLVM_VERSION }}
+    #######################################
+        # check cache for llvm
+    - if: ${{ steps.llvm-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
+      name: check for llvm cache
+      id: ${{ env.LLVM-VERSION }}-save-v3
+      uses: actions/cache/save@v3
+      with:
+        path: |
+          /usr/lib/${{ env.LLVM-VERSION }}
+        key: ${{ env.LLVM-VERSION }}-${{ inputs.OS }}
+
+    - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
+      name: check for llvm cache
+      id: ${{ env.LLVM-VERSION }}-save-v4
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          /usr/lib/${{ env.LLVM-VERSION }}
+        key: ${{ env.LLVM-VERSION }}-${{ inputs.OS }}
 
     #######################################
     # check cache for cmake
@@ -137,7 +187,7 @@ runs:
     - name: Build SimEng
       shell: bash
       run: |
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=/usr/lib/llvm-14 -GNinja
         cmake --build build -j $(nproc)
 
         sudo cmake --build build --target install
