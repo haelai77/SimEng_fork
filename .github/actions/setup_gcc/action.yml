@@ -33,6 +33,8 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
+
+        apt-get update
         apt-get upgrade -y
 
     #######################################
