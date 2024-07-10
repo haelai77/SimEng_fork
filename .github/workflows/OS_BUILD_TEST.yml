@@ -41,20 +41,14 @@ jobs:
     steps:
       ##########################################
       # # # copies repo to container (different action version due to node version dependencies)
-      # - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
-      #   name: checkout v3
-      #   uses: actions/checkout@v3
+      - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
+        name: checkout v3
+        uses: actions/checkout@v3
 
-      # - if: ${{ contains(fromJson('["ubuntu:20.04"]'), matrix.OS) }}
-      #   name: checkout v4
-      #   uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: test checkout v4
+      - if: ${{ contains(fromJson('["ubuntu:20.04"]'), matrix.OS) }}
+        name: checkout v4
         uses: actions/checkout@v4
+
       ##########################################
       # if gcc job
       - if: contains(${{ matrix.Compiler }}, 'gcc')

@@ -146,6 +146,11 @@ runs:
         key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     #######################################
+    - name: test tree
+      run: |
+        tree /usr/lib/llvm-14 -L 2
+
+    #######################################
     # check for gcc in cache
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
       name: gcc restore
