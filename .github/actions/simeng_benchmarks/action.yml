@@ -19,19 +19,23 @@ runs:
       name: clone benchmark repo
       uses: actions/checkout@v3
       with:
-        name: UoB-HPC/simeng-benchmarks
-        ref: ${{ inputs.BENCHMARK_BRANCH }}
+        repository: UoB-HPC/simeng-benchmarks
+        ref: ${{ inputs.BENCHMARK_BRANCH }} # branch
+        path: simeng-benchmarks # Store in $GITHUB_WORKSPACE/simeng-benchmarks
 
     - if: ${{ contains(fromJson('["ubuntu:20.04"]'), inputs.OS) }}
       name: clone benchmark repo
       uses: actions/checkout@v4
       with:
-        name: UoB-HPC/simeng-benchmarks
-        ref: ${{ inputs.BENCHMARK_BRANCH }}
+        repository: UoB-HPC/simeng-benchmarks
+        ref: ${{ inputs.BENCHMARK_BRANCH }} # branch
+        path: simeng-benchmarks # Store in $GITHUB_WORKSPACE/simeng-benchmarks
+
 
     - name: run benchmark
+      shell: bash
       run: |
         cd /simeng-benchmarks/Tools/simulation/validation
-        
+        SIMENG_BENCHMARKS_SRC_DIR=${{ $GITHUB_WORKSPACE }}/simeng-benchmark python3 validate_simulation.py all_a64fx.json /home/llaeoi/Desktop/SimEng_fork/configs/a64fx.yaml
     
 

@@ -57,14 +57,7 @@ jobs:
           LLVM-VERSION: ${{ env.LLVM-VERSION }}
           OS: ${{ matrix.OS }}
           gcc-version: ${{ matrix.Compiler }}
-      ##########################################
-      #note remove later
-      - name: directory structure
-        run: |
-          tree -L 2
-          cd ..
-          echo "############################################"
-          tree -L 2
+
       ##########################################
       # run unit test
       - name: Unit Tests
@@ -91,4 +84,12 @@ jobs:
         uses: ./.github/actions/simeng_benchmarks
         with:
           BENCHMARK_BRANCH: ${{ env.BENCHMARK_BRANCH }}
-      
+            ##########################################
+      #note remove later
+      - if: always()
+        name: directory structure
+        run: |
+          tree -L 2
+          cd ..
+          echo "############################################"
+          tree -L 2
