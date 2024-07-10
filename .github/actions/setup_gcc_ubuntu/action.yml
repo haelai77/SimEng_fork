@@ -15,7 +15,7 @@ runs:
   using: 'composite'
   steps:
     #######################################
-    # install dependencies requried
+    # install dependencies required (cmake, etc)
     #######################################
     - name: install dependencies
       uses: ./.github/actions/setup_deps
@@ -24,6 +24,8 @@ runs:
 
     - name: install cmake or restore from cache
       uses: ./.github/actions/setup_cmake
+      with:
+        OS: ${{ inputs.OS }}
       
     #######################################
     # check cache for llvm version

@@ -1,6 +1,10 @@
 name: setup cmake
 description: installs and caches cmake
 
+inputs:
+  OS:
+    required: true
+
 runs:
   using: 'composite'
   steps:
