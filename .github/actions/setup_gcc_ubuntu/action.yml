@@ -147,6 +147,7 @@ runs:
 
     #######################################
     - name: test tree
+      shell: bash
       run: |
         tree /usr/lib/llvm-14 -L 2
 
