@@ -28,5 +28,10 @@ runs:
       with:
         name: UoB-HPC/simeng-benchmarks
         ref: ${{ inputs.BENCHMARK_BRANCH }}
+
+    - name: run benchmark
+      run: |
+        cd /simeng-benchmarks/Tools/simulation/validation
+        
     
 
