@@ -1,0 +1,14 @@
+name: setup armclang
+description: installs dependencies and correct armclang version to build and test simeng
+
+inputs:
+  OS:
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: install dependencies
+      uses: ./.github/actions/setup_deps
+
+    

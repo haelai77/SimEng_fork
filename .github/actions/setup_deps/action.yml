@@ -1,0 +1,37 @@
+name: sets up dependencies for simeng 
+
+inputs:
+  LLVM-VERSION: 
+    required: true
+  OS:
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    #######################################
+    # install dependencies I think are required to build simeng
+    #######################################
+    - if: contains(${{ inputs.OS }}, 'ubuntu')
+      name: install dependencies
+      shell: bash
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+        
+        apt-get update
+
+        apt-get install -y sudo
+        apt-get install -y wget
+        apt-get install -y libz-dev
+        apt-get install -y python3
+        apt install -y build-essential
+        apt install -y git
+        apt-get install libssl-dev
+        apt-get install ninja-build
+        apt-get install tree
+
+        apt-get install -y software-properties-common
+        add-apt-repository ppa:ubuntu-toolchain-r/test -y
+
+        apt-get update
+        apt-get upgrade -y
