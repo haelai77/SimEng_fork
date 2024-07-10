@@ -3,6 +3,7 @@ name: test on various OS & Compilers
 env:
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   LLVM-VERSION: 14
+  BENCHMARK_BRANCH: 'make-file-build-system' # the branch inside the benchmark repo that has the script to run all benchmarks
 
 on:
   workflow_dispatch:
@@ -51,11 +52,19 @@ jobs:
       # if gcc job
       - if: contains(${{ matrix.Compiler }}, 'gcc')
         name:  Install ${{ matrix.Compiler }} + Build SimEng
-        uses: ./.github/actions/setup_gcc
+        uses: ./.github/actions/setup_gcc_ubuntu
         with:
           LLVM-VERSION: ${{ env.LLVM-VERSION }}
           OS: ${{ matrix.OS }}
           gcc-version: ${{ matrix.Compiler }}
+      ##########################################
+      #note remove later
+      - name: directory structure
+        run: |
+          tree -L 2
+          cd ..
+          echo "############################################"
+          tree -L 2
       ##########################################
       # run unit test
       - name: Unit Tests
@@ -80,4 +89,6 @@ jobs:
       - if: always()
         name: run benchmarks
         uses: ./.github/actions/simeng_benchmarks
+        with:
+          BENCHMARK_BRANCH: ${{ env.BENCHMARK_BRANCH }}
       
