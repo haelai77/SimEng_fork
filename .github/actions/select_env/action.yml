@@ -1,0 +1,32 @@
+name: setup armclang
+description: installs dependencies and correct armclang version to build and test simeng
+
+inputs:
+  OS:
+    required: true
+  LLVM-VERSION:
+    required: true
+  COMPILER: 
+    required: true
+
+runs:
+  using: 'composite'
+    ##########################################
+    # if gcc job
+    - if: ${{ contains(${{ inputs.Compiler }}, 'gcc') && contains(${{ inputs.OC }}, 'ubuntu') }}
+      name:  Install ${{ inputs.Compiler }} + Build SimEng
+      uses: ./.github/actions/setup_gcc_ubuntu
+      with:
+        LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
+        OS: ${{ inputs.OS }}
+        gcc-version: ${{ inputs.Compiler }}
+    ##########################################
+    # if armclang job
+    - if: ${{ contains(${{ inputs.Compiler }}, 'armclang') && contains(${{ inputs.OC }}, 'ubuntu') }}
+      name:  Install ${{ inputs.Compiler }} + Build SimEng
+      uses: ./.github/actions/setup_armclang_ubuntu
+      with:
+        LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
+        OS: ${{ inputs.OS }}
+    ##########################################
+    
