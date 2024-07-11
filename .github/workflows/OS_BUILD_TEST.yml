@@ -16,20 +16,20 @@ jobs:
       fail-fast: false
       matrix:
         OS: ['ubuntu:20.04']
-        Compiler: ['gcc-7.3.0', 'gcc-8.3.0', 'gcc-9.3.0', 'gcc-10.3.0', 'armclang-22.0.2']
+        COMPILER: ['gcc-7.3.0', 'gcc-8.3.0', 'gcc-9.3.0', 'gcc-10.3.0', 'armclang-22.0.2']
 
         # ensures that older gcc runs on older ubunutu due to dependencies
         exclude:
           - OS: 'ubuntu:20.04'
-            Compiler: 'gcc-7.3.0'
+            COMPILER: 'gcc-7.3.0'
           - OS: 'ubuntu:20.04'
-            Compiler: 'gcc-8.3.0'
+            COMPILER: 'gcc-8.3.0'
 
         include:      
           - OS: 'ubuntu:18.04'
-            Compiler: 'gcc-7.3.0'
+            COMPILER: 'gcc-7.3.0'
           - OS: 'ubuntu:18.04'
-            Compiler: 'gcc-8.3.0'
+            COMPILER: 'gcc-8.3.0'
       
     runs-on: ubuntu-latest
 
@@ -50,23 +50,30 @@ jobs:
         uses: actions/checkout@v4
 
       ##########################################
-      # if gcc job
-      - if: contains(${{ matrix.Compiler }}, 'gcc')
-        name:  Install ${{ matrix.Compiler }} + Build SimEng
-        uses: ./.github/actions/setup_gcc_ubuntu
-        with:
+      # # if gcc job
+      # - if: contains(${{ matrix.COMPILER }}, 'gcc')
+      #   name:  Install ${{ matrix.COMPILER }} + Build SimEng
+      #   uses: ./.github/actions/setup_gcc_ubuntu
+      #   with:
+      #     LLVM-VERSION: ${{ env.LLVM-VERSION }}
+      #     OS: ${{ matrix.OS }}
+      #     gcc-version: ${{ matrix.COMPILER }}
+      # ##########################################
+      # # if armclang job
+      # - if: contains(${{ matrix.COMPILER }}, 'armclang')
+      #   name:  Install ${{ matrix.COMPILER }} + Build SimEng
+      #   uses: ./.github/actions/setup_armclang_ubuntu
+      #   with:
+      #     LLVM-VERSION: ${{ env.LLVM-VERSION }}
+      #     OS: ${{ matrix.OS }}
+      #     gcc-version: ${{ matrix.COMPILER }}
+
+      - name: setup compiler and OS + build simeng
+        uses: ./.github/actions/select_env
+        with: 
           LLVM-VERSION: ${{ env.LLVM-VERSION }}
           OS: ${{ matrix.OS }}
-          gcc-version: ${{ matrix.Compiler }}
-      ##########################################
-      # if armclang job
-      - if: contains(${{ matrix.Compiler }}, 'armclang')
-        name:  Install ${{ matrix.Compiler }} + Build SimEng
-        uses: ./.github/actions/setup_armclang_ubuntu
-        with:
-          LLVM-VERSION: ${{ env.LLVM-VERSION }}
-          OS: ${{ matrix.OS }}
-          gcc-version: ${{ matrix.Compiler }}
+          COMPILER: ${{ matrix.COMPILER }}
 
       ##########################################
       # run unit test
