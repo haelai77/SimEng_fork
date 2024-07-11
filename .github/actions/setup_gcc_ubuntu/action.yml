@@ -91,7 +91,7 @@ runs:
       shell: bash
       run: |
         wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
-        tar -xvf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+        tar -xf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
 
         cd ${{ inputs.gcc-version }}
 

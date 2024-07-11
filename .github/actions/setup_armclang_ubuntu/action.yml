@@ -11,4 +11,36 @@ runs:
     - name: install dependencies
       uses: ./.github/actions/setup_deps
 
-    
+    - name: install cmake or restore from cache
+      uses: ./.github/actions/setup_cmake
+      with:
+        OS: ${{ inputs.OS }}
+
+    - name: install llvm
+      shell: bash
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        ./llvm.sh ${{ inputs.LLVM-VERSION }}
+      
+    #######################################
+    - name: armclang restore
+      uses: actions/cache/restore@v4
+      id: armclang-restore-v4
+      with: 
+        path: /usr/local/${{ inputs.gcc-version }}
+        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+    #######################################
+    - if: ${{ steps.armclang-restore-v4.outputs.cache-hit != 'true' }}
+      name: Install armclang
+      shell: bash
+      run: |
+        wget https://developer.arm.com/-/cdn-downloads/permalink/Arm-Compiler-for-Linux/Source_Code/gcc-11-sources.tar.xz > /dev/null 2>&1
+        tar -xf gcc-11-sources.tar.xz.tar.gz > /dev/null 2>&1
+        cd gcc-11-sources
+        tree -L 2
+        ./contrib/download_prerequisites > /dev/null
+        ./configure --enable-languages=c,c++ -disable-multilib --with-system-zlib --prefix=/usr/local/gcc-11
+        
+        make -j$(nproc)
+        make install
