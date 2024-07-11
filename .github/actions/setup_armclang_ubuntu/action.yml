@@ -30,8 +30,8 @@ runs:
       uses: actions/cache/restore@v4
       id: armclang-restore-v4
       with: 
-        path: /usr/local/${{ inputs.armclang }}
-        key: ${{ inputs.armclang }}-${{ inputs.OS }}
+        path: /usr/local/armclang
+        key: armclang-${{ inputs.OS }}
     #######################################
     - if: ${{ steps.armclang-restore-v4.outputs.cache-hit != 'true' }}
       name: Install armclang
@@ -51,5 +51,5 @@ runs:
       uses: actions/cache/save@v4
       id: armclang-save-v4
       with: 
-        path: /usr/local/${{ inputs.armclang }}
-        key: ${{ inputs.armclang }}-${{ inputs.OS }}
+        path: /usr/local/armclang
+        key: armclang-${{ inputs.OS }}

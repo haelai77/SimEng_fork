@@ -40,7 +40,7 @@ runs:
     - name: run benchmark
       shell: bash
       run: |
-        cd /simeng-benchmarks/Tools/simulation/validation
+        cd ../simeng-benchmarks/Tools/simulation/validation
         SIMENG_BENCHMARKS_SRC_DIR=../simeng-benchmark python3 validate_simulation.py all_a64fx.json /home/llaeoi/Desktop/SimEng_fork/configs/a64fx.yaml
     
 

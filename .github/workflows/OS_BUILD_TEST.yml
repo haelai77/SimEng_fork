@@ -50,25 +50,8 @@ jobs:
         uses: actions/checkout@v4
 
       ##########################################
-      # # if gcc job
-      # - if: contains(${{ matrix.COMPILER }}, 'gcc')
-      #   name:  Install ${{ matrix.COMPILER }} + Build SimEng
-      #   uses: ./.github/actions/setup_gcc_ubuntu
-      #   with:
-      #     LLVM-VERSION: ${{ env.LLVM-VERSION }}
-      #     OS: ${{ matrix.OS }}
-      #     gcc-version: ${{ matrix.COMPILER }}
-      # ##########################################
-      # # if armclang job
-      # - if: contains(${{ matrix.COMPILER }}, 'armclang')
-      #   name:  Install ${{ matrix.COMPILER }} + Build SimEng
-      #   uses: ./.github/actions/setup_armclang_ubuntu
-      #   with:
-      #     LLVM-VERSION: ${{ env.LLVM-VERSION }}
-      #     OS: ${{ matrix.OS }}
-      #     gcc-version: ${{ matrix.COMPILER }}
 
-      - name: setup compiler and OS + build simeng
+      - name: setup compiler and OS env + build simeng
         uses: ./.github/actions/select_env
         with: 
           LLVM-VERSION: ${{ env.LLVM-VERSION }}

@@ -1,8 +1,6 @@
 name: sets up dependencies for simeng 
 
 inputs:
-  LLVM-VERSION: 
-    required: true
   OS:
     required: true
 
