@@ -42,7 +42,7 @@ runs:
         cd gcc-11-sources
         tree -L 2
         ./contrib/download_prerequisites > /dev/null
-        ./configure --enable-languages=c,c++ -disable-multilib --with-system-zlib --prefix=/usr/local/armclang
+        ./configure --enable-languages=c,c++ -disable-multilib --prefix=/usr/local/armclang
         
         make -j$(nproc)
         make install
