@@ -30,36 +30,36 @@ runs:
     #######################################
     # check cache for llvm version
     #######################################
-    - if: ${{ inputs.OS == 'ubuntu:20.04' }}
-      name: check for llvm cache
-      id: llvm-restore-v4
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          /usr/lib/x86_64-linux-gnu/libLLVM-14.so.1
-          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
-        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+    # - if: ${{ inputs.OS == 'ubuntu:20.04' }}
+    #   name: check for llvm cache
+    #   id: llvm-restore-v4
+    #   uses: actions/cache/restore@v4
+    #   with:
+    #     path: |
+    #       /usr/lib/x86_64-linux-gnu/libLLVM-14.so.1
+    #       /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+    #     key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
     #######################################
     # install llvm if cache miss or ubuntu 18
     #######################################
 
-    - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-      name: install llvm
+    # - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+    - name: install llvm
       shell: bash
       run: |
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
         ./llvm.sh ${{ inputs.LLVM-VERSION }}
     #######################################
-    - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
-      name: check for llvm cache
-      id: llvm-save-v4
-      uses: actions/cache/save@v4
-      with:
-        path: |
-          /usr/lib/x86_64-linux-gnu/libLLVM-14.so.1
-          /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
-        key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
+    # - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
+    #   name: check for llvm cache
+    #   id: llvm-save-v4
+    #   uses: actions/cache/save@v4
+    #   with:
+    #     path: |
+    #       /usr/lib/x86_64-linux-gnu/libLLVM-14.so.1
+    #       /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
+    #     key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
     #######################################
     - name: test tree
