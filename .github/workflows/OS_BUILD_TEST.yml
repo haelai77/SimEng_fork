@@ -94,6 +94,7 @@ jobs:
         uses: ./.github/actions/simeng_benchmarks
         with:
           BENCHMARK_BRANCH: ${{ env.BENCHMARK_BRANCH }}
+          OS: ${{ matrix.OS }}
             ##########################################
       #note remove later
       - if: always()
