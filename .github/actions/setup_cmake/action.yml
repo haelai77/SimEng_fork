@@ -32,7 +32,7 @@ runs:
         path: |
           /usr/local/bin/cmake
           /usr/local/bin/ctest
-          /usr/local/share/cmake-3.29
+          /usr/local/share/cmake-3.25
         key: cmake-${{ matrix.OS }}
     #######################################
     # install cmake if cache miss
@@ -40,9 +40,11 @@ runs:
       name: install cmake
       shell: bash
       run: |
-        wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
-        tar zxvf cmake-3.29.5.tar.gz
-        cd cmake-3.29.5
+        # wget https://github.com/Kitware/CMake/releases/download/v3.29.5/cmake-3.29.5.tar.gz
+
+        wget https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2.tar.gz
+        tar zxvf cmake-3.25.2.tar.gz
+        cd cmake-3.25.2
         ./bootstrap
         make
         make install
@@ -67,6 +69,6 @@ runs:
         path: |
           /usr/local/bin/cmake
           /usr/local/bin/ctest
-          /usr/local/share/cmake-3.29
+          /usr/local/share/cmake-3.25
         key: cmake-${{ matrix.OS }}
     #######################################
