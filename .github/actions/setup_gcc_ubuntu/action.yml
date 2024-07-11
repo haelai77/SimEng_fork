@@ -90,7 +90,7 @@ runs:
         cd ${{ inputs.gcc-version }}
 
         ./contrib/download_prerequisites > /dev/null
-        ./configure --enable-languages=c,c++ -disable-multilib --with-system-zlib --prefix=/usr/local/${{ inputs.gcc-version }}
+        ./configure --enable-languages=c,c++ -disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
 
         make -j$(nproc)
         make install
