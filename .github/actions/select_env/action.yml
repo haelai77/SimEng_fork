@@ -11,6 +11,7 @@ inputs:
 
 runs:
   using: 'composite'
+  steps:
     ##########################################
     # if gcc job
     - if: ${{ contains( inputs.COMPILER, 'gcc') && contains( inputs.OS, 'ubuntu') }}
