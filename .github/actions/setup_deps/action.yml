@@ -28,8 +28,8 @@ runs:
         apt-get install ninja-build
         apt-get install tree
 
-        apt-get install -y software-properties-common
-        add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        apt-get install -y software-properties-common 
+        # add-apt-repository ppa:ubuntu-toolchain-r/test -y
 
         apt-get update
         apt-get upgrade -y
