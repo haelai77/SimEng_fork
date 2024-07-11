@@ -30,8 +30,8 @@ runs:
       uses: actions/cache/restore@v4
       id: armclang-restore-v4
       with: 
-        path: /usr/local/${{ inputs.gcc-version }}
-        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+        path: /usr/local/${{ inputs.armclang }}
+        key: ${{ inputs.armclang }}-${{ inputs.OS }}
     #######################################
     - if: ${{ steps.armclang-restore-v4.outputs.cache-hit != 'true' }}
       name: Install armclang
@@ -42,7 +42,14 @@ runs:
         cd gcc-11-sources
         tree -L 2
         ./contrib/download_prerequisites > /dev/null
-        ./configure --enable-languages=c,c++ -disable-multilib --with-system-zlib --prefix=/usr/local/gcc-11
+        ./configure --enable-languages=c,c++ -disable-multilib --with-system-zlib --prefix=/usr/local/armclang
         
         make -j$(nproc)
         make install
+    #######################################
+    - name: armclang save
+      uses: actions/cache/save@v4
+      id: armclang-save-v4
+      with: 
+        path: /usr/local/${{ inputs.armclang }}
+        key: ${{ inputs.armclang }}-${{ inputs.OS }}
