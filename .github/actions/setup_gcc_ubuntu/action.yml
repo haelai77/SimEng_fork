@@ -72,12 +72,7 @@ runs:
     #       cmake llvm-14.0.5.src
     #       cmake --build .
     #       cmake --build . --target install
-    #######################################
-    - name: Install LLVM and Clang
-      uses: KyleMayes/install-llvm-action@v2
-      with:
-        version: "14.0.5"
-        directory: /usr/lib/llvm-14
+
     #######################################
     # check for gcc in cache
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
