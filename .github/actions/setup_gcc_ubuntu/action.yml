@@ -74,6 +74,19 @@ runs:
     #       cmake --build . --target install
 
     #######################################
+    - name: install llvm
+      shell: bash
+      run: |
+        wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+
+        if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
+          add-apt-repository 'deb http://apt.llvm.org/focal/   llvm-toolchain-focal-14  main'
+        else
+          add-apt-repository 'deb http://apt.llvm.org/bionic/   llvm-toolchain-bionic-14  main'
+        
+        apt update
+        apt install llvm-14.0.5
+    #######################################
     # check for gcc in cache
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
       name: gcc restore
@@ -128,9 +141,9 @@ runs:
       shell: bash
       run: |
         # if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=/usr/lib/llvm-14 -GNinja
+        # cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=/usr/lib/llvm-14 -GNinja
         # else
-        #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -GNinja
         # fi
 
         cmake --build build -j $(nproc)
