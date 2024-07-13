@@ -43,14 +43,14 @@ runs:
     # install llvm if cache miss or ubuntu 18
     #######################################
 
-    - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-      name: install llvm
-      shell: bash
-      run: |
-        wget https://apt.llvm.org/llvm.sh
-        chmod +x llvm.sh
-        ./llvm.sh ${{ inputs.LLVM-VERSION }}
-    #######################################
+    # - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+    #   name: install llvm
+    #   shell: bash
+    #   run: |
+    #     wget https://apt.llvm.org/llvm.sh
+    #     chmod +x llvm.sh
+    #     ./llvm.sh ${{ inputs.LLVM-VERSION }}
+    # #######################################
     # - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
     #   name: check for llvm cache
     #   id: llvm-save-v4
@@ -61,6 +61,23 @@ runs:
     #       /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
     #     key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
 
+    #######################################
+    # - name: install llvm
+    #   shell: bash
+    #     run: |
+    #       mkdir llvm-build
+    #       cd llvm-build
+    #       wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz
+    #       tar -xf llvm-14.0.5.src.tar.xz
+    #       cmake llvm-14.0.5.src
+    #       cmake --build .
+    #       cmake --build . --target install
+    #######################################
+    - name: Install LLVM and Clang
+      uses: KyleMayes/install-llvm-action@v2
+      with:
+        version: "14.0.5"
+        directory: /usr/lib/llvm-14
     #######################################
     # check for gcc in cache
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
@@ -115,11 +132,11 @@ runs:
     - name: Build SimEng
       shell: bash
       run: |
-        if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-          cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=/usr/lib/llvm-14 -GNinja
-        else
-          cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
-        fi
+        # if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=/usr/lib/llvm-14 -GNinja
+        # else
+        #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
+        # fi
 
         cmake --build build -j $(nproc)
 
