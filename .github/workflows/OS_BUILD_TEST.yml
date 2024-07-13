@@ -59,6 +59,13 @@ jobs:
           COMPILER: ${{ matrix.COMPILER }}
 
       ##########################################
+      - name: INFO
+        shell: bash
+        run: |
+          lsb_release -a
+          echo "_______________________________________"
+          cmake --version
+      ##########################################
       # run unit test
       - name: Unit Tests
         shell: bash
