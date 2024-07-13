@@ -64,28 +64,28 @@ runs:
     #######################################
     # - name: install llvm
     #   shell: bash
-    #     run: |
-    #       mkdir llvm-build
-    #       cd llvm-build
-    #       wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz
-    #       tar -xf llvm-14.0.5.src.tar.xz
-    #       cmake llvm-14.0.5.src
-    #       cmake --build .
-    #       cmake --build . --target install
-
+    #   run: |
+    #     mkdir llvm-build
+    #     cd llvm-build
+    #     wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz
+    #     tar -xf llvm-14.0.5.src.tar.xz
+    #     cmake llvm-14.0.5.src
+    #     cmake --build .
+    #     cmake --build . --target install
+    #     tree /usr/lib -L 2
     #######################################
-    - name: install llvm
-      shell: bash
-      run: |
-        wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+    # - name: install llvm
+    #   shell: bash
+    #   run: |
+    #     wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 
-        if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-          add-apt-repository 'deb http://apt.llvm.org/focal/   llvm-toolchain-focal-14  main'
-        else
-          add-apt-repository 'deb http://apt.llvm.org/bionic/   llvm-toolchain-bionic-14  main'
-        fi
-        apt update
-        apt install llvm-14.0.5
+    #     if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
+    #       add-apt-repository 'deb http://apt.llvm.org/focal/   llvm-toolchain-focal-14  main'
+    #     else
+    #       add-apt-repository 'deb http://apt.llvm.org/bionic/   llvm-toolchain-bionic-14  main'
+    #     fi
+    #     apt update
+    #     apt install llvm-14.0.5
     #######################################
     # check for gcc in cache
     - if: ${{ inputs.OS == 'ubuntu:18.04' }}
@@ -141,9 +141,9 @@ runs:
       shell: bash
       run: |
         # if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-        # cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=/usr/lib/llvm-14 -GNinja
+        # cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-build -GNinja
         # else
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -GNinja
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
         # fi
 
         cmake --build build -j $(nproc)
