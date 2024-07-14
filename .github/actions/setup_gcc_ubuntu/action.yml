@@ -17,15 +17,16 @@ runs:
     #######################################
     # install dependencies required (cmake, etc)
     #######################################
+    - name: install cmake or restore from cache
+      uses: ./.github/actions/setup_cmake
+      with:
+        OS: ${{ inputs.OS }}
+        
     - name: install dependencies
       uses: ./.github/actions/setup_deps
       with:
         OS: ${{ inputs.OS }}
 
-    - name: install cmake or restore from cache
-      uses: ./.github/actions/setup_cmake
-      with:
-        OS: ${{ inputs.OS }}
       
     #######################################
     # check cache for llvm version
