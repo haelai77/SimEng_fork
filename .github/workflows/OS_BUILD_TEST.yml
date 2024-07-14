@@ -16,18 +16,18 @@ jobs:
       fail-fast: false
       matrix:
         OS: ['ubuntu:20.04']
-        COMPILER: ['gcc-7.3.0', 'gcc-8.3.0', 'gcc-9.3.0', 'gcc-10.3.0'] #, 'armclang-22.0.2']
+        COMPILER: ['gcc-7.4.0', 'gcc-8.4.0', 'gcc-9.4.0', 'gcc-10.4.0'] #, 'armclang-22.0.2']
 
         # ensures that older gcc runs on older ubunutu due to dependencies
         exclude:
           - OS: 'ubuntu:20.04'
-            COMPILER: 'gcc-7.3.0'
+            COMPILER: 'gcc-7.4.0'
           - OS: 'ubuntu:20.04'
-            COMPILER: 'gcc-8.3.0'
+            COMPILER: 'gcc-8.4.0'
 
         include:      
           - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-7.3.0'
+            COMPILER: 'gcc-7.4.0'
           - OS: 'ubuntu:18.04'
             COMPILER: 'gcc-8.3.0'
       
@@ -86,12 +86,12 @@ jobs:
         run: |
           ./build/test/regression/riscv/regression-riscv
       ##########################################
-      - if: always()
-        name: run benchmarks
-        uses: ./.github/actions/simeng_benchmarks
-        with:
-          BENCHMARK_BRANCH: ${{ env.BENCHMARK_BRANCH }}
-          OS: ${{ matrix.OS }}
+      # - if: always()
+      #   name: run benchmarks
+      #   uses: ./.github/actions/simeng_benchmarks
+      #   with:
+      #     BENCHMARK_BRANCH: ${{ env.BENCHMARK_BRANCH }}
+      #     OS: ${{ matrix.OS }}
             ##########################################
       #note remove later
       - if: always()

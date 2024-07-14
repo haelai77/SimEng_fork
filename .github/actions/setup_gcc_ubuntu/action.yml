@@ -43,13 +43,13 @@ runs:
     # install llvm if cache miss or ubuntu 18
     #######################################
 
-    # - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-    #   name: install llvm
-    #   shell: bash
-    #   run: |
-    #     wget https://apt.llvm.org/llvm.sh
-    #     chmod +x llvm.sh
-    #     ./llvm.sh ${{ inputs.LLVM-VERSION }}
+    - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+      name: install llvm
+      shell: bash
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        ./llvm.sh ${{ inputs.LLVM-VERSION }}
     # #######################################
     # - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
     #   name: check for llvm cache
