@@ -49,9 +49,8 @@ runs:
       shell: bash
       run: |
         if [ ${{ inputs.OS == 'ubuntu:18.04'}} ]; then
-          apt-add-repository 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-14 main'
           add-apt-repository ppa:ubuntu-toolchain-r/test
-          # apt-add-repository deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-14 main
+          apt update && apt upgrade
         fi
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
