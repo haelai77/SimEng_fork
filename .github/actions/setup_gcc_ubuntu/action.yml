@@ -22,10 +22,10 @@ runs:
       with:
         OS: ${{ inputs.OS }}
 
-    # - name: install cmake or restore from cache
-    #   uses: ./.github/actions/setup_cmake
-    #   with:
-    #     OS: ${{ inputs.OS }}
+    - name: install cmake or restore from cache
+      uses: ./.github/actions/setup_cmake
+      with:
+        OS: ${{ inputs.OS }}
       
     #######################################
     # check cache for llvm version
@@ -43,8 +43,8 @@ runs:
     # install llvm if cache miss or ubuntu 18
     #######################################
 
-    - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-      name: install llvm
+    # - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+    - name: install llvm
       shell: bash
       run: |
         wget https://apt.llvm.org/llvm.sh
@@ -141,9 +141,9 @@ runs:
       shell: bash
       run: |
         # if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-        # cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-build -GNinja
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-build -GNinja
         # else
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
+        #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
         # fi
 
         cmake --build build -j $(nproc)
