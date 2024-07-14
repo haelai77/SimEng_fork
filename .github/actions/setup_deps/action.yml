@@ -28,6 +28,7 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
+        apt-get install cmake
 
         apt-get install -y software-properties-common
 
