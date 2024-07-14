@@ -21,7 +21,7 @@ runs:
       uses: ./.github/actions/setup_cmake
       with:
         OS: ${{ inputs.OS }}
-        
+
     - name: install dependencies
       uses: ./.github/actions/setup_deps
       with:
@@ -48,6 +48,11 @@ runs:
     - name: install llvm
       shell: bash
       run: |
+        if [ ${{ inputs.OS == 'ubuntu:18.04'}} ]; then
+          apt-add-repository deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-14 main
+          add-apt-repository ppa:ubuntu-toolchain-r/test
+          # apt-add-repository deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-14 main
+        fi
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
         ./llvm.sh ${{ inputs.LLVM-VERSION }}
