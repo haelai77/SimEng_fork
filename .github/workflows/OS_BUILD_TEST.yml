@@ -29,7 +29,7 @@ jobs:
           - OS: 'ubuntu:18.04'
             COMPILER: 'gcc-7.4.0'
           - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-8.3.0'
+            COMPILER: 'gcc-8.4.0'
       
     runs-on: ubuntu-latest
 
