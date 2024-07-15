@@ -16,20 +16,20 @@ jobs:
       fail-fast: false
       matrix:
         OS: ['ubuntu:20.04']
-        COMPILER: ['gcc-7.4.0', 'gcc-8.4.0', 'gcc-9.4.0', 'gcc-10.4.0'] #, 'armclang-22.0.2']
+        COMPILER: ['gcc-7.3.0', 'gcc-8.3.0', 'gcc-9.3.0', 'gcc-10.3.0'] #, 'armclang-22.0.2']
 
         # ensures that older gcc runs on older ubunutu due to dependencies
         exclude:
           - OS: 'ubuntu:20.04'
-            COMPILER: 'gcc-7.4.0'
+            COMPILER: 'gcc-7.3.0'
           - OS: 'ubuntu:20.04'
-            COMPILER: 'gcc-8.4.0'
+            COMPILER: 'gcc-8.3.0'
 
         include:      
           - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-7.4.0'
+            COMPILER: 'gcc-7.3.0'
           - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-8.4.0'
+            COMPILER: 'gcc-8.3.0'
       
     runs-on: ubuntu-latest
 
