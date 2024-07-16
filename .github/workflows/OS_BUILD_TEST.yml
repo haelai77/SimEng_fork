@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:20.04']
+        OS: ['ubuntu:20.04'] #'registry.access.redhat.com/ubi8/ubi:latest'
         COMPILER: ['gcc-7.3.0', 'gcc-8.3.0', 'gcc-9.3.0', 'gcc-10.3.0'] #, 'armclang-22.0.2']
 
         # ensures that older gcc runs on older ubunutu due to dependencies

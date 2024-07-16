@@ -34,3 +34,10 @@ runs:
 
         apt-get update
         apt-get upgrade -y
+
+    - if: contains(${{ inputs.OS }}, 'redhat')
+      name: install dependencies
+      shell: bash
+      run: |
+
+    
