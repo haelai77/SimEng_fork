@@ -73,12 +73,12 @@ runs:
       shell: bash
       run: |
         dnf -y update && \
-        dnf -y install \
+        dnf install -y epel-release \
         gcc gcc-c++ make \
         cmake \
         git \
         # ninja-build \ doesn't install
-        python38 \
+        python3 \
         wget \
         openssl-devel \
         automake \
@@ -88,7 +88,6 @@ runs:
         file \
         # diffutils \ # already installed
         zlib-devel && \
-        dnf install -y epel-release && \
         dnf update -y && \
         dnf upgrade -y && \
         dnf clean all
