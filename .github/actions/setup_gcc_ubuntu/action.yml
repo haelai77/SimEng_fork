@@ -132,7 +132,7 @@ runs:
       shell: bash
       run: |
         apt-get install ${{ inputs.gcc-version }}
-        apt-get install g++-${{ (inputs.gcc-version)##*- }}
+        apt-get install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
     #######################################
     - name: Build SimEng
       shell: bash
