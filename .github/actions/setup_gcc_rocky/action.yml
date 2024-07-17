@@ -1,0 +1,42 @@
+name: setup gcc
+description: installs dependencies and correct gcc version to build and test simeng
+
+inputs:
+  LLVM-VERSION: 
+    required: true
+  OS:
+    required: true
+  gcc-version:
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    #######################################
+    # install dependencies required (cmake, etc)
+    #######################################
+
+    - name: install dependencies
+      uses: ./.github/actions/setup_deps
+      with:
+        OS: ${{ inputs.OS }}
+
+    - name: install cmake 
+      run: |
+        dnf install cmake
+
+    - name: install gcc
+      shell: bash
+      run: |
+        dnf -y install ${{ inputs.gcc-version }}
+        dnf -y install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
+        apt update && apt upgrade -y
+    #######################################
+    - name: Build SimEng
+      shell: bash
+      run: |
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++ -GNinja
+
+        cmake --build build -j $(nproc)
+
+        sudo cmake --build build --target install
