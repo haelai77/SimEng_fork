@@ -17,10 +17,10 @@ runs:
       run: |
         export DEBIAN_FRONTEND=noninteractive
 
-      # Update package lists
+        # Update package lists
         apt-get update
 
-      # Install essential packages
+        # Install essential packages
         apt-get install -y \
             software-properties-common \
             sudo \
@@ -33,14 +33,14 @@ runs:
             tree \
             git
 
-      # Add additional repositories
+        # Add additional repositories
         add-apt-repository universe
         add-apt-repository ppa:ubuntu-toolchain-r/test
 
-      # Update package lists again after adding repositories
+        # Update package lists again after adding repositories
         apt-get update
 
-      # Upgrade all installed packages
+        # Upgrade all installed packages
         apt-get upgrade -y
 
     - if: ${{ contains(inputs.OS, 'redhat') }}
