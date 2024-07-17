@@ -27,16 +27,16 @@ runs:
         OS: ${{ inputs.OS }}
 
     # - if: ${{ inputs.gcc-version == 'gcc-9' }} # && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-    - name: install llvm
-      shell: bash
-      run: |
-        # if [ ${{ inputs.OS == 'ubuntu:18.04'}} ]; then
-        #   add-apt-repository ppa:ubuntu-toolchain-r/test
-        #   apt update && apt upgrade -y
-        # fi
-        wget https://apt.llvm.org/llvm.sh
-        chmod +x llvm.sh
-        ./llvm.sh ${{ inputs.LLVM-VERSION }}
+    # - name: install llvm
+    #   shell: bash
+    #   run: |
+    #     # if [ ${{ inputs.OS == 'ubuntu:18.04'}} ]; then
+    #     #   add-apt-repository ppa:ubuntu-toolchain-r/test
+    #     #   apt update && apt upgrade -y
+    #     # fi
+    #     wget https://apt.llvm.org/llvm.sh
+    #     chmod +x llvm.sh
+    #     ./llvm.sh ${{ inputs.LLVM-VERSION }}
 
     - name: install gcc
       shell: bash
@@ -49,9 +49,9 @@ runs:
     - name: Build SimEng
       shell: bash
       run: |
-        if [ ${{ inputs.gcc-version }} == 'gcc-10' ]; then
-          cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-build
-        fi
+        # if [ ${{ inputs.gcc-version }} == 'gcc-10' ]; then
+        #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-build
+        # fi
 
         cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++
 

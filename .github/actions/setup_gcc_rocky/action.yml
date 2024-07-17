@@ -29,9 +29,8 @@ runs:
     - name: install gcc
       shell: bash
       run: |
-        dnf -y install ${{ inputs.gcc-version }}
-        dnf -y install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-        apt update && apt upgrade -y
+        dnf -y install gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
+        dnf update && dnf upgrade -y
 
     #######################################
     - name: Build SimEng
