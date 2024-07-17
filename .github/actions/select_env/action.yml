@@ -13,10 +13,21 @@ runs:
   using: 'composite'
   steps:
     ##########################################
-    # if gcc job
+    # GCC jobs
+    ##########################################
+    # ubuntu
     - if: ${{ contains( inputs.COMPILER, 'gcc') && contains( inputs.OS, 'ubuntu') }}
       name:  Install ${{ inputs.COMPILER }} + Build SimEng
       uses: ./.github/actions/setup_gcc_ubuntu
+      with:
+        LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
+        OS: ${{ inputs.OS }}
+        gcc-version: ${{ inputs.COMPILER }}
+    
+    # rocky linux
+    - if: ${{ contains( inputs.COMPILER, 'gcc') && contains( inputs.OS, 'rocky') }}
+      name:  Install ${{ inputs.COMPILER }} + Build SimEng
+      uses: ./.github/actions/setup_gcc_rocky
       with:
         LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
         OS: ${{ inputs.OS }}

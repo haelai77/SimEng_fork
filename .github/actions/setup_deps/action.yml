@@ -34,7 +34,7 @@ runs:
             git
 
         # Add additional repositories
-        add-apt-repository universe
+        # add-apt-repository universe
         add-apt-repository ppa:ubuntu-toolchain-r/test
 
         # Update package lists again after adding repositories

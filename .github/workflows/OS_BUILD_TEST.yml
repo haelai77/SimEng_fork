@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:20.04'] #'registry.access.redhat.com/ubi8/ubi:latest'
+        OS: ['ubuntu:20.04', 'rockylinux:8'] #'registry.access.redhat.com/ubi8/ubi:latest'
         COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] #, 'armclang-22.0.2']
 
         # ensures that older gcc runs on older ubunutu due to dependencies
@@ -45,7 +45,7 @@ jobs:
         name: checkout v3
         uses: actions/checkout@v3
 
-      - if: ${{ contains(fromJson('["ubuntu:20.04"]'), matrix.OS) }}
+      - if: ${{ contains(fromJson('["ubuntu:20.04", "rockylinux:8"]'), matrix.OS) }}
         name: checkout v4
         uses: actions/checkout@v4
 
@@ -62,7 +62,6 @@ jobs:
       - name: INFO
         shell: bash
         run: |
-          echo "_______________________________________"
           lsb_release -a
           echo "_______________________________________"
           cmake --version
@@ -72,8 +71,7 @@ jobs:
           echo "_______________________________________"
           g++ --version
           which g++
-          echo "_______________________________________"
-          tree /usr/bin
+         
       ##########################################
       # run unit test
       - name: Integration Tests
