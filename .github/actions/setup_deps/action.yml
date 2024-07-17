@@ -33,7 +33,7 @@ runs:
         apt-get install tree
         apt-get install -y cmake
 
-        apt-get purge --auto-remove gcc -y
+        # apt-get purge --auto-remove gcc -y
 
         apt-get update
         apt-get upgrade -y

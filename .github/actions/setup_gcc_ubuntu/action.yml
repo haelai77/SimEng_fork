@@ -131,7 +131,8 @@ runs:
     - name: install gcc
       shell: bash
       run: |
-        apt-get ${{ inputs.gcc-version }}
+        apt-get install ${{ inputs.gcc-version }}
+        apt-get install g++-${{ (inputs.gcc-version)##*- }}
     #######################################
     - name: Build SimEng
       shell: bash
@@ -143,7 +144,7 @@ runs:
         # fi
 
         if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-          cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/g++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src -GNinja
+          cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src -GNinja
         else
           cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
         fi
