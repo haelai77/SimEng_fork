@@ -28,9 +28,9 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
+        apt-get install which
 
         apt-get install -y software-properties-common
-
 
         apt-get update
         apt-get upgrade -y
@@ -39,5 +39,48 @@ runs:
       name: install dependencies
       shell: bash
       run: |
+        dnf -y update && \
+        dnf -y install \
+        gcc gcc-c++ make \
+        cmake \
+        git \
+        ninja-build \
+        python3 \
+        wget \
+        openssl-devel \
+        automake \
+        autoconf \
+        cmake \
+        bzip2 \
+        file \
+        diffutils \
+        zlib-devel && \
+        dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm  && \
+        dnf update && \
+        dnf upgrade && \
+        dnf clean all
 
-    
+    - if: contains(${{ inputs.OS }}, 'rocky')
+      name: install dependencies
+      shell: bash
+      run: |
+        dnf -y update && \
+        dnf -y install \
+        gcc gcc-c++ make \
+        cmake \
+        git \
+        # ninja-build \ doesn't install
+        python38 \
+        wget \
+        openssl-devel \
+        automake \
+        autoconf \
+        cmake \
+        bzip2 \
+        file \
+        # diffutils \ # already installed
+        zlib-devel && \
+        dnf install -y epel-release && \
+        dnf update -y && \
+        dnf upgrade -y && \
+        dnf clean all

@@ -17,16 +17,16 @@ runs:
     #######################################
     # install dependencies required (cmake, etc)
     #######################################
-    - name: install cmake or restore from cache
-      uses: ./.github/actions/setup_cmake
-      with:
-        OS: ${{ inputs.OS }}
 
     - name: install dependencies
       uses: ./.github/actions/setup_deps
       with:
         OS: ${{ inputs.OS }}
 
+    - name: install cmake or restore from cache
+      uses: ./.github/actions/setup_cmake
+      with:
+        OS: ${{ inputs.OS }}
       
     #######################################
     # check cache for llvm version
@@ -44,17 +44,17 @@ runs:
     # install llvm if cache miss or ubuntu 18
     #######################################
 
-    # - if: ${{ inputs.OS == 'ubuntu:20.04' && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-    # - name: install llvm
-    #   shell: bash
-    #   run: |
-    #     if [ ${{ inputs.OS == 'ubuntu:18.04'}} ]; then
-    #       add-apt-repository ppa:ubuntu-toolchain-r/test
-    #       apt update && apt upgrade -y
-    #     fi
-    #     wget https://apt.llvm.org/llvm.sh
-    #     chmod +x llvm.sh
-    #     ./llvm.sh ${{ inputs.LLVM-VERSION }}
+    - if: ${{ inputs.OS == 'ubuntu:20.04' }} # && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+    - name: install llvm
+      shell: bash
+      run: |
+        # if [ ${{ inputs.OS == 'ubuntu:18.04'}} ]; then
+        #   add-apt-repository ppa:ubuntu-toolchain-r/test
+        #   apt update && apt upgrade -y
+        # fi
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        ./llvm.sh ${{ inputs.LLVM-VERSION }}
     # #######################################
     # - if: ${{ steps.llvm-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
     #   name: check for llvm cache
@@ -65,13 +65,6 @@ runs:
     #       /usr/lib/x86_64-linux-gnu/libLLVM-14.so.1
     #       /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
     #     key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
-
-    #######################################
-    - name: install llvm
-      shell: bash
-      run: |
-        wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz
-        tar -xf llvm-14.0.5.src.tar.xz
     #######################################
     # - name: install llvm
     #   shell: bash
@@ -86,63 +79,73 @@ runs:
     #     apt update
     #     apt install llvm-14.0.5
     #######################################
-    # check for gcc in cache
-    - if: ${{ inputs.OS == 'ubuntu:18.04' }}
-      name: gcc restore
-      uses: actions/cache/restore@v3
-      id: gcc-restore-v3
-      with: 
-        path: /usr/local/${{ inputs.gcc-version }}
-        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+    # # check for gcc in cache
+    # - if: ${{ inputs.OS == 'ubuntu:18.04' }}
+    #   name: gcc restore
+    #   uses: actions/cache/restore@v3
+    #   id: gcc-restore-v3
+    #   with: 
+    #     path: /usr/local/${{ inputs.gcc-version }}
+    #     key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
     
-    - if: ${{ inputs.OS == 'ubuntu:20.04' }}
-      name: gcc restore
-      uses: actions/cache/restore@v4
-      id: gcc-restore-v4
-      with: 
-        path: /usr/local/${{ inputs.gcc-version }}
-        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
-    #######################################
-    # if cache miss install gcc
-    - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
-      name: install ${{ inputs.gcc-version }}
+    # - if: ${{ inputs.OS == 'ubuntu:20.04' }}
+    #   name: gcc restore
+    #   uses: actions/cache/restore@v4
+    #   id: gcc-restore-v4
+    #   with: 
+    #     path: /usr/local/${{ inputs.gcc-version }}
+    #     key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+    # #######################################
+    # # if cache miss install gcc
+    # - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
+    #   name: install ${{ inputs.gcc-version }}
+    #   shell: bash
+    #   run: |
+    #     wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+    #     tar -xf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
+
+    #     cd ${{ inputs.gcc-version }}
+
+    #     ./contrib/download_prerequisites > /dev/null
+    #     ./configure --enable-languages=c,c++ -disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
+
+    #     make -j$(nproc)
+    #     make install
+    # #######################################
+    # # save gcc to cache if cache miss occured
+    # - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
+    #   name: gcc save
+    #   uses: actions/cache/save@v3
+    #   id: gcc-save-v3
+    #   with:
+    #     path: /usr/local/${{ inputs.gcc-version }}
+    #     key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+        
+    # - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
+    #   name: gcc save
+    #   uses: actions/cache/save@v4
+    #   id: gcc-save-v4
+    #   with:
+    #     path: /usr/local/${{ inputs.gcc-version }}
+    #     key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+    - name: install gcc
       shell: bash
       run: |
-        wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
-        tar -xf ${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
-
-        cd ${{ inputs.gcc-version }}
-
-        ./contrib/download_prerequisites > /dev/null
-        ./configure --enable-languages=c,c++ -disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
-
-        make -j$(nproc)
-        make install
-    #######################################
-    # save gcc to cache if cache miss occured
-    - if: ${{ steps.gcc-restore-v3.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:18.04' }}
-      name: gcc save
-      uses: actions/cache/save@v3
-      id: gcc-save-v3
-      with:
-        path: /usr/local/${{ inputs.gcc-version }}
-        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
-        
-    - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' && inputs.OS == 'ubuntu:20.04' }}
-      name: gcc save
-      uses: actions/cache/save@v4
-      id: gcc-save-v4
-      with:
-        path: /usr/local/${{ inputs.gcc-version }}
-        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+        apt-get ${{ inputs.gcc-version }}
     #######################################
     - name: Build SimEng
       shell: bash
       run: |
+        # if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
+        #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src -GNinja
+        # else
+        #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
+        # fi
+
         if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-          cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src -GNinja
+          cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/g++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src -GNinja
         else
-          cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src
+          cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
         fi
 
         cmake --build build -j $(nproc)
