@@ -76,6 +76,12 @@ jobs:
           tree /usr/bin
       ##########################################
       # run unit test
+      - name: Integration Tests
+        shell: bash
+        run: |
+          ./build/test/integration/integrationtests
+      ##########################################
+      # run unit test
       - name: Unit Tests
         shell: bash
         run: |

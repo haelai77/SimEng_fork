@@ -67,19 +67,25 @@ runs:
     #       /usr/lib/llvm-${{ inputs.LLVM-VERSION }}
     #     key: llvm-${{ inputs.LLVM-VERSION }}-${{ inputs.OS }}
     #######################################
+    # - name: install llvm
+    #   shell: bash
+    #   run: |
+    #     wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+
+    #     if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
+    #       add-apt-repository 'deb http://apt.llvm.org/focal/   llvm-toolchain-focal-14  main'
+    #     else
+    #       add-apt-repository 'deb http://apt.llvm.org/bionic/   llvm-toolchain-bionic-14  main'
+    #     fi
+    #     apt update
+    #     apt install -y llvm-14
+    #     apt upgrade -y
+    ###################################
     - name: install llvm
       shell: bash
       run: |
-        wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-
-        if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-          add-apt-repository 'deb http://apt.llvm.org/focal/   llvm-toolchain-focal-14  main'
-        else
-          add-apt-repository 'deb http://apt.llvm.org/bionic/   llvm-toolchain-bionic-14  main'
-        fi
-        apt update
-        apt install -y llvm-14
-        apt upgrade -y
+        wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz
+        tar -xf llvm-14.0.5.src.tar.xz
     #######################################
     # # check for gcc in cache
     # - if: ${{ inputs.OS == 'ubuntu:18.04' }}
@@ -145,11 +151,7 @@ runs:
         #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
         # fi
 
-        # if [ ${{ inputs.OS }} == 'ubuntu:20.04' ]; then
-        #   cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src -GNinja
-        # else
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
-        # fi
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src
 
         cmake --build build -j $(nproc)
 
