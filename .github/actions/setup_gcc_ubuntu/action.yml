@@ -78,8 +78,8 @@ runs:
           add-apt-repository 'deb http://apt.llvm.org/bionic/   llvm-toolchain-bionic-14  main'
         fi
         apt update
-        apt install llvm-14
-
+        apt install -y llvm-14
+        apt upgrade -y
     #######################################
     # # check for gcc in cache
     # - if: ${{ inputs.OS == 'ubuntu:18.04' }}
