@@ -44,7 +44,7 @@ runs:
     # install llvm if cache miss or ubuntu 18
     #######################################
 
-    - if: ${{ inputs.gcc-version == 'gcc-9'' }} # && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+    - if: ${{ inputs.gcc-version == 'gcc-9' }} # && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
       name: install llvm
       shell: bash
       run: |
