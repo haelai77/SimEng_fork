@@ -80,12 +80,6 @@ runs:
     #     apt update
     #     apt install -y llvm-14
     #     apt upgrade -y
-    ###################################
-    - name: install llvm
-      shell: bash
-      run: |
-        wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz
-        tar -xf llvm-14.0.5.src.tar.xz
     #######################################
     # # check for gcc in cache
     # - if: ${{ inputs.OS == 'ubuntu:18.04' }}
@@ -151,7 +145,7 @@ runs:
         #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
         # fi
 
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-14.0.5.src
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=/usr/lib/llvm-14
 
         cmake --build build -j $(nproc)
 
