@@ -45,7 +45,7 @@ runs:
     #######################################
 
     - if: ${{ inputs.OS == 'ubuntu:20.04' }} # && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
-    - name: install llvm
+      name: install llvm
       shell: bash
       run: |
         # if [ ${{ inputs.OS == 'ubuntu:18.04'}} ]; then

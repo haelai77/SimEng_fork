@@ -22,7 +22,7 @@ runs:
         OS: ${{ inputs.OS }}
         gcc-version: ${{ inputs.COMPILER }}
     ##########################################
-    # if armclang jo
+    # if armclang job
     - if: ${{ contains( inputs.COMPILER, 'armclang') && contains(inputs.OS, 'ubuntu') }}
       name:  Install ${{ inputs.COMPILER }} + Build SimEng
       uses: ./.github/actions/setup_armclang_ubuntu

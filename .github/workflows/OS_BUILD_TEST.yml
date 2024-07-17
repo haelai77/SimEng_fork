@@ -21,15 +21,15 @@ jobs:
         # ensures that older gcc runs on older ubunutu due to dependencies
         exclude:
           - OS: 'ubuntu:20.04'
-            COMPILER: 'gcc-7.3.0'
+            COMPILER: 'gcc-7'
           - OS: 'ubuntu:20.04'
-            COMPILER: 'gcc-8.3.0'
+            COMPILER: 'gcc-8'
 
         include:      
           - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-7.3.0'
+            COMPILER: 'gcc-7'
           - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-8.3.0'
+            COMPILER: 'gcc-8'
       
     runs-on: ubuntu-latest
 
