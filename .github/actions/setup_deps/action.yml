@@ -31,6 +31,9 @@ runs:
         apt-get install libssl-dev
         apt-get install ninja-build
         apt-get install tree
+        apt-get install cmake
+
+        apt-get purge --auto-remove gcc
 
         apt-get update
         apt-get upgrade -y
