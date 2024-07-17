@@ -77,8 +77,7 @@ runs:
         gcc gcc-c++ make \
         cmake \
         git \
-        # ninja-build \ doesn't install
-        python3 \
+        python38 \
         wget \
         openssl-devel \
         automake \
@@ -86,7 +85,6 @@ runs:
         cmake \
         bzip2 \
         file \
-        # diffutils \ # already installed
         zlib-devel && \
         dnf update -y && \
         dnf upgrade -y && \
