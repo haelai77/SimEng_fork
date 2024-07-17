@@ -11,7 +11,7 @@ runs:
     #######################################
     # install dependencies I think are required to build simeng
     #######################################
-    - if: contains(${{ inputs.OS }}, 'ubuntu')
+    - if: ${{ contains(inputs.OS, 'ubuntu') }}
       name: install dependencies
       shell: bash
       run: |
@@ -34,7 +34,7 @@ runs:
         apt-get update
         apt-get upgrade -y
 
-    - if: contains(${{ inputs.OS }}, 'redhat')
+    - if: ${{ contains(inputs.OS, 'redhat') }}
       name: install dependencies
       shell: bash
       run: |
@@ -59,7 +59,7 @@ runs:
         dnf upgrade && \
         dnf clean all
 
-    - if: contains(${{ inputs.OS }}, 'rocky')
+    - if: ${{ contains(inputs.OS, 'rocky') }}
       name: install dependencies
       shell: bash
       run: |
