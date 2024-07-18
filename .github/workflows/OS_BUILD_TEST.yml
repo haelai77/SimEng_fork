@@ -64,6 +64,11 @@ jobs:
       - name: INFO
         shell: bash
         run: |
+          # To echo the correct gcc version if on rocky 
+          if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{ matrix.COMPILER }}($|[[:space:]]) && ${{ contains( matrix.OS, 'rocky') }} ]]; then
+            scl enable gcc-toolset-$( echo ${{ matrix.COMPILER }} | cut -d '-' -f 2) bash
+          fi
+
           cat /etc/os-release 
           echo "_______________________________________"
           cmake --version
