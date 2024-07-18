@@ -24,11 +24,19 @@ jobs:
             COMPILER: 'gcc-7'
           - OS: 'ubuntu:20.04'
             COMPILER: 'gcc-8'
+          - OS: 'rockylinux:8'
+            COMPILER: 'gcc-7'
+          - OS: 'rockylinux:8'
+            COMPILER: 'gcc-8'
 
         include:      
           - OS: 'ubuntu:18.04'
             COMPILER: 'gcc-7'
           - OS: 'ubuntu:18.04'
+            COMPILER: 'gcc-8'
+          - OS: 'rockylinux:7'
+            COMPILER: 'gcc-7'
+          - OS: 'rockylinux:7'
             COMPILER: 'gcc-8'
       
     runs-on: ubuntu-latest
