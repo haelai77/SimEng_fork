@@ -29,26 +29,35 @@ runs:
     - name: install gcc
       shell: bash
       run: |
-        if [[  ]]
+        if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
           dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
           scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
-
-        # wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz
-        # tar zxf ${{ inputs.gcc-version }}.tar.gz
-        # cd ${{ inputs.gcc-version }}
-        # ./contrib/download_prerequisites
-        # cd ..
-        # mkdir gcc-build
-        # cd gcc-build
-        # ../gcc-10.2.0/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
-        # make -j$(nproc)
-        # make install
+        else
+          wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz
+          tar zxf ${{ inputs.gcc-version }}.tar.gz
+          cd ${{ inputs.gcc-version }}
+          ./contrib/download_prerequisites
+          cd ..
+          mkdir gcc-build
+          cd gcc-build
+          ../${{ inputs.gcc-version }}/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
+          make -j$(nproc)
+          make install
+        fi
 
     #######################################
     - name: Build SimEng
       shell: bash
       run: |
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++
+        if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
+          gcc_path="/usr/bin/gcc"
+          c++_path="/usr/bin/c++"
+        else
+          gcc_path="/usr/local/${{ inputs.gcc-version }}/bin/gcc"
+          c++_path="/usr/local/${{ inputs.gcc-version }}/bin/c++"
+        fi
+        
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=$gcc_path -DCMAKE_CXX_COMPILER=$c++_path
 
         cmake --build build -j $(nproc)
 
