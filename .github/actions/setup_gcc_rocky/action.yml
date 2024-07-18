@@ -50,9 +50,11 @@ runs:
       shell: bash
       run: |
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
-          echo source scl_source enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) >> ~/.bashrc
+          scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
+          echo "sausage"
+          gcc --version 
         fi
-
+        gcc --version
         cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
 
         cmake --build build -j $(nproc)
