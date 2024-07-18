@@ -26,7 +26,7 @@ runs:
       with:
         OS: ${{ inputs.OS }}
 
-    - if: ${{ inputs.gcc-version == 'gcc-9' }} # && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
+    # - if: ${{ inputs.gcc-version == 'gcc-9' }} # && steps.llvm-restore-v4.outputs.cache-hit != 'true' }}
     - name: install llvm
       shell: bash
       run: |
