@@ -34,7 +34,7 @@ runs:
             git
 
         # Add additional repositories
-        # add-apt-repository universe
+        add-apt-repository universe
         add-apt-repository ppa:ubuntu-toolchain-r/test
 
         # Update package lists again after adding repositories
@@ -85,7 +85,10 @@ runs:
         cmake \
         bzip2 \
         file \
-        zlib-devel && \
-        dnf update -y && \
-        dnf upgrade -y && \
+        sudo \
+        tree \
+        zlib-devel
+        dnf group install "Development Tools"
+        dnf update -y
+        dnf upgrade -y
         dnf clean all

@@ -29,14 +29,22 @@ runs:
     - name: install gcc
       shell: bash
       run: |
-        dnf -y install gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-        dnf update && dnf upgrade -y
+        wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz
+        tar zxf ${{ inputs.gcc-version }}.tar.gz
+        cd ${{ inputs.gcc-version }}
+        ./contrib/download_prerequisites
+        cd ..
+        mkdir gcc-build
+        cd gcc-build
+        ../gcc-10.2.0/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
+        make -j$(nproc)
+        make install
 
     #######################################
     - name: Build SimEng
       shell: bash
       run: |
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/gcc -DCMAKE_CXX_COMPILER=/usr/local/${{ inputs.gcc-version }}/bin/c++
 
         cmake --build build -j $(nproc)
 
