@@ -50,11 +50,11 @@ runs:
       shell: bash
       run: |
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
-          gcc-path='/usr/bin/gcc'
-          c++-path='/usr/bin/g++'
+          echo "gcc_path=$(echo '/usr/bin/gcc')" >> $GITHUB_ENV
+          echo "g++_path=$(echo '/usr/bin/g++')" >> $GITHUB_ENV
         else
-          gcc_path='/usr/local/${{ inputs.gcc-version }}/bin/gcc'
-          c++_path='/usr/local/${{ inputs.gcc-version }}/bin/g++'
+          echo "gcc_path=$(echo '/usr/local/${{ inputs.gcc-version }}/bin/gcc')" >> $GITHUB_ENV
+          echo "g++_path=$(echo '/usr/local/${{ inputs.gcc-version }}/bin/g++')" >> $GITHUB_ENV
         fi
 
         echo "############################"
@@ -69,7 +69,7 @@ runs:
         echo gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
         echo "############################"
         
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=$gcc-path -DCMAKE_CXX_COMPILER=$c++-path
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=$gcc_path -DCMAKE_CXX_COMPILER=$c++_path
 
         cmake --build build -j $(nproc)
 
