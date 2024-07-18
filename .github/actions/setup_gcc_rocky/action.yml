@@ -49,7 +49,7 @@ runs:
     - name: Build SimEng
       shell: bash
       run: |
-        if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
+        if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{ inputs.gcc-version }}($|[[:space:]]) ]]; then
           echo "gcc_path=$(echo '/usr/bin/gcc')" >> $GITHUB_ENV
           echo "g++_path=$(echo '/usr/bin/g++')" >> $GITHUB_ENV
         else
