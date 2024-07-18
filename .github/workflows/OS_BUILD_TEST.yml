@@ -15,6 +15,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        include:      
+          - OS: 'ubuntu:18.04'
+            COMPILER: 'gcc-7'
+          - OS: 'ubuntu:18.04'
+            COMPILER: 'gcc-8'
+            
         OS: ['ubuntu:20.04', 'rockylinux:8'] #'registry.access.redhat.com/ubi8/ubi:latest'
         COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] #, 'armclang-22.0.2']
 
@@ -25,11 +31,6 @@ jobs:
           - OS: 'ubuntu:20.04'
             COMPILER: 'gcc-8'
 
-        include:      
-          - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-7'
-          - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-8'
 
       
     runs-on: ubuntu-latest

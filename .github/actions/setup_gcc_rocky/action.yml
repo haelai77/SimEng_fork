@@ -33,7 +33,7 @@ runs:
           dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
           scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
         else
-          wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz
+          wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
           tar zxf ${{ inputs.gcc-version }}.tar.gz
           cd ${{ inputs.gcc-version }}
           ./contrib/download_prerequisites
