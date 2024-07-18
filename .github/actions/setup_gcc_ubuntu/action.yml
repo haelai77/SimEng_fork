@@ -26,6 +26,7 @@ runs:
       with:
         OS: ${{ inputs.OS }}
 
+    # running this prevents gcc-10 on ubuntu 20 from segfaulting in unit tests
     - if: ${{ inputs.gcc-version == 'gcc-10' }}
       name: install llvm
       shell: bash

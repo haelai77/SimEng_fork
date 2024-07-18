@@ -107,12 +107,4 @@ jobs:
       #   with:
       #     BENCHMARK_BRANCH: ${{ env.BENCHMARK_BRANCH }}
       #     OS: ${{ matrix.OS }}
-            ##########################################
-      #note remove later
-      - if: always()
-        name: directory structure
-        run: |
-          tree -L 2
-          cd ..
-          echo "############################################"
-          tree -L 2
+      ##########################################
