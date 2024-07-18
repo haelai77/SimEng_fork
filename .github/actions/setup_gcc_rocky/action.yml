@@ -59,10 +59,10 @@ runs:
 
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
           gcc_path='/usr/bin/gcc'
-          c++_path='/usr/bin/g++''
+          c++_path='/usr/bin/g++'
         else
-          gcc_path="/usr/local/${{ inputs.gcc-version }}/bin/gcc"
-          c++_path="/usr/local/${{ inputs.gcc-version }}/bin/g++"
+          gcc_path='/usr/local/${{ inputs.gcc-version }}/bin/gcc'
+          c++_path='/usr/local/${{ inputs.gcc-version }}/bin/g++'
         fi
         
         cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=$gcc_path -DCMAKE_CXX_COMPILER=$c++_path
