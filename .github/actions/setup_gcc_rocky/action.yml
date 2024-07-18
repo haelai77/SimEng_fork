@@ -49,6 +49,11 @@ runs:
     - name: Build SimEng
       shell: bash
       run: |
+        echo "############################"
+        which gcc
+        echo "############################"
+        which g++
+        echo "############################"
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
           gcc_path="/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin/gcc"
           c++_path="/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin/g++"
