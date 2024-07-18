@@ -67,6 +67,9 @@ runs:
         echo $g++_path
         echo "############################"
         echo gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
+        scl --version
+        scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
+
         echo "############################"
         
         cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=$gcc_path -DCMAKE_CXX_COMPILER=$c++_path
