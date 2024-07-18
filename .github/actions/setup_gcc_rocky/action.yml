@@ -60,19 +60,17 @@ runs:
         echo "############################"
         which gcc
         gcc --version
-        echo $gcc_path
         echo "############################"
         which g++
         g++ --version
-        echo $g++_path
         echo "############################"
         echo gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
         scl --version
         scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
-
+        g++ --version
         echo "############################"
         
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=$gcc_path -DCMAKE_CXX_COMPILER=$c++_path
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=${{ env.gcc_path }} -DCMAKE_CXX_COMPILER=${{ env.c++_path }}
 
         cmake --build build -j $(nproc)
 

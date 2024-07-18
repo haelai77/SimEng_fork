@@ -18,15 +18,21 @@ jobs:
         OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8'] #'registry.access.redhat.com/ubi8/ubi:latest'
         COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] #, 'armclang-22.0.2']
         
-        # ensures that older gcc runs on older ubunutu due to dependencies
+        # gcc-7 gives segfault on unittest if running on ubuntu 20
+        # The reason include instruction isn't used for [ubuntu:18.04 + gcc-7] is purely just so that the jobs appear in order when running 
         exclude:      
           - OS: 'ubuntu:18.04'
+            COMPILER: 'gcc-8'
+
+          - OS: 'ubuntu:18.04'
             COMPILER: 'gcc-9'
+
           - OS: 'ubuntu:18.04'
             COMPILER: 'gcc-10'
 
+          - OS: 'ubuntu:20.04'
+            COMPILER: 'gcc-7'
 
-      
     runs-on: ubuntu-latest
 
     container:
