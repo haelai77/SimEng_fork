@@ -58,8 +58,8 @@ runs:
         echo "############################"
 
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
-          gcc_path="/usr/bin/gcc"
-          c++_path="/usr/bin/g++"
+          gcc_path='/usr/bin/gcc'
+          c++_path='/usr/bin/g++''
         else
           gcc_path="/usr/local/${{ inputs.gcc-version }}/bin/gcc"
           c++_path="/usr/local/${{ inputs.gcc-version }}/bin/g++"
