@@ -32,7 +32,6 @@ runs:
       run: |
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
           dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-          scl enable gcc-toolset-10 -- bash
         else
           wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
           tar zxf ${{ inputs.gcc-version }}.tar.gz
@@ -50,7 +49,10 @@ runs:
     - name: Build SimEng
       shell: bash
       run: |
-
+        if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
+          scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
+        fi
+        
         cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
 
         cmake --build build -j $(nproc)
