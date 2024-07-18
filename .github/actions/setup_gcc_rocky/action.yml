@@ -29,16 +29,19 @@ runs:
     - name: install gcc
       shell: bash
       run: |
-        wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz
-        tar zxf ${{ inputs.gcc-version }}.tar.gz
-        cd ${{ inputs.gcc-version }}
-        ./contrib/download_prerequisites
-        cd ..
-        mkdir gcc-build
-        cd gcc-build
-        ../gcc-10.2.0/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
-        make -j$(nproc)
-        make install
+        dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
+        scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
+
+        # wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz
+        # tar zxf ${{ inputs.gcc-version }}.tar.gz
+        # cd ${{ inputs.gcc-version }}
+        # ./contrib/download_prerequisites
+        # cd ..
+        # mkdir gcc-build
+        # cd gcc-build
+        # ../gcc-10.2.0/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
+        # make -j$(nproc)
+        # make install
 
     #######################################
     - name: Build SimEng

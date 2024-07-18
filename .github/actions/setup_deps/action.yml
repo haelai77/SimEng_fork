@@ -77,7 +77,6 @@ runs:
         gcc gcc-c++ make \
         cmake \
         git \
-        python38 \
         wget \
         openssl-devel \
         automake \
