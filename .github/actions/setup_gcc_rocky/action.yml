@@ -30,7 +30,7 @@ runs:
       shell: bash
       run: |
         dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-        scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
+        scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
 
         # wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/gcc-${{ inputs.gcc-version }}.tar.gz
         # tar zxf ${{ inputs.gcc-version }}.tar.gz
