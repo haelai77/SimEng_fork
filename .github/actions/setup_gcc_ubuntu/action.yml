@@ -49,9 +49,6 @@ runs:
     - name: Build SimEng
       shell: bash
       run: |
-        # if [ ${{ inputs.gcc-version }} == 'gcc-10' ]; then
-        #   cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++ -DSIMENG_USE_EXTERNAL_LLVM=ON -DLLVM_DIR=./llvm-build
-        # fi
 
         cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++
 
