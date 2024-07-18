@@ -32,7 +32,7 @@ runs:
       run: |
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
           dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-          scl enable gcc-toolset-10 bash
+          scl enable gcc-toolset-10 -- bash
         else
           wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
           tar zxf ${{ inputs.gcc-version }}.tar.gz
