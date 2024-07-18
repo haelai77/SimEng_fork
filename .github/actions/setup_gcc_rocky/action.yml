@@ -50,8 +50,8 @@ runs:
       shell: bash
       run: |
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
-          gcc_path="/usr/bin/gcc"
-          c++_path="/usr/bin/c++"
+          gcc_path="/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin/gcc"
+          c++_path="/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin/g++"
         else
           gcc_path="/usr/local/${{ inputs.gcc-version }}/bin/gcc"
           c++_path="/usr/local/${{ inputs.gcc-version }}/bin/c++"
