@@ -34,17 +34,19 @@ runs:
           dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
           echo "COMPILER_PATH=/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin" >> $GITHUB_ENV
         else
-          wget https://ftp.gnu.org/gnu/gcc/${{ inputs.gcc-version }}/${{ inputs.gcc-version }}.tar.gz > /dev/null 2>&1
-          tar zxf ${{ inputs.gcc-version }}.tar.gz
-          cd ${{ inputs.gcc-version }}
+          GCC_VER="${{ inputs.gcc-version }}.5.0"
+
+          wget https://ftp.gnu.org/gnu/gcc/$GCC_VER/$GCC_VER.tar.gz > /dev/null 2>&1
+          tar zxf $GCC_VER.tar.gz
+          cd $GCC_VER
           ./contrib/download_prerequisites
           cd ..
           mkdir gcc-build
           cd gcc-build
-          ../${{ inputs.gcc-version }}/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/${{ inputs.gcc-version }}
+          ../$GCC_VER/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/$GCC_VER
           make -j$(nproc)
           make install
-          echo "COMPILER_PATH=/usr/local/${{ inputs.gcc-version }}" >> $GITHUB_ENV
+          echo "COMPILER_PATH=/usr/local/$GCC_VER" >> $GITHUB_ENV
         fi
 
     #######################################
