@@ -33,6 +33,7 @@ runs:
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
           dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
           echo "COMPILER_PATH=/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin" >> $GITHUB_ENV
+
         else
           GCC_VER="${{ inputs.gcc-version }}.5.0"
 
@@ -46,7 +47,8 @@ runs:
           ../$GCC_VER/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/$GCC_VER
           make -j$(nproc)
           make install
-          echo "COMPILER_PATH=/usr/local/$GCC_VER" >> $GITHUB_ENV
+
+          echo "COMPILER_PATH=/usr/local/$GCC_VER/bin" >> $GITHUB_ENV
         fi
 
     #######################################
@@ -58,4 +60,4 @@ runs:
 
         cmake --build build -j $(nproc)
 
-        sudo cmake --build build --target install
+        cmake --build build --target install
