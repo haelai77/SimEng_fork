@@ -79,7 +79,6 @@ jobs:
           g++ --version
           which g++
           echo "_______________________________________"
-          update-alternatives --query gcc
           
       ##########################################
       # run unit test
