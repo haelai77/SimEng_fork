@@ -78,7 +78,9 @@ jobs:
           echo "_______________________________________"
           g++ --version
           which g++
-         
+          echo "_______________________________________"
+          update-alternatives --query gcc
+          
       ##########################################
       # run unit test
       - name: Integration Tests
