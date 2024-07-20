@@ -51,7 +51,7 @@ jobs:
         name: checkout v3
         uses: actions/checkout@v3
 
-      - if: ${{ contains(fromJson('["ubuntu:20.04", "rockylinux:8"]'), matrix.OS) }}
+      - if: ${{ contains(fromJson('["ubuntu:20.04", "rockylinux:8", "registry.access.redhat.com/ubi8/ubi:latest"]'), matrix.OS) }}
         name: checkout v4
         uses: actions/checkout@v4
 
