@@ -34,6 +34,15 @@ runs:
         OS: ${{ inputs.OS }}
         gcc-version: ${{ inputs.COMPILER }}
 
+    # red hat
+    - if: ${{ contains( inputs.COMPILER, 'gcc') && contains( inputs.OS, 'redhat') }}
+      name:  Install ${{ inputs.COMPILER }} + Build SimEng
+      uses: ./.github/actions/setup_gcc_redhat
+      with:
+        LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
+        OS: ${{ inputs.OS }}
+        gcc-version: ${{ inputs.COMPILER }}
+
     ##########################################
     # ARMCLANG jobs
     ##########################################
