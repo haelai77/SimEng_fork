@@ -24,7 +24,7 @@ runs:
     - name: install cmake
       shell: bash
       run: |
-        dnf install cmake
+        dnf install -y cmake
 
     #######################################
     # Restore gcc 7 or 8 from cache.
