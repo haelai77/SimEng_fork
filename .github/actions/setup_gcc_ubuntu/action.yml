@@ -38,6 +38,7 @@ runs:
     - name: install gcc
       shell: bash
       run: |
+        echo "sausage ${{ inputs.gcc-version }}"
         apt-get -y install ${{ inputs.gcc-version }}
         apt-get -y install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
         apt update && apt upgrade -y
@@ -46,7 +47,7 @@ runs:
     - name: Build SimEng
       shell: bash
       run: |
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/c++
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=/usr/bin/${{ inputs.gcc-version }} -DCMAKE_CXX_COMPILER=/usr/bin/ g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
 
         cmake --build build -j $(nproc)
 
