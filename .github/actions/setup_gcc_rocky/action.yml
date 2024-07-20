@@ -13,7 +13,7 @@ runs:
   using: 'composite'
   steps:
     #######################################
-    # install dependencies required (cmake, etc)
+    # Install dependencies required (cmake, etc).
     #######################################
 
     - name: install dependencies
@@ -26,6 +26,9 @@ runs:
       run: |
         dnf install cmake
 
+    #######################################
+    # Restore gcc 7 or 8 from cache.
+    #######################################
     - if: ${{ contains(fromJson('["gcc-7", "gcc-8"]'), inputs.gcc-version) }}
       name: restore gcc
       uses: actions/cache/restore@v4
@@ -33,7 +36,10 @@ runs:
       with: 
         path: /usr/local/${{ inputs.gcc-version }}.5.0
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
-    
+
+    #######################################
+    # If restoring gcc set env vars for info step in OS_BUILD_TEST.yml.
+    #######################################
     - if: ${{ contains(fromJson('["gcc-7", "gcc-8"]'), inputs.gcc-version) }}
       name: set env vars if restoring from cache
       shell: bash
@@ -41,6 +47,10 @@ runs:
         echo "GCC_DIR=/usr/local/${{ inputs.gcc-version }}.5.0/bin/gcc" >> $GITHUB_ENV
         echo "CPP_DIR=/usr/local/${{ inputs.gcc-version }}.5.0/bin/g++" >> $GITHUB_ENV
 
+    #######################################
+    # As rocky 8 doesn't support installing older versions of gcc via package manager,
+    # gcc 7 and 8 are installed from source and gcc 9 and 10 are installed via dnf.
+    #######################################
     - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
       name: install gcc
       shell: bash
@@ -68,6 +78,9 @@ runs:
           echo "CPP_DIR=/usr/local/${ GCC_VER }/bin/g++" >> $GITHUB_ENV
         fi
 
+    #######################################
+    # Save gcc to cache if earlier miss occured.
+    #######################################
     - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
       name: save gcc
       uses: actions/cache/save@v4
@@ -76,7 +89,6 @@ runs:
         path: /usr/local/${{ inputs.gcc-version }}.5.0
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
-    #######################################
     - name: Build SimEng
       shell: bash
       run: |

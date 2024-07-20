@@ -49,18 +49,6 @@ runs:
       run: |
         dnf -y update && \
         dnf -y install \
-        gcc gcc-c++ make \
-        cmake \
-        git \
-        ninja-build \
-        python3 \
-        wget \
-        openssl-devel \
-        automake \
-        autoconf \
-        cmake \
-        bzip2 \
-        file \
         diffutils \
         zlib-devel && \
         dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm  && \
@@ -75,13 +63,11 @@ runs:
         dnf -y update && \
         dnf install -y epel-release \
         gcc gcc-c++ make \
-        cmake \
         git \
         wget \
         openssl-devel \
         automake \
         autoconf \
-        cmake \
         bzip2 \
         file \
         sudo \

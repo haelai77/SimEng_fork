@@ -3,7 +3,7 @@ name: OS_BUILD_TEST
 env:
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   LLVM-VERSION: 14
-  BENCHMARK_BRANCH: 'make-file-build-system' # the branch inside the benchmark repo that has the script to run all benchmarks
+  BENCHMARK_BRANCH: 'make-file-build-system' # The branch inside the benchmark repo that has the script to run all benchmarks.
 
 on:
   workflow_dispatch:
@@ -15,11 +15,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8'] #'registry.access.redhat.com/ubi8/ubi:latest'
+        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'registry.access.redhat.com/ubi8/ubi:latest']
         COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] #, 'armclang-22.0.2']
         
-        # gcc-7 gives segfault on unittest if running on ubuntu 20
-        # The reason include instruction isn't used for [ubuntu:18.04 + gcc-7] is purely just so that the jobs appear in order when running 
+        #######################################
+        # Removes unecessary jobs.
+        # The reason for putting ubuntu 18 in the matrix rather than using 'include' to add it in for a specific compiler
+        # is just to keep job ordering nice i.e. keeping ubuntu jobs next to each other in the list.
+        #######################################
         exclude:      
           - OS: 'ubuntu:18.04'
             COMPILER: 'gcc-8'
@@ -41,8 +44,9 @@ jobs:
     name: ${{ matrix.OS }} + ${{ matrix.compiler }}
 
     steps:
-      ##########################################
-      # # # copies repo to container (different action version due to node version dependencies)
+      #######################################
+      # Clones repo to workspace.
+      #######################################
       - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
         name: checkout v3
         uses: actions/checkout@v3
@@ -51,8 +55,9 @@ jobs:
         name: checkout v4
         uses: actions/checkout@v4
 
-      ##########################################
-
+      #######################################
+      # Depending on OS and compiler, this step chooses the correct setup action to run.
+      #######################################
       - name: setup compiler and OS env + build simeng
         uses: ./.github/actions/select_env
         with: 
@@ -60,7 +65,9 @@ jobs:
           OS: ${{ matrix.OS }}
           COMPILER: ${{ matrix.COMPILER }}
 
-      ##########################################
+      #######################################
+      # Prints out info in isolated step for easy access.
+      #######################################
       - name: INFO
         shell: bash
         run: |
@@ -75,33 +82,43 @@ jobs:
           which g++
           echo "_______________________________________"
           
-      ##########################################
-      # run unit test
+      #######################################
+      # Run Integration Tests.
+      #######################################
       - name: Integration Tests
         shell: bash
         run: |
           ./build/test/integration/integrationtests
-      ##########################################
-      # run unit test
+
+      #######################################
+      # Run Unit Tests.
+      #######################################
       - name: Unit Tests
         shell: bash
         run: |
           ./build/test/unit/unittests
-      ##########################################
-      # run regression aarch64
+
+      #######################################
+      # Run Regression AARCH64 Tests.
+      #######################################
       - name: regression test (aarch64)
         if: always()
         shell: bash
         run: |
           ./build/test/regression/aarch64/regression-aarch64
-      ##########################################
-      # run regression riscv
+
+      #######################################
+      # Run Regression RISCV Tests.
+      #######################################
       - name: regression test (riscv)
         if: always()
         shell: bash
         run: |
           ./build/test/regression/riscv/regression-riscv
-      ##########################################
+
+      #######################################
+      # Run Benchmark Tests.
+      #######################################
       # - if: always()
       #   name: run benchmarks
       #   uses: ./.github/actions/simeng_benchmarks

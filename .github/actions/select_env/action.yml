@@ -15,6 +15,7 @@ runs:
     ##########################################
     # GCC jobs
     ##########################################
+
     # ubuntu
     - if: ${{ contains( inputs.COMPILER, 'gcc') && contains( inputs.OS, 'ubuntu') }}
       name:  Install ${{ inputs.COMPILER }} + Build SimEng
@@ -32,13 +33,14 @@ runs:
         LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
         OS: ${{ inputs.OS }}
         gcc-version: ${{ inputs.COMPILER }}
+
     ##########################################
-    # if armclang job
+    # ARMCLANG jobs
+    ##########################################
     - if: ${{ contains( inputs.COMPILER, 'armclang') && contains(inputs.OS, 'ubuntu') }}
       name:  Install ${{ inputs.COMPILER }} + Build SimEng
       uses: ./.github/actions/setup_armclang_ubuntu
       with:
         LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
         OS: ${{ inputs.OS }}
-    ##########################################
     

@@ -13,9 +13,8 @@ runs:
   using: 'composite'
   steps:
     #######################################
-    # install dependencies required (cmake, etc)
+    # Install dependencies required (cmake, etc).
     #######################################
-
     - name: install dependencies
       uses: ./.github/actions/setup_deps
       with:
@@ -26,7 +25,9 @@ runs:
       with:
         OS: ${{ inputs.OS }}
 
-    # running this prevents gcc-10 on ubuntu 20 from segfaulting in unit tests
+    #######################################
+    # Running this prevents gcc-10 on ubuntu 20 from segfaulting in unit tests for some reason (installs some packages, not sure which ones prevent it, but it doesn't take long to run).
+    #######################################
     - if: ${{ inputs.gcc-version == 'gcc-10' }}
       name: install llvm
       shell: bash
@@ -43,7 +44,6 @@ runs:
         apt-get -y install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
         apt update && apt upgrade -y
   
-    #######################################
     - name: Build SimEng
       shell: bash
       run: |
