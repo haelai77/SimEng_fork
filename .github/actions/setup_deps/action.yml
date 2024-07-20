@@ -9,7 +9,7 @@ runs:
   using: 'composite'
   steps:
     #######################################
-    # install dependencies I think are required to build simeng
+    # Ubuntu Dependencies
     #######################################
     - if: ${{ contains(inputs.OS, 'ubuntu') }}
       name: install dependencies
@@ -43,6 +43,9 @@ runs:
         # Upgrade all installed packages
         apt-get upgrade -y
 
+    #######################################
+    # Redhat Dependencies
+    #######################################
     - if: ${{ contains(inputs.OS, 'redhat') }}
       name: install dependencies
       shell: bash
@@ -56,6 +59,9 @@ runs:
         dnf upgrade && \
         dnf clean all
 
+    #######################################
+    # Rocky Dependencies
+    #######################################
     - if: ${{ contains(inputs.OS, 'rocky') }}
       name: install dependencies
       shell: bash
