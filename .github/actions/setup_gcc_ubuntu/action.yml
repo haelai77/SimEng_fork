@@ -52,6 +52,6 @@ runs:
 
         cmake --build build --target install
 
-        echo "COMPILER_PATH=/usr/bin" >> $GITHUB_ENV
+        echo "COMPILER_DIR=/usr/bin" >> $GITHUB_ENV
 
         

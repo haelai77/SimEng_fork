@@ -26,13 +26,21 @@ runs:
       run: |
         dnf install cmake
 
-    # scl enable gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2) bash
-    - name: install gcc
+    - if: ${{ contains(fromJson('["gcc-7", "gcc-8"]'), inputs.gcc-version) }}
+      name: restore gcc
+      uses: actions/cache/restore@v4
+      id: gcc-restore-v4
+      with: 
+        path: /usr/local/${{ inputs.gcc-version }}.5.0
+        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+    
+    - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
+      name: install gcc
       shell: bash
       run: |
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
           dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-          echo "COMPILER_PATH=/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin" >> $GITHUB_ENV
+          echo "COMPILER_DIR=/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin" >> $GITHUB_ENV
 
         else
           GCC_VER="${{ inputs.gcc-version }}.5.0"
@@ -48,15 +56,23 @@ runs:
           make -j$(nproc)
           make install
 
-          echo "COMPILER_PATH=/usr/local/$GCC_VER/bin" >> $GITHUB_ENV
+          echo "COMPILER_DIR=/usr/local/$GCC_VER/bin" >> $GITHUB_ENV
         fi
+
+    - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
+      name: save gcc
+      uses: actions/cache/save@v4
+      id: gcc-save-v4
+      with: 
+        path: /usr/local/${{ inputs.gcc-version }}.5.0
+        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     #######################################
     - name: Build SimEng
       shell: bash
       run: |
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=${{ env.COMPILER_PATH }}/gcc \
-          -DCMAKE_CXX_COMPILER=${{ env.COMPILER_PATH }}/g++
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=${{ env.COMPILER_DIR }}/gcc \
+          -DCMAKE_CXX_COMPILER=${{ env.COMPILER_DIR }}/g++
 
         cmake --build build -j $(nproc)
 
