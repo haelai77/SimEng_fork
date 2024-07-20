@@ -53,6 +53,7 @@ runs:
 
         cmake --build build --target install
 
-        echo "COMPILER_DIR=/usr/bin" >> $GITHUB_ENV
+        echo "GCC_DIR=/usr/bin/${{ inputs.gcc-version }}" >> $GITHUB_ENV
+        echo "CPP_DIR=/usr/bin/g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)" >> $GITHUB_ENV
 
         
