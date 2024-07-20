@@ -11,7 +11,7 @@ runs:
     #######################################
     # install dependencies I think are required to build simeng
     #######################################
-    - if: ${{ contagcc --vins(inputs.OS, 'ubuntu') }}
+    - if: ${{ contains(inputs.OS, 'ubuntu') }}
       name: install dependencies
       shell: bash
       run: |
