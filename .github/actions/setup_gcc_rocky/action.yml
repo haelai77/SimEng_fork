@@ -57,8 +57,8 @@ runs:
           make -j$(nproc)
           make install
 
-          echo "GCC_DIR=/usr/local/$GCC_VER/bin/gcc" >> $GITHUB_ENV
-          echo "CPP_DIR=/usr/local/$GCC_VER/bin/g++" >> $GITHUB_ENV
+          echo "GCC_DIR=/usr/local/${GCC_VER}/bin/gcc" >> $GITHUB_ENV
+          echo "CPP_DIR=/usr/local/${GCC_VER}/bin/g++" >> $GITHUB_ENV
         fi
 
     - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
