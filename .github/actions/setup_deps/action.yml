@@ -9,9 +9,9 @@ runs:
   using: 'composite'
   steps:
     #######################################
-    # Ubuntu Dependencies
+    # Ubuntu & Debian Dependencies
     #######################################
-    - if: ${{ contains(inputs.OS, 'ubuntu') }}
+    - if: ${{ contains(inputs.OS, 'ubuntu') || contains(inputs.OS, 'debian') }}
       name: install dependencies
       shell: bash
       run: |
@@ -83,3 +83,4 @@ runs:
         dnf update -y
         dnf upgrade -y
         dnf clean all
+

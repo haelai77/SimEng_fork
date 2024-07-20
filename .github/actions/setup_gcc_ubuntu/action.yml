@@ -39,7 +39,6 @@ runs:
     - name: install gcc
       shell: bash
       run: |
-        echo "sausage ${{ inputs.gcc-version }}"
         apt-get -y install ${{ inputs.gcc-version }}
         apt-get -y install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
         apt update && apt upgrade -y
