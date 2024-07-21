@@ -58,12 +58,12 @@ runs:
 
         wget https://ftp.gnu.org/gnu/gcc/$GCC_VER/$GCC_VER.tar.gz > /dev/null 2>&1
         tar xf $GCC_VER.tar.gz
-        cd $GCC_VER
         
     - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
       name: install gcc
       shell: bash
       run: |
+        cd $GCC_VER
         ./contrib/download_prerequisites
         cd ..
         mkdir gcc-build
