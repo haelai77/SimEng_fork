@@ -122,3 +122,12 @@ runs:
         dnf upgrade -y
         dnf clean all
 
+    #######################################
+    # macos Dependencies
+    #######################################
+    - if: ${{ contains(inputs.OS, 'macos') }}
+      name: install dependencies
+      shell: bash
+      run: |
+        brew update
+        brew upgrade

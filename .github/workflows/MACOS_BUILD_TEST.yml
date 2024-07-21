@@ -15,44 +15,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'registry.access.redhat.com/ubi8/ubi:latest', 'debian:12', macos-latest]
         COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] #, 'armclang-22.0.2']
-        
-        #######################################
-        # Removes unecessary jobs.
-        # The reason for putting ubuntu 18 in the matrix rather than using 'include' to add it in for a specific compiler
-        # is just to keep job ordering nice i.e. keeping ubuntu jobs next to each other in the list.
-        #######################################
-        exclude:      
-          - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-8'
 
-          - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-9'
+    runs-on: macos-14
 
-          - OS: 'ubuntu:18.04'
-            COMPILER: 'gcc-10'
-
-          - OS: 'ubuntu:20.04'
-            COMPILER: 'gcc-7'
-
-    runs-on: ubuntu-latest
-
-    container:
-      image: ${{ matrix.OS }}
-
-    name: ${{ matrix.OS }} + ${{ matrix.compiler }}
+    name: "macos-14 + ${{ matrix.compiler }}"
 
     steps:
       #######################################
       # Clones repo to workspace.
       #######################################
-      - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
-        name: checkout v3
-        uses: actions/checkout@v3
-
-      - if: ${{ !contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
-        name: checkout v4
+      - name: checkout v4
         uses: actions/checkout@v4
 
       #######################################
@@ -62,7 +35,7 @@ jobs:
         uses: ./.github/actions/select_env
         with: 
           LLVM-VERSION: ${{ env.LLVM-VERSION }}
-          OS: ${{ matrix.OS }}
+          OS: macos
           COMPILER: ${{ matrix.COMPILER }}
 
       #######################################

@@ -51,6 +51,14 @@ runs:
         LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
         OS: ${{ inputs.OS }}
         gcc-version: ${{ inputs.COMPILER }}
+    
+    - if: ${{ contains( inputs.COMPILER, 'gcc') && contains( inputs.OS, 'macos') }}
+      name:  Install ${{ inputs.COMPILER }} + Build SimEng
+      uses: ./.github/actions/setup_gcc_macos
+      with:
+        LLVM-VERSION: ${{ inputs.LLVM-VERSION }}
+        OS: ${{ inputs.OS }}
+        gcc-version: ${{ inputs.COMPILER }}
         
     ##########################################
     # ARMCLANG jobs
