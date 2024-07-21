@@ -21,10 +21,10 @@ runs:
       with:
         OS: ${{ inputs.OS }}
 
-    - name: install cmake
-      shell: bash
-      run: |
-        brew install cmake
+    # - name: install cmake
+    #   shell: bash
+    #   run: |
+    #     brew install cmake
 
     #######################################
     # Restore gcc from cache.
