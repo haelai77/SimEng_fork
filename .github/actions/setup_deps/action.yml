@@ -141,5 +141,7 @@ runs:
         sudo make
         sudo make install
         echo 'export PATH=$PATH:/opt/local/bin' >> ~/.bash_profile
+        echo "/opt/local/bin" | sudo tee -a /etc/paths
         source ~/.bash_profile
+        source /etc/paths
         sudo port -v selfupdate
