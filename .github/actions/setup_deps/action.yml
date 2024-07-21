@@ -87,6 +87,7 @@ runs:
       run: |
         dnf -y update && \
         dnf -y install \
+        wget \
         diffutils \
         zlib-devel && \
         dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm  && \
