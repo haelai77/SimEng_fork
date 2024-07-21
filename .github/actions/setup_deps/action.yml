@@ -141,3 +141,4 @@ runs:
         sudo make
         sudo make install
         export PATH=$PATH:/opt/local/bin
+        sudo port -v selfupdate
