@@ -87,6 +87,7 @@ runs:
       run: |
         dnf -y update && \
         dnf -y install \
+        gcc gcc-c++ make \
         wget \
         diffutils \
         bzip2 \
