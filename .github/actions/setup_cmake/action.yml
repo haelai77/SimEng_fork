@@ -8,8 +8,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    ##########################################
-    # This stage gets t
+    
     - if: ${{ inputs.OS == 'ubuntu:20.04' }}
       name: install cmake via apt
       shell: bash
