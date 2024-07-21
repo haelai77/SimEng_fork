@@ -55,8 +55,8 @@ runs:
       run: |
         GCC_VER="${{ inputs.gcc-version }}.5.0"
 
-        sudo port install gcc10
-        sudo port contents gcc10 
+        port install gcc10
+        port contents gcc10 
 
         echo "GCC_DIR=/usr/local/${GCC_VER}/bin/gcc" >> $GITHUB_ENV
         echo "CPP_DIR=/usr/local/${GCC_VER}/bin/g++" >> $GITHUB_ENV
