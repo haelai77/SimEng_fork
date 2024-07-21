@@ -141,4 +141,5 @@ runs:
         sudo make
         sudo make install
         echo 'export PATH=$PATH:/opt/local/bin' >> ~/.bash_profile
+        source ~/.bash_profile
         sudo port -v selfupdate
