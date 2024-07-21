@@ -22,16 +22,16 @@ runs:
 
         # Install essential packages
         apt-get install -y \
-            software-properties-common \
-            sudo \
-            wget \
-            zlib1g-dev \
-            python3 \
-            build-essential \
-            libssl-dev \
-            ninja-build \
-            tree \
-            git
+          software-properties-common \
+          sudo \
+          wget \
+          zlib1g-dev \
+          python3 \
+          build-essential \
+          libssl-dev \
+          ninja-build \
+          tree \
+          git
 
         # Add additional repositories
         add-apt-repository universe
@@ -57,16 +57,17 @@ runs:
 
         # Install essential packages
         apt-get install -y \
-            software-properties-common \
-            sudo \
-            wget \
-            zlib1g-dev \
-            python3 \
-            build-essential \
-            libssl-dev \
-            ninja-build \
-            tree \
-            git
+          python3-launchpadlib \
+          software-properties-common \
+          sudo \
+          wget \
+          zlib1g-dev \
+          python3 \
+          build-essential \
+          libssl-dev \
+          ninja-build \
+          tree \
+          git
 
         # Add additional repositories
         add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -102,17 +103,17 @@ runs:
       run: |
         dnf -y update && \
         dnf install -y epel-release \
-        gcc gcc-c++ make \
-        git \
-        wget \
-        openssl-devel \
-        automake \
-        autoconf \
-        bzip2 \
-        file \
-        sudo \
-        tree \
-        zlib-devel
+          gcc gcc-c++ make \
+          git \
+          wget \
+          openssl-devel \
+          automake \
+          autoconf \
+          bzip2 \
+          file \
+          sudo \
+          tree \
+          zlib-devel
         dnf group install -y "Development Tools"
         dnf update -y
         dnf upgrade -y
