@@ -9,9 +9,9 @@ runs:
   using: 'composite'
   steps:
     #######################################
-    # Ubuntu & Debian Dependencies
+    # Ubuntu Dependencies
     #######################################
-    - if: ${{ contains(inputs.OS, 'ubuntu') || contains(inputs.OS, 'debian') }}
+    - if: ${{ contains(inputs.OS, 'ubuntu') }}
       name: install dependencies
       shell: bash
       run: |
@@ -35,6 +35,40 @@ runs:
 
         # Add additional repositories
         add-apt-repository universe
+        add-apt-repository ppa:ubuntu-toolchain-r/test
+
+        # Update package lists again after adding repositories
+        apt-get update
+
+        # Upgrade all installed packages
+        apt-get upgrade -y
+
+    #######################################
+    # Debian Dependencies
+    #######################################
+    - if: ${{ contains(inputs.OS, 'debian') }}
+      name: install dependencies
+      shell: bash
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+
+        # Update package lists
+        apt-get update
+
+        # Install essential packages
+        apt-get install -y \
+            software-properties-common \
+            sudo \
+            wget \
+            zlib1g-dev \
+            python3 \
+            build-essential \
+            libssl-dev \
+            ninja-build \
+            tree \
+            git
+
+        # Add additional repositories
         add-apt-repository ppa:ubuntu-toolchain-r/test
 
         # Update package lists again after adding repositories
