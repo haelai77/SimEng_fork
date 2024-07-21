@@ -89,6 +89,7 @@ runs:
         dnf -y install \
         gcc gcc-c++ make \
         wget \
+        git \
         diffutils \
         bzip2 \
         zlib-devel && \
@@ -131,7 +132,7 @@ runs:
       run: |
         brew update
         brew upgrade
-        bew install make
+        brew install make
 
         curl -O https://distfiles.macports.org/MacPorts/MacPorts-2.9.3.tar.bz2
         tar xf MacPorts-2.9.3.tar.bz2
