@@ -140,3 +140,4 @@ runs:
         ./configure
         sudo make
         sudo make install
+        export PATH=$PATH:/opt/local/bin
