@@ -141,4 +141,10 @@ runs:
         brew install make
 
         sudo curl -O https://distfiles.macports.org/MacPorts/MacPorts-2.9.3.tar.bz2
+        tar xf MacPorts-2.9.3.tar.bz2
+        cd MacPorts-2.9.3/
+        ./configure
+        sudo make
+        sudo make install
 
+        export PATH=/opt/local/bin:/opt/local/sbin:$PATH
