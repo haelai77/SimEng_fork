@@ -21,11 +21,6 @@ runs:
       with:
         OS: ${{ inputs.OS }}
 
-    # - name: install cmake
-    #   shell: bash
-    #   run: |
-    #     brew install cmake
-
     #######################################
     # Restore gcc from cache.
     #######################################
@@ -55,8 +50,13 @@ runs:
       run: |
         GCC_VER="${{ inputs.gcc-version }}.5.0"
 
-        port install gcc10
-        port contents gcc10 
+        ./contrib/download_prerequisites
+        cd ..
+        mkdir gcc-build
+        cd gcc-build
+        ../$GCC_VER/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/$GCC_VER
+        make -j$(sysctl -n hw.ncpu)
+        sudo make install
 
         echo "GCC_DIR=/usr/local/${GCC_VER}/bin/gcc" >> $GITHUB_ENV
         echo "CPP_DIR=/usr/local/${GCC_VER}/bin/g++" >> $GITHUB_ENV

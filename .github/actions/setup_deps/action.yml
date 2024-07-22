@@ -89,6 +89,7 @@ runs:
         dnf -y install \
         gcc gcc-c++ make \
         wget \
+        python3 \
         git \
         diffutils \
         bzip2 \
@@ -135,14 +136,4 @@ runs:
         brew install make
 
         sudo curl -O https://distfiles.macports.org/MacPorts/MacPorts-2.9.3.tar.bz2
-        tar xf MacPorts-2.9.3.tar.bz2
-        cd MacPorts-2.9.3/
-        ./configure
-        sudo make
-        sudo make install
-        echo 'export PATH=$PATH:/opt/local/bin' | sudo tee -a ~/.bash_profile
-        echo "/opt/local/bin" | sudo tee -a /etc/paths
-        echo $PATH
-        source ~/.bash_profile
-        source /etc/paths
-        sudo port -v selfupdate
+
