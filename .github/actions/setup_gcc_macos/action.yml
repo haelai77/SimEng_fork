@@ -50,6 +50,9 @@ runs:
       run: |
         GCC_VER="${{ inputs.gcc-version }}.5.0"
 
+        curl -O https://ftp.gnu.org/gnu/gcc/$GCC_VER/$GCC_VER.tar.gz
+        tar zxf $GCC_VER.tar.gz
+        cd $GCC_VER
         ./contrib/download_prerequisites
         cd ..
         mkdir gcc-build
