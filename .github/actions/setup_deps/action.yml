@@ -70,13 +70,7 @@ runs:
           tree \
           git
 
-        # Add additional repositories
-        add-apt-repository ppa:ubuntu-toolchain-r/test
-
-        # Update package lists again after adding repositories
         apt-get update
-
-        # Upgrade all installed packages
         apt-get upgrade -y
 
     #######################################
