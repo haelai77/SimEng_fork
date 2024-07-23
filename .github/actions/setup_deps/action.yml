@@ -97,6 +97,10 @@ runs:
         dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm  && \
         dnf update && \
         dnf upgrade && \
+        dnf install snapd
+        systemctl enable --now snapd.socket
+        ln -s /var/lib/snapd/snap /snap
+        sudo snap install devtools
         dnf clean all
 
     #######################################
