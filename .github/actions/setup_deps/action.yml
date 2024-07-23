@@ -146,5 +146,3 @@ runs:
         ./configure
         sudo make
         sudo make install
-
-        export PATH=/opt/local/bin:/opt/local/sbin:$PATH

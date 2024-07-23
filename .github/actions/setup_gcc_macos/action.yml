@@ -55,6 +55,11 @@ runs:
       run: |
         GCC_VER="${{ inputs.gcc-version }}.5.0"
 
+        echo 'export PATH="/opt/local/bin:$PATH"' >> ~/.bash_profile
+        source ~/.bash_profile
+
+        ls /opt/local/bin
+
         port install gcc10
         port contents gcc10 
 
