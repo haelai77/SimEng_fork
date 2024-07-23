@@ -59,6 +59,7 @@ runs:
         apt-get install -y \
           python3-launchpadlib \
           software-properties-common \
+          build-essential \
           sudo \
           wget \
           zlib1g-dev \
