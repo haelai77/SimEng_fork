@@ -22,9 +22,9 @@ runs:
         OS: ${{ inputs.OS }}
 
     - name: install cmake
-      shell: bash
-      run: |
-        dnf install -y cmake
+      uses: ./.github/actions/setup_cmake
+      with:
+        OS: ${{ inputs.OS }}
 
     #######################################
     # Restore gcc 7 or 8 from cache.
