@@ -38,7 +38,7 @@ runs:
     #######################################
     # If restoring gcc set env vars for info step in OS_BUILD_TEST.yml.
     #######################################
-    - if: ${{ contains(fromJson('["gcc-7", "gcc-8"]'), inputs.gcc-version) }}
+    - if: ${{ steps.gcc-restore-v4.outputs.cache-hit == 'true' }}
       name: set env vars if restoring from cache
       shell: bash
       run: |
@@ -64,8 +64,8 @@ runs:
         make -j$(nproc)
         make install
 
-        echo "GCC_DIR=/usr/local/${ GCC_VER }/bin/gcc" >> $GITHUB_ENV
-        echo "CPP_DIR=/usr/local/${ GCC_VER }/bin/g++" >> $GITHUB_ENV
+        echo "GCC_DIR=/usr/local/$GCC_VER/bin/gcc" >> $GITHUB_ENV
+        echo "CPP_DIR=/usr/local/$GCC_VER/bin/g++" >> $GITHUB_ENV
       
     #######################################
     # Save gcc to cache if earlier miss occured.
