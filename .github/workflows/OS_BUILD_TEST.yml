@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'registry.access.redhat.com/ubi8/ubi:latest', 'debian:12']
+        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'registry.access.redhat.com/ubi8/ubi:latest', 'debian:11']
         COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] #, 'armclang-22.0.2']
         
         #######################################
