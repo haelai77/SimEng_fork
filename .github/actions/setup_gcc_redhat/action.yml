@@ -26,25 +26,25 @@ runs:
       run: |
         dnf install -y cmake
 
-    #######################################
-    # Restore gcc 7 or 8 from cache.
-    #######################################
-    - name: restore gcc
-      uses: actions/cache/restore@v4
-      id: gcc-restore-v4
-      with: 
-        path: /usr/local/${{ inputs.gcc-version }}.5.0
-        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+    # #######################################
+    # # Restore gcc 7 or 8 from cache.
+    # #######################################
+    # - name: restore gcc
+    #   uses: actions/cache/restore@v4
+    #   id: gcc-restore-v4
+    #   with: 
+    #     path: /usr/local/${{ inputs.gcc-version }}.5.0
+    #     key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
-    #######################################
-    # If restoring gcc set env vars for info step in OS_BUILD_TEST.yml.
-    #######################################
-    - if: ${{ steps.gcc-restore-v4.outputs.cache-hit == 'true' }}
-      name: set env vars if restoring from cache
-      shell: bash
-      run: |
-        echo "GCC_DIR=/usr/local/${{ inputs.gcc-version }}.5.0/bin/gcc" >> $GITHUB_ENV
-        echo "CPP_DIR=/usr/local/${{ inputs.gcc-version }}.5.0/bin/g++" >> $GITHUB_ENV
+    # #######################################
+    # # If restoring gcc set env vars for info step in OS_BUILD_TEST.yml.
+    # #######################################
+    # - if: ${{ steps.gcc-restore-v4.outputs.cache-hit == 'true' }}
+    #   name: set env vars if restoring from cache
+    #   shell: bash
+    #   run: |
+    #     echo "GCC_DIR=/usr/local/${{ inputs.gcc-version }}.5.0/bin/gcc" >> $GITHUB_ENV
+    #     echo "CPP_DIR=/usr/local/${{ inputs.gcc-version }}.5.0/bin/g++" >> $GITHUB_ENV
 
     #######################################
     # As redhat 8 doesn't support installation of gcc via package manager unless you have a subscription,
@@ -66,23 +66,21 @@ runs:
       name: install gcc
       shell: bash
       run: |
-        apt-get -y install ${{ inputs.gcc-version }}
-        apt-get -y install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-        apt update && apt upgrade -y
+        dnf -y install gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
 
-        echo "GCC_DIR=/usr/local/$GCC_VER/bin/gcc" >> $GITHUB_ENV
-        echo "CPP_DIR=/usr/local/$GCC_VER/bin/g++" >> $GITHUB_ENV
+        echo "GCC_DIR=/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin/gcc" >> $GITHUB_ENV
+        echo "CPP_DIR=/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin/g++" >> $GITHUB_ENV
 
-    #######################################
-    # Save gcc to cache if earlier miss occured.
-    #######################################
-    - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
-      name: save gcc
-      uses: actions/cache/save@v4
-      id: gcc-save-v4
-      with: 
-        path: /usr/local/${{ inputs.gcc-version }}.5.0
-        key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
+    # #######################################
+    # # Save gcc to cache if earlier miss occured.
+    # #######################################
+    # - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
+    #   name: save gcc
+    #   uses: actions/cache/save@v4
+    #   id: gcc-save-v4
+    #   with: 
+    #     path: /usr/local/${{ inputs.gcc-version }}.5.0
+    #     key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     #######################################
     # Build SimEng without external llvm or ninja.

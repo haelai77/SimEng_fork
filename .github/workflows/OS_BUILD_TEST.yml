@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'registry.access.redhat.com/ubi8/ubi:latest', 'debian:11']
+        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'registry.access.redhat.com/ubi8/ubi:latest', 'debian:10','debian:11']
         COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] #, 'armclang-22.0.2']
         
         #######################################
@@ -24,6 +24,9 @@ jobs:
         # is just to keep job ordering nice i.e. keeping ubuntu jobs next to each other in the list.
         #######################################
         exclude:      
+          - OS: 'ubuntu:20.04'
+            COMPILER: 'gcc-7'
+
           - OS: 'ubuntu:18.04'
             COMPILER: 'gcc-8'
 
@@ -32,9 +35,18 @@ jobs:
 
           - OS: 'ubuntu:18.04'
             COMPILER: 'gcc-10'
-
-          - OS: 'ubuntu:20.04'
+          # need debian-11 (buster) for gcc 7 
+          - OS: 'debian:11'
             COMPILER: 'gcc-7'
+
+          - OS: 'debian:10'
+            COMPILER: 'gcc-8'
+
+          - OS: 'debian:10'
+            COMPILER: 'gcc-9'
+
+          - OS: 'debian:10'
+            COMPILER: 'gcc-10'
 
     runs-on: ubuntu-latest
 
