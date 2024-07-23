@@ -55,9 +55,10 @@ runs:
       shell: bash
       run: |
         if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
-          dnf install -y gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-          echo "GCC_DIR=/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin/gcc" >> $GITHUB_ENV
-          echo "CPP_DIR=/opt/rh/gcc-toolset-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)/root/usr/bin/g++" >> $GITHUB_ENV
+          apt-get install -y ${{ inputs.gcc-version }}
+          apt-get -y install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
+          echo "GCC_DIR=/usr/bin/${{ inputs.gcc-version }}" >> $GITHUB_ENV
+          echo "CPP_DIR=/usr/bin/g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)" >> $GITHUB_ENV
         else
           GCC_VER="${{ inputs.gcc-version }}.5.0"
 
