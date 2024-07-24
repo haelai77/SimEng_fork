@@ -93,10 +93,16 @@ runs:
         autoconf \
         cmake \
         file \
-        zlib-devel && \
-        dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm  && \
-        dnf update && \
-        dnf upgrade -y && \
+        zlib-devel 
+
+        if [[ ${{  inputs.OS  }} == 'redhat/ubi8:latest' ]]; then
+          dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm 
+        elif [[ ${{  inputs.OS  }} == 'redhat/ubi9:latest' ]]; then
+          dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm 
+        fi
+
+        dnf update -y
+        dnf upgrade -y 
         dnf clean all
 
     #######################################
