@@ -42,4 +42,4 @@ runs:
       name: install cmaked via apt
       shell: bash
       run: |
-        apt install cmake
+        apt install -y cmake

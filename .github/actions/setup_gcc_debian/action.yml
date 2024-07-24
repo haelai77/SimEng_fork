@@ -79,7 +79,7 @@ runs:
     #######################################
     # Save gcc to cache if earlier miss occured.
     #######################################
-    - if: ${{ contains(fromJson('["gcc-7", "gcc-8"]'), inputs.gcc-version) && steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
+    - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
       name: save gcc
       uses: actions/cache/save@v4
       id: gcc-save-v4
