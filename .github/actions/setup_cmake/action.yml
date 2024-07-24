@@ -18,7 +18,7 @@ runs:
         apt update && apt install cmake -y
         apt upgrade -y
 
-    - if: ${{ inputs.OS == 'ubuntu:18.04' || inputs.OS == 'debian:10' }}
+    - if: ${{ inputs.OS == 'ubuntu:18.04' || inputs.OS == 'debian:10'}}
       name: install cmake via apt
       shell: bash
       run: |
@@ -27,8 +27,19 @@ runs:
         apt update && apt install cmake -y
         apt upgrade -y
 
+    # - if: ${{ inputs.OS == 'debian:10' }}
+    #   name: install cmake from source
+    #   shell: bash
+    #   run: |
+    #     wget https://github.com/Kitware/CMake/releases/download/v3.30.1/cmake-3.30.1.tar.gz
+    #     tar xf cmake-3.30.1.tar.gz
+    #     cd cmake-3.30.1
+    #     ./bootstrap
+    #     make
+    #     make install
+
     - if: ${{ inputs.OS == 'debian:11' }}
-      name: install cmaked via dnf
+      name: install cmaked via apt
       shell: bash
       run: |
-        dnf install cmake
+        apt install cmake

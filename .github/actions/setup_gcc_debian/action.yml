@@ -22,10 +22,7 @@ runs:
 
     - name: install cmake or restore from cache
       shell: bash
-      run: |
-        apt install -y cmake
-        apt update
-        apt upgrade
+      uses: ./.github/actions/setup_cmake
 
     #######################################
     # Restore gcc from cache.
