@@ -21,8 +21,9 @@ runs:
         OS: ${{ inputs.OS }}
 
     - name: install cmake or restore from cache
-      shell: bash
       uses: ./.github/actions/setup_cmake
+      with:
+        OS: ${{ inputs.OS }}
 
     #######################################
     # Restore gcc from cache.
