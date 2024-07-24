@@ -82,17 +82,6 @@ runs:
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     #######################################
-    # install llvm for dependencies
-    #######################################
-    - if: ${{ inputs.gcc-version == 'gcc-9' || inputs.gcc-version == 'gcc-10' }}
-      name: install llvm
-      shell: bash
-      run: |
-        wget https://apt.llvm.org/llvm.sh
-        chmod +x llvm.sh
-        ./llvm.sh ${{ inputs.LLVM-VERSION }}
-
-    #######################################
     # Build SimEng without external llvm or ninja.
     #######################################
     - name: Build SimEng
