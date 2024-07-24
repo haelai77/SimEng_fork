@@ -82,12 +82,23 @@ runs:
         key: ${{ inputs.gcc-version }}-${{ inputs.OS }}
 
     #######################################
+    # install llvm for dependencies
+    #######################################
+    - if: ${{ inputs.gcc-version == 'gcc-9' || inputs.gcc-version == 'gcc-10' }}
+      name: install llvm
+      shell: bash
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        ./llvm.sh ${{ inputs.LLVM-VERSION }}
+
+    #######################################
     # Build SimEng without external llvm or ninja.
     #######################################
     - name: Build SimEng
       shell: bash
       run: |
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=${{ env.GCC_DIR }} \-DCMAKE_CXX_COMPILER=${{ env.CPP_DIR }}
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DSIMENG_ENABLE_TESTS=ON -DSIMENG_OPTIMIZE=ON -DCMAKE_C_COMPILER=${{ env.GCC_DIR }} -DCMAKE_CXX_COMPILER=${{ env.CPP_DIR }}
 
         cmake --build build -j $(nproc)
 

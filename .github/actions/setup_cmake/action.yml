@@ -27,6 +27,12 @@ runs:
         apt update && apt install cmake -y
         apt upgrade -y
 
+    - if: ${{ inputs.OS == 'debian:11' }}
+      name: install cmaked via apt
+      shell: bash
+      run: |
+        apt install -y cmake
+        
     # - if: ${{ inputs.OS == 'debian:10' }}
     #   name: install cmake from source
     #   shell: bash
@@ -37,9 +43,3 @@ runs:
     #     ./bootstrap
     #     make
     #     make install
-
-    - if: ${{ inputs.OS == 'debian:11' }}
-      name: install cmaked via apt
-      shell: bash
-      run: |
-        apt install -y cmake

@@ -49,14 +49,9 @@ runs:
     #######################################
     # Install gcc from source.
     #######################################
-    
-        # if [[ " gcc-9 gcc-10 " =~ (^|[[:space:]])${{inputs.gcc-version}}($|[[:space:]]) ]]; then
-        #   apt-get install -y ${{ inputs.gcc-version }}
-        #   apt-get -y install g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
-        #   echo "GCC_DIR=/usr/bin/${{ inputs.gcc-version }}" >> $GITHUB_ENV
-        #   echo "CPP_DIR=/usr/bin/g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)" >> $GITHUB_ENV
-        # else
-    - name: install gcc
+
+    - if: ${{ steps.gcc-restore-v4.outputs.cache-hit != 'true' }}
+      name: install gcc
       shell: bash
       run: |
         GCC_VER="${{ inputs.gcc-version }}.5.0"
@@ -74,7 +69,6 @@ runs:
       
         echo "GCC_DIR=/usr/local/$GCC_VER/bin/gcc" >> $GITHUB_ENV
         echo "CPP_DIR=/usr/local/$GCC_VER/bin/g++" >> $GITHUB_ENV
-      # fi
     
     #######################################
     # Save gcc to cache if earlier miss occured.
