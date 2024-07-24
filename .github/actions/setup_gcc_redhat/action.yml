@@ -22,6 +22,7 @@ runs:
         OS: ${{ inputs.OS }}
 
     - name: install cmake
+      shell: bash
       run: |
         dnf install -y cmake
 
