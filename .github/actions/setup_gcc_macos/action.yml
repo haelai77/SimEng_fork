@@ -53,20 +53,11 @@ runs:
       name: install gcc
       shell: bash
       run: |
-        GCC_VER="${{ inputs.gcc-version }}.5.0"
+        brew install gcc@$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
+        brew install g++@$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
 
-        echo 'export PATH="/opt/local/bin:$PATH"' >> ~/.bash_profile
-        source ~/.bash_profile
-        sudo port -v selfupdate
-
-        ls /opt/local/bin
-
-        sudo port --allow-failing install gcc10 
-        sudo port contents gcc10 
-        which gcc10
-
-        echo "GCC_DIR=/usr/local/$GCC_VER/bin/gcc" >> $GITHUB_ENV
-        echo "CPP_DIR=/usr/local/$GCC_VER/bin/g++" >> $GITHUB_ENV
+        echo "GCC_DIR=/usr/local/bin/${{ inputs.gcc-version }}" >> $GITHUB_ENV
+        echo "CPP_DIR=/usr/local/bin/g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)" >> $GITHUB_ENV
 
     #######################################
     # Save gcc to cache if earlier miss occured.
