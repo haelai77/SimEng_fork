@@ -44,7 +44,6 @@ jobs:
       - name: INFO
         shell: bash
         run: |
-          cat /etc/os-release 
           echo "_______________________________________"
           cmake --version
           echo "_______________________________________"

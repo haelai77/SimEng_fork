@@ -55,8 +55,6 @@ runs:
       run: |
         brew install gcc@$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)
 
-        ls /usr/local/Cellar/gcc@10/10.5.0
-
         echo "GCC_DIR=/usr/local/bin/${{ inputs.gcc-version }}" >> $GITHUB_ENV
         echo "CPP_DIR=/usr/local/bin/g++-$( echo ${{ inputs.gcc-version }} | cut -d '-' -f 2)" >> $GITHUB_ENV
 
