@@ -57,6 +57,7 @@ runs:
 
         echo 'export PATH="/opt/local/bin:$PATH"' >> ~/.bash_profile
         source ~/.bash_profile
+        sudo port -v selfupdate
 
         ls /opt/local/bin
 
