@@ -61,7 +61,7 @@ runs:
 
         ls /opt/local/bin
 
-        sudo port install gcc10 --allow-failing
+        sudo port --allow-failing install gcc10 
         sudo port contents gcc10 
         which gcc10
 
