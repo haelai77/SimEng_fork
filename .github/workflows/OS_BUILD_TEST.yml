@@ -76,12 +76,13 @@ jobs:
       - if: ${{ !contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
         name: checkout v4
         uses: actions/checkout@v4
+        with:
+          path: "SimEng_repo"
       
       - name: location
         run: |
           pwd
-          cd ..
-          pwd
+          cd .. && pwd
           echo $GITHUB_WORKSPACE
       # #######################################
       # # Depending on OS and compiler, this step chooses the correct setup action to run.
