@@ -8,7 +8,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    
+    #######################################
+    # Updating apt repositories for ubuntu to install cmake via package manager without issues
+    #######################################
+
     - if: ${{ inputs.OS == 'ubuntu:20.04' }}
       name: install cmake via apt
       shell: bash
@@ -27,19 +30,17 @@ runs:
         apt update && apt install cmake -y
         apt upgrade -y
 
+    #######################################
+    # Install via package manager for 
+    #######################################
     - if: ${{ inputs.OS == 'debian:11' }}
-      name: install cmaked via apt
+      name: install cmake via apt
       shell: bash
       run: |
         apt install -y cmake
-        
-    # - if: ${{ inputs.OS == 'debian:10' }}
-    #   name: install cmake from source
-    #   shell: bash
-    #   run: |
-    #     wget https://github.com/Kitware/CMake/releases/download/v3.30.1/cmake-3.30.1.tar.gz
-    #     tar xf cmake-3.30.1.tar.gz
-    #     cd cmake-3.30.1
-    #     ./bootstrap
-    #     make
-    #     make install
+
+    - if: ${{ contains(inputs.OS, 'redhat') || contains(inputs.OS, 'rocky') }}
+      name: install cmake via dnf
+      shell: bash
+      run: |
+        dnf install -y cmake

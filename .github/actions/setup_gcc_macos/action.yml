@@ -2,8 +2,6 @@ name: setup gcc
 description: installs dependencies and correct gcc version to build and test simeng
 
 inputs:
-  LLVM-VERSION: 
-    required: true
   OS:
     required: true
   gcc-version:
@@ -20,11 +18,6 @@ runs:
       uses: ./.github/actions/setup_deps
       with:
         OS: ${{ inputs.OS }}
-
-    # - name: install cmake
-    #   shell: bash
-    #   run: |
-    #     brew install cmake
 
     #######################################
     # Restore gcc from cache.

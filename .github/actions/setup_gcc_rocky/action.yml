@@ -2,8 +2,6 @@ name: setup gcc
 description: installs dependencies and correct gcc version to build and test simeng
 
 inputs:
-  LLVM-VERSION: 
-    required: true
   OS:
     required: true
   gcc-version:
@@ -22,9 +20,9 @@ runs:
         OS: ${{ inputs.OS }}
 
     - name: install cmake
-      shell: bash
-      run: |
-        dnf install -y cmake
+      uses: ./.github/actions/setup_cmake
+      with: 
+        OS: ${{ inputs.OS }}
 
     #######################################
     # Restore gcc 7 or 8 from cache.

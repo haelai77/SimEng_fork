@@ -2,8 +2,6 @@ name: setup gcc
 description: installs dependencies and correct gcc version to build and test simeng
 
 inputs:
-  LLVM-VERSION: 
-    required: true
   OS:
     required: true
   gcc-version:
@@ -34,7 +32,7 @@ runs:
       run: |
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
-        ./llvm.sh ${{ inputs.LLVM-VERSION }}
+        ./llvm.sh 14
 
     - name: install gcc
       shell: bash

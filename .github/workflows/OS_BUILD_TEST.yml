@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'redhat/ubi8:latest', 'redhat/ubi9:latest', 'debian:10', 'debian:11']
-        COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] #, 'armclang-22.0.2']
+        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'redhat/ubi8:latest', 'redhat/ubi9:latest', 'debian:10', 'debian:11'] # Docker images
+        COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] # compiler names
         
         #######################################
         # Removes unecessary jobs as jobs are generated in the order seen in the matrix.
@@ -54,9 +54,12 @@ jobs:
 
           - OS: 'debian:11'
             COMPILER: 'gcc-7'
-
+    
+    #######################################
+    # Choose container and set name of workflow
+    #######################################
     runs-on: ubuntu-latest
-
+    
     container:
       image: ${{ matrix.OS }}
 
@@ -64,7 +67,7 @@ jobs:
 
     steps:
       #######################################
-      # Clones repo to workspace.
+      # Clones repo to workspace. (ubuntu 18 is missing correct glibc version for newer checkout action version)
       #######################################
       - if: ${{ contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
         name: checkout v3
@@ -73,9 +76,15 @@ jobs:
       - if: ${{ !contains(fromJson('["ubuntu:18.04"]'), matrix.OS) }}
         name: checkout v4
         uses: actions/checkout@v4
-
+      
+      - name: location
+        run: |
+          pwd
+          cd ..
+          pwd
       #######################################
       # Depending on OS and compiler, this step chooses the correct setup action to run.
+      # The action is located in .github/actions/select_env
       #######################################
       - name: setup compiler and OS env + build simeng
         uses: ./.github/actions/select_env
