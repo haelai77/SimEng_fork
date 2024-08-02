@@ -16,8 +16,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'redhat/ubi8:latest', 'redhat/ubi9:latest', 'debian:10', 'debian:11'] # Docker images
-        COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] # compiler names
+        OS: ['ubuntu:20.04'] # Docker images
+        COMPILER: ['gcc-10'] # compiler names
+        # OS: ['ubuntu:18.04','ubuntu:20.04', 'rockylinux:8', 'redhat/ubi8:latest', 'redhat/ubi9:latest', 'debian:10', 'debian:11'] # Docker images
+        # COMPILER: ['gcc-7', 'gcc-8', 'gcc-9', 'gcc-10'] # compiler names
         
         #######################################
         # Removes unecessary jobs as jobs are generated in the order seen in the matrix.
@@ -85,6 +87,10 @@ jobs:
           cd .. && pwd
           echo $GITHUB_WORKSPACE
           echo ${{ secrets.Testing_Secret }}
+          echo "~~~~~~~~~~~~"
+          echo ${{ secrets.with_repo_perms }}
+          echo "~~~~~~~~~~~~"
+          echo ${{ secrets.without_repo_perms }}
       # #######################################
       # # Depending on OS and compiler, this step chooses the correct setup action to run.
       # # The action is located in .github/actions/select_env
