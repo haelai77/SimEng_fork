@@ -21,7 +21,7 @@ jobs:
           run: |
             SRC_LIST="$(find "./src" | grep -E ".*(\.cc$|\.hh$)")"
             TEST_LIST="$(find "./test" | grep -E ".*(\.cc$|\.hh$)")";
-            sudo clang-format --verbose -i $SRC_LIST $TEST_LIST -style=file:.clang_format.txt
+            sudo clang-format --verbose -i $SRC_LIST $TEST_LIST -style=file:.clang-format
         
         # push changes if clang-format did anything
         - name: Check for changes
