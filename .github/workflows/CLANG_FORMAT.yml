@@ -11,13 +11,13 @@ jobs:
       steps:
         - name: Install clang format
           run: |
-            apt-get install -y clang-format
+            sudo apt-get install -y clang-format
 
         - name: Apply clang format
           run: |
             SRC_LIST="$(find "./src" | grep -E ".*(\.cc$|\.hh$)")"
             TEST_LIST="$(find "./test" | grep -E ".*(\.cc$|\.hh$)")";
-            clang-format --verbose -i $SRC_LIST $TEST_LIST
+            sudo clang-format --verbose -i $SRC_LIST $TEST_LIST -style=file:.clang_format.txt
         
         # push changes if clang-format did anything
         - name: Check for changes
