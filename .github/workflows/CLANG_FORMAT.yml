@@ -9,9 +9,13 @@ jobs:
       name: clang format
 
       steps:
+
         - name: Install clang format
           run: |
             sudo apt-get install -y clang-format
+
+        - name: checkout
+          uses: actions/checkout@v4
 
         - name: Apply clang format
           run: |
