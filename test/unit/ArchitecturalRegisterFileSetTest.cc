@@ -20,7 +20,7 @@ class ArchitecturalRegisterFileSetTest : public ::testing::Test {
 
 // Ensure we can read and write values to the architectural register file
 TEST_F(ArchitecturalRegisterFileSetTest, readWrite) {
-    for (uint8_t i = 0; i < regFileStruct.size(); i++) {
+  for (uint8_t i = 0; i < regFileStruct.size(); i++) {
     const uint16_t regSize = regFileStruct[i].bytes;
     const uint16_t maxRegTag = regFileStruct[i].quantity - 1;
     const Register r0 = {i, 0};
