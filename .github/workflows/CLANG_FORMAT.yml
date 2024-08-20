@@ -34,7 +34,7 @@ jobs:
               echo "Code formatting issues found."
               git config --global user.name 'github-actions-clang-format'
               git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-              git commit -am "Apply clang-format"
+              git commit -am "Applied clang-format"
               git push
             else
               echo "No code formatting issues."
